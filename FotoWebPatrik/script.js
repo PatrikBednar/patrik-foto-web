@@ -1,232 +1,309 @@
+// script.js
 document.addEventListener('DOMContentLoaded', function () {
+  // =========================
+  // HERO SLIDER (ÚVODNÍ OBRÁZKY)
+  // =========================
+  var heroImages = [
+    'images/slide/slide-01.webp',
+    'images/slide/slide-02.webp',
+    'images/slide/slide-03.webp',
+    'images/slide/slide-04.webp',
+    'images/slide/slide-05.webp',
+    'images/slide/slide-06.webp',
+    'images/slide/slide-07.webp',
+    'images/slide/slide-08.webp'
+  ];
+  var heroSection = document.querySelector('.hero-section');
+  var heroDotsContainer = document.querySelector('.hero-dots');
+  var prevArrow = document.getElementById('prevArrow');
+  var nextArrow = document.getElementById('nextArrow');
+  var autoTransitionDuration = '1s';
+  var manualTransitionDuration = '0.2s';
 
-    // --- KÓD PRO HERO SLIDER (ÚVODNÍ OBRÁZKY) ---
-    const heroImages = [
-        'images/slide/slide-01.webp',
-        'images/slide/slide-03.webp',
-        'images/slide/slide-05.webp',
-        'images/slide/slide-04.webp',
-        'images/slide/slide-02.webp',
-        'images/slide/slide-06.webp',
-        'images/slide/slide-07.webp'
-    ];
+  if (heroSection && heroDotsContainer) {
+    var currentImageIndex = 0;
+    var intervalId;
 
-    const heroSection = document.querySelector('.hero-section');
-    const heroDotsContainer = document.querySelector('.hero-dots');
-    const prevArrow = document.getElementById('prevArrow');
-    const nextArrow = document.getElementById('nextArrow');
-
-    // Define transition durations
-    const autoTransitionDuration = '1s'; // Délka přechodu pro automatické střídání
-    const manualTransitionDuration = '0.3s'; // Délka přechodu pro manuální kliknutí
-
-    if (heroSection && heroDotsContainer) {
-        let currentImageIndex = 0;
-        let intervalId; // Pro uložení ID intervalu
-
-        // Funkce pro vytvoření teček
-        function createHeroDots() {
-            heroDotsContainer.innerHTML = '';
-            heroImages.forEach((_, index) => {
-                const dot = document.createElement('div');
-                dot.classList.add('hero-dot');
-                dot.dataset.index = index;
-                dot.addEventListener('click', () => {
-                    clearInterval(intervalId); // Zastavíme automatické střídání
-                    currentImageIndex = index;
-                    updateHeroSection('manual'); // Voláme s parametrem 'manual'
-                    intervalId = setInterval(changeBackgroundImage, 10000); // Znovu spustíme automatické střídání
-                });
-                heroDotsContainer.appendChild(dot);
-            });
-        }
-
-        // Funkce pro aktualizaci pozadí a teček
-        function updateHeroSection(source = 'auto') {
-            // Nastavíme délku přechodu podle zdroje změny
-            if (source === 'manual') {
-                heroSection.style.transition = `background-image ${manualTransitionDuration} ease-in-out`;
-            } else {
-                heroSection.style.transition = `background-image ${autoTransitionDuration} ease-in-out`;
-            }
-
-            // Zajistíme, že index je v platném rozsahu
-            if (currentImageIndex >= heroImages.length) {
-                currentImageIndex = 0;
-            } else if (currentImageIndex < 0) {
-                currentImageIndex = heroImages.length - 1;
-            }
-
-            const newImageUrl = heroImages[currentImageIndex];
-
-            // Vytvoříme dočasný obrázek, abychom zajistili jeho načtení
-            const img = new Image();
-            img.src = newImageUrl;
-
-            // Až se obrázek načte, změníme pozadí
-            img.onload = function () {
-                heroSection.style.backgroundImage = `url('${img.src}')`;
-            };
-            img.onerror = function () {
-                console.error(`Obrázek se nepodařilo načíst: ${newImageUrl}`);
-            };
-
-            // Aktualizujeme aktivní tečku
-            const allDots = heroDotsContainer.querySelectorAll('.hero-dot');
-            allDots.forEach((dot, idx) => {
-                if (idx === currentImageIndex) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
-            });
-        }
-
-        // Funkce pro změnu pozadí (volaná intervalem)
-        function changeBackgroundImage() {
-            currentImageIndex = (currentImageIndex + 1) % heroImages.length;
-            updateHeroSection('auto'); // Voláme s parametrem 'auto'
-        }
-
-        // Inicializace hero slideru:
-        createHeroDots(); // Vytvoříme tečky
-        updateHeroSection('auto'); // Nastavíme první obrázek a aktivní tečku
-
-        // Spustíme automatické střídání
-        intervalId = setInterval(changeBackgroundImage, 10000);
-
-        // Kód pro klikání na šipky
-        if (prevArrow && nextArrow) {
-            prevArrow.addEventListener('click', () => {
-                clearInterval(intervalId); // Zastavíme automatické střídání
-                currentImageIndex--;
-                updateHeroSection('manual');
-                intervalId = setInterval(changeBackgroundImage, 10000); // Znovu spustíme automatické střídání
-            });
-
-            nextArrow.addEventListener('click', () => {
-                clearInterval(intervalId); // Zastavíme automatické střídání
-                currentImageIndex++;
-                updateHeroSection('manual');
-                intervalId = setInterval(changeBackgroundImage, 10000); // Znovu spustíme automatické střídání
-            });
-        }
+    function createHeroDots() {
+      heroDotsContainer.innerHTML = '';
+      for (var i = 0; i < heroImages.length; i++) {
+        var dot = document.createElement('div');
+        dot.className = 'hero-dot';
+        dot.setAttribute('data-index', i);
+        (function (idx) {
+          dot.addEventListener('click', function () {
+            clearInterval(intervalId);
+            currentImageIndex = idx;
+            updateHeroSection('manual');
+            intervalId = setInterval(changeBackgroundImage, 10000);
+          }, false);
+        })(i);
+        heroDotsContainer.appendChild(dot);
+      }
     }
 
+    function updateHeroSection(source) {
+      if (source === 'manual') {
+        heroSection.style.transition = 'background-image ' + manualTransitionDuration + ' ease-in-out';
+      } else {
+        heroSection.style.transition = 'background-image ' + autoTransitionDuration + ' ease-in-out';
+      }
+      if (currentImageIndex >= heroImages.length) currentImageIndex = 0;
+      if (currentImageIndex < 0) currentImageIndex = heroImages.length - 1;
 
-    // --- KÓD PRO SCROLLSPY NAVIGACI A MASONRY ---
-    const sections = document.querySelectorAll('section');
-    const navLinks = document.querySelectorAll('nav ul li a');
-    const headerHeight = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-height'));
-
-    // Funkce pro zvýraznění aktivního odkazu v navigaci
-    function highlightNavLink() {
-        let currentSectionId = '';
-        const activationOffset = 150; // Offset pro dřívější aktivaci sekce
-
-        // Procházíme sekce odspodu nahoru
-        for (let i = sections.length - 1; i >= 0; i--) {
-            const section = sections[i];
-            // Pozice sekce vzhledem k viewportu
-            const sectionTopInViewport = section.getBoundingClientRect().top;
-
-            // Pokud je horní hrana sekce dostatečně blízko vrcholu viewportu (nebo už za ním)
-            if (sectionTopInViewport <= headerHeight + activationOffset) {
-                currentSectionId = section.getAttribute('id');
-                break; // Najdeme první takovou sekci a skončíme
-            }
-        }
-
-        // Speciální případ pro úplný začátek stránky (sekce "uvod")
-        if (currentSectionId === '' && window.pageYOffset < headerHeight + activationOffset) {
-            currentSectionId = 'uvod';
-        }
-
-        // Odebereme 'active-link' ze všech odkazů
-        navLinks.forEach(link => {
-            link.classList.remove('active-link');
-        });
-
-        // Přidáme 'active-link' k aktuálnímu aktivnímu odkazu
-        navLinks.forEach(link => {
-            const hrefId = link.getAttribute('href').substring(1); // Získá ID bez '#'
-            if (hrefId === currentSectionId) {
-                link.classList.add('active-link');
-            }
-        });
+      var newImageUrl = heroImages[currentImageIndex];
+      var img = new Image();
+      img.src = newImageUrl;
+      img.onload = function () {
+        heroSection.style.backgroundImage = "url('" + img.src + "')";
+      };
+      var allDots = heroDotsContainer.querySelectorAll('.hero-dot');
+      for (var i = 0; i < allDots.length; i++) {
+        if (i === currentImageIndex) allDots[i].classList.add('active');
+        else allDots[i].classList.remove('active');
+      }
     }
 
-    // --- KÓD PRO MASONRY GALERII ---
-    const galleryContainer = document.querySelector('.gallery');
-    let msnry; // Proměnná pro instanci Masonry
+    function changeBackgroundImage() {
+      currentImageIndex = (currentImageIndex + 1) % heroImages.length;
+      updateHeroSection('auto');
+    }
 
-    // Funkce pro inicializaci/aktualizaci Masonry
-    function initializeMasonry() {
-        if (galleryContainer) {
-            imagesLoaded(galleryContainer, function () {
-                if (msnry) { // Pokud už Masonry existuje, zničíme ho, aby se správně inicializoval znovu
-                    msnry.destroy();
-                }
-                msnry = new Masonry(galleryContainer, {
-                    itemSelector: '.gallery-item',
-                    columnWidth: '.gallery-item',
-                    gutter: 16,
-                    percentPosition: true,
-                    transitionDuration: '0.4s'
-                });
-                msnry.layout(); // Přepočítáme rozvržení po inicializaci
-                highlightNavLink(); // Aktualizujeme navigaci (protože se mohla změnit výška sekce)
-            });
+    createHeroDots();
+    updateHeroSection('auto');
+    intervalId = setInterval(changeBackgroundImage, 6000);
+
+    if (prevArrow && nextArrow) {
+      prevArrow.addEventListener('click', function () {
+        clearInterval(intervalId);
+        currentImageIndex--;
+        updateHeroSection('manual');
+        intervalId = setInterval(changeBackgroundImage, 6000);
+      }, false);
+      nextArrow.addEventListener('click', function () {
+        clearInterval(intervalId);
+        currentImageIndex++;
+        updateHeroSection('manual');
+        intervalId = setInterval(changeBackgroundImage, 6000);
+      }, false);
+    }
+  }
+
+  // =========================
+  // SCROLLSPY NAVIGACE A MASONRY
+  // =========================
+  var sections = document.querySelectorAll('section');
+  var navLinks = document.querySelectorAll('nav ul li a');
+  var headerHeightVar = getComputedStyle(document.documentElement).getPropertyValue('--header-height');
+  var headerHeight = parseFloat(headerHeightVar) || 90;
+
+  function highlightNavLink() {
+    var currentSectionId = '';
+    var activationOffset = 150;
+
+    for (var i = sections.length - 1; i >= 0; i--) {
+      var section = sections[i];
+      var sectionTopInViewport = section.getBoundingClientRect().top;
+      if (sectionTopInViewport <= headerHeight + activationOffset) {
+        currentSectionId = section.getAttribute('id');
+        break;
+      }
+    }
+    if (currentSectionId === '' && window.pageYOffset < headerHeight + activationOffset) {
+      currentSectionId = 'uvod';
+    }
+    for (var j = 0; j < navLinks.length; j++) {
+      navLinks[j].classList.remove('active-link');
+    }
+    for (var k = 0; k < navLinks.length; k++) {
+      var hrefId = navLinks[k].getAttribute('href').substring(1);
+      if (hrefId === currentSectionId) {
+        navLinks[k].classList.add('active-link');
+      }
+    }
+  }
+
+  var galleryContainer = document.querySelector('.gallery');
+  var msnry;
+  function initializeMasonry() {
+    if (galleryContainer && typeof imagesLoaded !== 'undefined' && typeof Masonry !== 'undefined') {
+      imagesLoaded(galleryContainer, function () {
+        if (msnry && typeof msnry.destroy === 'function') {
+          msnry.destroy();
         }
+        msnry = new Masonry(galleryContainer, {
+          itemSelector: '.gallery-item',
+          columnWidth: '.gallery-item',
+          gutter: 16,
+          percentPosition: true,
+          transitionDuration: '0.4s'
+        });
+        if (msnry && typeof msnry.layout === 'function') msnry.layout();
+        highlightNavLink();
+      });
+    }
+  }
+
+  initializeMasonry();
+  highlightNavLink();
+
+  window.addEventListener('resize', function () {
+    initializeMasonry();
+    highlightNavLink();
+  }, false);
+  window.addEventListener('orientationchange', function () {
+    initializeMasonry();
+    highlightNavLink();
+  }, false);
+  window.addEventListener('scroll', highlightNavLink, { passive: true });
+
+  for (var iNav = 0; iNav < navLinks.length; iNav++) {
+    navLinks[iNav].addEventListener('click', function () {
+      setTimeout(function () {
+        highlightNavLink();
+      }, 100);
+    }, false);
+  }
+
+  // =========================
+  // HAMBURGER MENU (MOBILNÍ NAVIGACE)
+  // =========================
+  var menuToggle = document.getElementById('mobile-menu');
+  var navList = document.getElementById('main-nav');
+  if (menuToggle && navList) {
+    menuToggle.addEventListener('click', function () {
+      menuToggle.classList.toggle('open');
+      navList.classList.toggle('open');
+    }, false);
+    var navLinksMobile = navList.querySelectorAll('a');
+    for (var iMob = 0; iMob < navLinksMobile.length; iMob++) {
+      navLinksMobile[iMob].addEventListener('click', function () {
+        if (navList.classList.contains('open')) {
+          menuToggle.classList.remove('open');
+          navList.classList.remove('open');
+        }
+      }, false);
+    }
+  }
+
+  // =========================
+  // SLUŽBY – TEČKY INDIKÁTORU (MOBIL)
+  // =========================
+  var list = document.querySelector('#sluzby .sluzby-list');
+  var items = Array.prototype.slice.call(document.querySelectorAll('#sluzby .sluzba'));
+  var dotsWrap = document.querySelector('#sluzby .slider-dots-mobile');
+
+  if (list && items.length && dotsWrap) {
+    // Vždy generuj tečky podle skutečného počtu karet
+    dotsWrap.innerHTML = '';
+    var dots = [];
+    for (var d = 0; d < items.length; d++) {
+      var dot = document.createElement('span');
+      dot.className = 'slider-dot';
+      dotsWrap.appendChild(dot);
+      (function (idx) {
+        dot.addEventListener('click', function () {
+          var target = items[idx];
+          if (!target) return;
+          try {
+            // Preferované, pokud prohlížeč podporuje options
+            target.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+          } catch (e) {
+            // Fallback výpočet
+            var targetCenter = target.offsetLeft + target.offsetWidth / 2;
+            var containerCenter = list.clientWidth / 2;
+            var to = targetCenter - containerCenter;
+            if (list.scrollTo) list.scrollTo({ left: to, behavior: 'smooth' });
+            else list.scrollLeft = to;
+          }
+        }, false);
+      })(d);
+      dots.push(dot);
     }
 
-    // Inicializace Masonry a highlightNavLink při načtení stránky
-    initializeMasonry(); // Vytvoří a rozvrhne Masonry
-    highlightNavLink(); // Nastaví počáteční aktivní odkaz
-
-    // Listenery pro události, které mohou ovlivnit rozložení nebo pozici scrollu
-    window.addEventListener('resize', () => {
-        initializeMasonry(); // Přepočítá Masonry při změně velikosti okna
-        highlightNavLink(); // Aktualizuje navigaci
-    });
-    window.addEventListener('orientationchange', () => {
-        initializeMasonry(); // Přepočítá Masonry při změně orientace mobilu
-        highlightNavLink(); // Aktualizuje navigaci
-    });
-
-    // Spustíme funkci vždy, když uživatel scrolluje
-    window.addEventListener('scroll', highlightNavLink);
-
-    // Zajištění okamžitého zvýraznění po kliknutí na navigační odkaz
-    navLinks.forEach(link => {
-        link.addEventListener('click', function (event) {
-            // Použijte setTimeout, aby se highlightNavLink spustil až po dokončení scrollu prohlížeče
-            setTimeout(() => {
-                highlightNavLink();
-            }, 100); // Malá prodleva, aby se element stihl posunout
-        });
-    });
-
-
-    // --- KÓD PRO HAMBURGER MENU (MOBILNÍ NAVIGACE) ---
-    const menuToggle = document.getElementById('mobile-menu');
-    const navList = document.getElementById('main-nav');
-
-    if (menuToggle && navList) {
-        menuToggle.addEventListener('click', function() {
-            menuToggle.classList.toggle('open'); // Přepne třídu pro animaci hamburgeru
-            navList.classList.toggle('open'); // Přepne třídu pro zobrazení/skrytí navigace
-        });
-
-        // Zavření menu po kliknutí na odkaz v mobilní navigaci
-        const navLinksMobile = navList.querySelectorAll('a');
-        navLinksMobile.forEach(link => {
-            link.addEventListener('click', function() {
-                if (navList.classList.contains('open')) { // Pokud je menu otevřené
-                    menuToggle.classList.remove('open'); // Zavře hamburger animaci
-                    navList.classList.remove('open'); // Skryje navigaci
-                }
-            });
-        });
+    function setActive(index) {
+      for (var iDot = 0; iDot < dots.length; iDot++) {
+        if (iDot === index) dots[iDot].classList.add('active');
+        else dots[iDot].classList.remove('active');
+      }
     }
+    setActive(0);
+
+    function indexOfMostCentered() {
+      var containerLeft = list.scrollLeft;
+      var containerCenter = containerLeft + list.clientWidth / 2;
+      var minDist = Infinity;
+      var best = 0;
+      for (var k = 0; k < items.length; k++) {
+        var left = items[k].offsetLeft;
+        var center = left + items[k].offsetWidth / 2;
+        var dist = Math.abs(center - containerCenter);
+        if (dist < minDist) { minDist = dist; best = k; }
+      }
+      return best;
+    }
+
+    if ('IntersectionObserver' in window) {
+      // IO funguje i pro horizontální root, když root je scrollující kontejner
+      var io = new IntersectionObserver(function (entries) {
+        for (var iEnt = 0; iEnt < entries.length; iEnt++) {
+          var entry = entries[iEnt];
+          if (entry.isIntersecting) {
+            var idx = -1;
+            for (var ix = 0; ix < items.length; ix++) if (items[ix] === entry.target) { idx = ix; break; }
+            if (idx > -1) setActive(idx);
+          }
+        }
+      }, { root: list, threshold: 0.6 });
+      for (var ob = 0; ob < items.length; ob++) io.observe(items[ob]);
+    } else {
+      // Fallback: poslouchat scroll a určit nejvíc vystředěnou kartu
+      var ticking = false;
+      list.addEventListener('scroll', function () {
+        if (!ticking) {
+          (window.requestAnimationFrame || function (cb) { return setTimeout(cb, 16); })(function () {
+            setActive(indexOfMostCentered());
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+    }
+  }
+
+  // =========================
+  // VOLITELNĚ: ZPRÁVY PO ODESLÁNÍ FORMULÁŘE PODLE URL PARAMS
+  // (pokud to již máte inline v HTML, tuto část můžete vynechat)
+  // =========================
+  var urlParams = new URLSearchParams(window.location.search);
+  var status = urlParams.get('status');
+  var messageContainer = document.querySelector('.kontakt-formular');
+  if (status && messageContainer) {
+    var messageDiv = document.createElement('div');
+    messageDiv.style.padding = '15px';
+    messageDiv.style.borderRadius = '5px';
+    messageDiv.style.marginTop = '20px';
+    messageDiv.style.textAlign = 'center';
+    messageDiv.style.fontWeight = 'bold';
+
+    if (status === 'success') {
+      messageDiv.style.backgroundColor = '#d4edda';
+      messageDiv.style.color = '#155724';
+      messageDiv.textContent = 'Vaše zpráva byla úspěšně odeslána! Děkujeme.';
+    } else if (status === 'error') {
+      var errorMsg = urlParams.get('msg');
+      messageDiv.style.backgroundColor = '#f8d7da';
+      messageDiv.style.color = '#721c24';
+      if (errorMsg === 'missing_fields') {
+        messageDiv.textContent = 'Chyba: Vyplňte prosím všechna povinná pole.';
+      } else if (errorMsg === 'invalid_email') {
+        messageDiv.textContent = 'Chyba: Zadejte prosím platnou e-mailovou adresu.';
+      } else {
+        messageDiv.textContent = 'Došlo k chybě při odesílání zprávy. Zkuste to prosím později.';
+      }
+    }
+    var formTitle = messageContainer.querySelector('h3');
+    if (formTitle) formTitle.after(messageDiv); else messageContainer.prepend(messageDiv);
+    history.replaceState({}, document.title, window.location.pathname + window.location.hash);
+  }
 });
