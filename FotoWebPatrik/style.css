@@ -37,6 +37,16 @@ header {
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
+/* Volitelně: schovat při scrollu dolů, ukázat při scrollu nahoru (aktivuje JS) */
+header.hide-on-scroll {
+  will-change: transform;
+  transition: transform 200ms ease-in-out;
+  transform: translateY(0);
+}
+header.hide-on-scroll.hidden {
+  transform: translateY(-100%);
+}
+
 nav {
   display: flex;
   justify-content: space-between;
@@ -53,11 +63,13 @@ nav {
   height: 100%;
   z-index: 1001;
 }
+
 .logo img {
   height: 100px;
   width: auto;
   display: block;
 }
+
 @media (max-width: 768px) {
   .logo img { height: 70px; }
 }
@@ -76,10 +88,13 @@ nav a {
   font-size: 1.5rem;
   transition: color 0.3s;
 }
-nav a:hover, nav a:focus {
+
+nav a:hover,
+nav a:focus {
   color: var(--accent-color);
   outline: none;
 }
+
 nav a.active-link {
   color: var(--accent-color);
   font-weight: bold;
@@ -94,6 +109,7 @@ nav a.active-link {
   cursor: pointer;
   z-index: 1001;
 }
+
 .menu-toggle .bar {
   width: 25px;
   height: 3px;
@@ -101,6 +117,7 @@ nav a.active-link {
   margin: 4px 0;
   transition: 0.4s;
 }
+
 .menu-toggle.open .bar:nth-child(1) {
   transform: rotate(-45deg) translate(-5px, 6px);
 }
@@ -122,12 +139,14 @@ section {
   margin: 0 auto;
   scroll-margin-top: var(--header-height);
 }
+
 section:nth-child(even) { background-color: var(--secondary-color); }
 
 h1, h2 {
   text-align: center;
   margin-bottom: 2rem;
 }
+
 h2 { font-size: 3.5rem; }
 
 /* ===================== */
@@ -135,19 +154,31 @@ h2 { font-size: 3.5rem; }
 /* ===================== */
 .hero-section {
   position: relative;
+  /* Vyplní celý viewport minus fixní hlavička */
   height: calc(100vh - var(--header-height));
+  min-height: 0;
+
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   padding: 0;
   max-width: none;
-  background-color: #222;
+
+  background-color: #222; /* Fallback */
   background-image: url('images/slide/slide-01.webp');
   background-size: cover;
   background-position: center;
   color: white;
   transition: background-image 0.3s ease-in-out;
+}
+
+/* Fallback / preferenční jednotky viewportu na mobilech */
+@supports (height: 100svh) {
+  .hero-section { height: calc(100svh - var(--header-height)); }
+}
+@supports (height: 100dvh) {
+  .hero-section { height: calc(100dvh - var(--header-height)); }
 }
 
 .hero-dots {
@@ -159,6 +190,7 @@ h2 { font-size: 3.5rem; }
   display: flex;
   gap: 10px;
 }
+
 .hero-dot {
   width: 12px;
   height: 12px;
@@ -167,6 +199,7 @@ h2 { font-size: 3.5rem; }
   cursor: pointer;
   transition: background-color 0.3s, transform 0.3s;
 }
+
 .hero-dot.active {
   background-color: white;
   transform: scale(1.2);
@@ -190,37 +223,52 @@ h2 { font-size: 3.5rem; }
   justify-content: center;
   padding: 10px;
 }
-.hero-arrow:hover, .hero-arrow:focus {
+
+.hero-arrow:hover,
+.hero-arrow:focus {
   color: white;
   transform: translateY(-50%) scale(1.1);
   outline: none;
 }
+
 .left-arrow { left: 20px; }
 .right-arrow { right: 20px; }
 
-/* Mobil: zmenšení šipek v hero slideru */
+/* Zmenšení šipek na mobilech */
 @media (max-width: 768px) {
-  .hero-arrow {
-    font-size: 1.8rem;   /* původně 3.5rem */
-    padding: 6px;        /* menší polštář pro ikonku */
-  }
-  .left-arrow  { left: 10px; }  /* blíž k okraji */
+  .hero-arrow { font-size: 1.8rem; padding: 6px; }
+  .left-arrow { left: 10px; }
   .right-arrow { right: 10px; }
 }
-
-/* Extra malé telefony */
 @media (max-width: 480px) {
-  .hero-arrow {
-    font-size: 1.5rem;   /* ještě menší na mini displejích */
-    padding: 4px;
-  }
-  .left-arrow  { left: 8px; }
+  .hero-arrow { font-size: 1.5rem; padding: 4px; }
+  .left-arrow { left: 8px; }
   .right-arrow { right: 8px; }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    /* čtverec, nikoli full-screen */
+    aspect-ratio: 1 / 1;                 /* drží 1:1 poměr stran */
+    width: 100%;                          /* na šířku zařízení */
+    height: auto;                         /* výška se dopočítá z aspect-ratio */
+    max-height: calc(100svh - var(--header-height)); /* kdyby bylo moc vysoké, omez pod lištu */
+
+    /* ořez obrázku na střed */
+    background-size: cover;
+    background-position: center;
+
+    /* volitelné: trochu menší typografie/šipky uvnitř */
+    padding: 0;
+  }
+
+  /* šipky na mobilu už menší máte, případně ještě o chlup dolů */
+  .hero-arrow { font-size: 1.4rem; padding: 4px; }
 }
 
 
 /* ===================== */
-/* O MNĚ */
+/* SEKCÍ O MNĚ */
 /* ===================== */
 #o-mne { scroll-margin-top: calc(var(--header-height) + 10px); }
 
@@ -230,8 +278,18 @@ h2 { font-size: 3.5rem; }
   gap: 3rem;
   font-size: 1.5rem;
 }
-.o-mne-text { flex: 2; margin-left: 150px; padding: 0 1rem; }
-.o-mne-foto { flex: 1; text-align: center; }
+
+.o-mne-text {
+  flex: 2;
+  margin-left: 150px;
+  padding: 0 1rem;
+}
+
+.o-mne-foto {
+  flex: 1;
+  text-align: center;
+}
+
 .o-mne-foto img {
   max-width: 300px;
   width: 100%;
@@ -241,25 +299,44 @@ h2 { font-size: 3.5rem; }
   border: 5px solid #ccc;
 }
 
-/* ===================== */
-/* PORTFOLIO A GALERIE */
-/* ===================== */
+/* Portfolio bez bočních vnitřních okrajů */
+#portfolio { padding-left: 0; padding-right: 0; } /* aby fotky došly až k hraně kontejneru */
+
+/* Masonry container */
 .gallery {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
+  position: relative;
   margin: 0 auto;
   max-width: 1200px;
+  padding: 0;                 /* žádný vnitřní padding */
 }
-.gallery-item { flex: 1 1 calc(33.33% - 1rem); margin-bottom: 1rem; }
+
+/* Šířky sloupců a gutter přes element sizing (3 sloupce desktop) */
+:root { --gutter: 16px; }     /* mezera mezi sloupci */
+.grid-sizer   { width: calc((100% - 2 * var(--gutter)) / 3); }
+.gutter-sizer { width: var(--gutter); }
+
+.gallery-item {
+  width: calc((100% - 2 * var(--gutter)) / 3);
+  margin: 0 0 var(--gutter) 0; /* jen svislá mezera; žádné horizontální marginy */
+  box-sizing: border-box;
+}
+
 .gallery-item img {
-  width: 100%; height: auto;
+  width: 100%;
   display: block;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 .gallery-item img:hover { transform: scale(1.03); box-shadow: 0 8px 20px rgba(0,0,0,0.25); }
+
+/* Responsivní sloupce (2 sloupce tablety, 1 sloupec mobily) */
+@media (max-width: 992px) {
+  .grid-sizer, .gallery-item { width: calc((100% - var(--gutter)) / 2); }
+}
+@media (max-width: 600px) {
+  .gallery-item img { max-height: 260px; object-fit: cover; }
+}
 
 .portfolio-more {
   text-align: center;
@@ -267,7 +344,54 @@ h2 { font-size: 3.5rem; }
   padding-top: 2rem;
   border-top: 1px solid #eee;
 }
-.portfolio-more p { font-size: 1.5rem; margin-bottom: 1.5rem; color: var(--primary-color); }
+
+.portfolio-more p {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: var(--primary-color);
+}
+
+/* Mobilní portfolio slider – zobrazení na mobilech */
+  .portfolio-slider-mobile {
+    display: block;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    margin: 2rem 0;
+    padding: 1rem 0;
+  }
+
+  .portfolio-track-mobile {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 1rem 1rem 1rem;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge Legacy */
+  }
+  .portfolio-track-mobile::-webkit-scrollbar { display: none; }
+
+  .portfolio-track-mobile img {
+    flex: 0 0 80vw;
+    max-width: 300px;
+    min-width: 250px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    scroll-snap-align: center;
+    transition: transform 0.3s ease;
+  }
+
+  .portfolio-track-mobile img:hover { transform: scale(1.02); }
+
+/* Desktop – skrýt mobilní portfolio slider */
+@media (min-width: 769px) {
+  .portfolio-slider-mobile { display: none; }
+}
 
 /* ===================== */
 /* SLUŽBY */
@@ -281,13 +405,14 @@ h2 { font-size: 3.5rem; }
   font-size: 1.5rem;
 }
 
-/* Desktop layout */
+/* Desktop: mřížka karet */
 .sluzby-list {
   display: flex;
   gap: 2rem;
   justify-content: center;
   flex-wrap: wrap;
 }
+
 .sluzba {
   background: white;
   padding: 2rem;
@@ -296,6 +421,65 @@ h2 { font-size: 3.5rem; }
   text-align: center;
   flex-basis: 300px;
   font-size: 1.5rem;
+}
+
+/* Mobil: horizontální slider se snapem */
+@media (max-width: 768px) {
+  .sluzby-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 1rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 1rem 0 1.5rem 1rem;
+
+    /* Scroll snap */
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+
+    /* Skrytí scrollbaru */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .sluzby-list::-webkit-scrollbar { display: none; }
+
+  .sluzba {
+    flex: 0 0 80%;
+    min-width: 280px;
+    max-width: 300px;
+    margin-right: 1rem;
+    scroll-snap-align: center;
+    scroll-snap-stop: always; /* přesné zastavení na kartě */
+    flex-basis: auto;
+  }
+  .sluzba:last-child { margin-right: 2rem; }
+
+  /* Tečky indikátoru pod sliderem služeb (rychlejší odezva) */
+  .slider-dots-mobile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 9px;
+    margin-top: 6px;
+    margin-bottom: 14px;
+    pointer-events: auto; /* lze klikat */
+  }
+  .slider-dot {
+    width: 9px;
+    height: 9px;
+    background: #bbb;
+    border-radius: 50%;
+    opacity: 0.6;
+    transition: background 120ms linear, transform 120ms linear, opacity 120ms linear;
+    cursor: pointer;
+  }
+  .slider-dot.active {
+    background: var(--accent-color);
+    opacity: 1;
+    transform: scale(1.25);
+  }
 }
 
 /* ===================== */
@@ -308,7 +492,13 @@ h2 { font-size: 3.5rem; }
   text-align: center;
   scroll-margin-top: calc(var(--header-height) - 150px);
 }
-.kontakt-container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+
+.kontakt-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
 .kontakt-grid {
   display: grid;
   grid-template-columns: 1fr 1.5fr;
@@ -316,7 +506,9 @@ h2 { font-size: 3.5rem; }
   text-align: left;
   margin-top: 40px;
 }
-.kontakt-info, .kontakt-formular {
+
+.kontakt-info,
+.kontakt-formular {
   padding: 30px;
   background-color: white;
   border-radius: 10px;
@@ -325,7 +517,9 @@ h2 { font-size: 3.5rem; }
   flex-direction: column;
   align-items: flex-start;
 }
-.kontakt-info h3, .kontakt-formular h3 {
+
+.kontakt-info h3,
+.kontakt-formular h3 {
   font-family: Garamond, serif;
   font-size: 1.8em;
   color: #2c3e50;
@@ -333,10 +527,16 @@ h2 { font-size: 3.5rem; }
   margin-bottom: 15px;
   text-align: left;
 }
-.section-description, .kontakt-info p { font-size: 1.5rem; color: #444; }
+
+.section-description,
+.kontakt-info p {
+  font-size: 1.5rem;
+  color: #444;
+}
 
 .contact-method-item {
-  background: none; box-shadow: none;
+  background: none;
+  box-shadow: none;
   padding: 10px 0;
   text-align: left;
   display: flex;
@@ -345,52 +545,121 @@ h2 { font-size: 3.5rem; }
   width: 100%;
   margin-bottom: 15px;
 }
+
 .contact-icon {
   font-size: 1.8em;
   color: var(--accent-color);
   min-width: 35px;
   text-align: center;
 }
-.contact-method-title { font-size: 1.2em; color: #2c3e50; margin: 0; font-weight: 600; }
-.contact-link {
-  font-size: 1.1em; color: #444; text-decoration: none; transition: color 0.3s ease;
+
+.contact-method-title {
+  font-size: 1.2em;
+  color: #2c3e50;
+  margin: 0;
+  font-weight: 600;
 }
-.contact-link:hover, .contact-link:focus { color: var(--accent-color); text-decoration: underline; }
+
+.contact-link {
+  font-size: 1.1em;
+  color: #444;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.contact-link:hover,
+.contact-link:focus {
+  color: var(--accent-color);
+  text-decoration: underline;
+}
 
 .social-links-kontakt {
-  margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; text-align: left;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+  text-align: left;
 }
+
 .social-links-kontakt a {
-  color: #888; font-size: 2em; margin-right: 20px; transition: color 0.3s ease, transform 0.2s ease;
+  color: #888;
+  font-size: 2em;
+  margin-right: 20px;
+  transition: color 0.3s ease, transform 0.2s ease;
 }
-.social-links-kontakt a:hover, .social-links-kontakt a:focus { color: var(--accent-color); transform: translateY(-3px); outline: none; }
+
+.social-links-kontakt a:hover,
+.social-links-kontakt a:focus {
+  color: var(--accent-color);
+  transform: translateY(-3px);
+  outline: none;
+}
 
 /* Formulář */
-.contact-form { width: 100%; display: flex; flex-direction: column; }
-.form-group { margin-bottom: 20px; }
-.form-group label {
-  display: block; font-size: 1em; color: #444; margin-bottom: 8px; font-weight: 500;
+.contact-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
+
+.form-group { margin-bottom: 20px; }
+
+.form-group label {
+  display: block;
+  font-size: 1em;
+  color: #444;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
 .form-group input[type="text"],
 .form-group input[type="email"],
 .form-group textarea {
-  width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 6px;
-  font-size: 1em; font-family: Arial, sans-serif; color: var(--primary-color);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease; box-sizing: border-box;
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1em;
+  font-family: Arial, sans-serif;
+  color: var(--primary-color);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
 }
-.form-group input:focus, .form-group textarea:focus {
-  border-color: var(--accent-color); outline: none; box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--accent-color);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
 }
-.form-group textarea { resize: vertical; min-height: 120px; }
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+}
 
 .submit-button {
-  display: inline-block; background-color: var(--accent-color); color: white;
-  padding: 15px 30px; border: none; border-radius: 50px; font-size: 1.1em; font-weight: 600;
-  cursor: pointer; text-decoration: none; transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-  align-self: flex-start; margin-top: 15px; box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+  display: inline-block;
+  background-color: var(--accent-color);
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.1em;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  align-self: flex-start;
+  margin-top: 15px;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
 }
-.submit-button:hover, .submit-button:focus {
-  background-color: #0056b3; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3); outline: none;
+
+.submit-button:hover,
+.submit-button:focus {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3);
+  outline: none;
 }
 
 /* ===================== */
@@ -408,11 +677,29 @@ footer {
 /* ===================== */
 @media (max-width: 992px) {
   .gallery-item { flex: 1 1 calc(50% - 1rem); }
-  .kontakt-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; }
-  .kontakt-info, .kontakt-formular { align-items: center; padding: 25px; }
-  .kontakt-info h3, .kontakt-info p, .kontakt-formular h3 { text-align: center; }
+
+  .kontakt-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    text-align: center;
+  }
+  .kontakt-info,
+  .kontakt-formular {
+    align-items: center;
+    padding: 25px;
+  }
+  .kontakt-info h3,
+  .kontakt-info p,
+  .kontakt-formular h3 {
+    text-align: center;
+  }
   .contact-method-item { justify-content: center; }
-  .social-links-kontakt { justify-content: center; border-top: none; padding-top: 0; margin-top: 20px; }
+  .social-links-kontakt {
+    justify-content: center;
+    border-top: none;
+    padding-top: 0;
+    margin-top: 20px;
+  }
   .submit-button { align-self: center; }
 }
 
@@ -422,102 +709,46 @@ footer {
 
   nav { padding: 0 1rem; }
   nav ul {
-    display: none; flex-direction: column; position: fixed;
-    top: var(--header-height); left: 0; width: 100%;
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    width: 100%;
     height: calc(100vh - var(--header-height));
-    background-color: #ebebeb; text-align: center; padding: 2rem 0;
-    box-shadow: 0 8px 10px rgba(0,0,0,0.1); z-index: 999;
-    opacity: 0; transform: translateY(-20px);
-    transition: transform 0.4s ease-out, opacity 0.4s ease-out; pointer-events: none;
+    background-color: #ebebeb;
+    text-align: center;
+    padding: 2rem 0;
+    box-shadow: 0 8px 10px rgba(0,0,0,0.1);
+    z-index: 999;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+    pointer-events: none;
   }
-  nav ul.open { display: flex; transform: translateY(0); opacity: 1; pointer-events: auto; }
+  nav ul.open {
+    display: flex;
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
   nav ul li { margin: 1rem 0; }
   nav a { font-size: 1.8rem; padding: 10px 0; width: 100%; }
   .menu-toggle { display: flex; }
 
-  .o-mne-content { flex-direction: column; gap: 2rem; font-size: 1.2rem; }
-  .o-mne-text { margin-left: 0; text-align: center; }
+  .o-mne-content {
+    flex-direction: column;
+    gap: 2rem;
+    font-size: 1.2rem;
+  }
+  .o-mne-text {
+    margin-left: 0;
+    text-align: center;
+  }
   .o-mne-foto img { max-width: 200px; }
 
-  .hero-section { height: 50vh; min-height: 300px; }
-  .hero-section h1 { font-size: 2.2rem; }
-
   section { padding: 1rem 1rem 2rem 1rem; }
-
-  /* SLUŽBY – MOBILNÍ HORIZONTÁLNÍ SLIDER */
-  .sluzby-list {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    gap: 1rem;
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding: 1rem 0 1.5rem 1rem;
-    scroll-snap-type: x mandatory; /* CSS Scroll Snap */
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE/Edge Legacy */
-  }
-  .sluzby-list::-webkit-scrollbar { display: none; } /* WebKit */
-
-  .sluzba {
-    flex: 0 0 80%;
-    min-width: 280px;
-    max-width: 300px;
-    margin-right: 1rem;
-    scroll-snap-align: center; /* karta se přichytí na střed */
-    flex-basis: auto;
-  }
-  .sluzba:last-child { margin-right: 2rem; }
-
-  /* Tečky indikátoru pod sliderem služeb */
-  .slider-dots-mobile {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 9px;
-    margin-top: 6px;
-    margin-bottom: 14px;
-    pointer-events: auto; /* aby šly klikat */
-  }
-  .slider-dot {
-    width: 9px; height: 9px;
-    background: #bbb;
-    border-radius: 50%;
-    opacity: 0.6;
-    transition: background 0.25s, transform 0.25s, opacity 0.25s;
-    cursor: pointer;
-  }
-  .slider-dot.active {
-    background: var(--accent-color);
-    opacity: 1;
-    transform: scale(1.25);
-  }
-
-  /* Mobilní portfolio slider – skryje klasickou galerii, zobrazí horizontální track */
-  .gallery { display: none; }
-  .portfolio-slider-mobile {
-    display: block; overflow: hidden; position: relative; width: 100%;
-    margin: 2rem 0; padding: 1rem 0;
-  }
-  .portfolio-track-mobile {
-    display: flex; gap: 1rem;
-    overflow-x: auto; overflow-y: hidden;
-    scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
-    padding: 0 1rem 1rem 1rem;
-    scrollbar-width: none; -ms-overflow-style: none;
-  }
-  .portfolio-track-mobile::-webkit-scrollbar { display: none; }
-  .portfolio-track-mobile img {
-    flex: 0 0 80vw;
-    max-width: 300px; min-width: 250px; height: 200px;
-    object-fit: cover; border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    scroll-snap-align: center;
-    transition: transform 0.3s ease;
-  }
-  .portfolio-track-mobile img:hover { transform: scale(1.02); }
 }
 
 @media (max-width: 600px) {
@@ -527,23 +758,22 @@ footer {
 @media (max-width: 480px) {
   h1 { font-size: 2rem; }
   h2 { font-size: 1.8rem; }
-  .hero-section { height: 40vh; min-height: 250px; }
-  .hero-section h1 { font-size: 1.8rem; }
+
   .o-mne-content { font-size: 1.1rem; }
   .o-mne-foto img { max-width: 150px; }
+
   nav a { font-size: 1.5rem; }
-  .kontakt-info, .kontakt-formular { padding: 20px 15px; }
-  .kontakt-info h3, .kontakt-formular h3 { font-size: 1.6em; }
+
+  .kontakt-info,
+  .kontakt-formular { padding: 20px 15px; }
+  .kontakt-info h3,
+  .kontakt-formular h3 { font-size: 1.6em; }
   .contact-method-item { flex-direction: column; gap: 5px; }
   .contact-icon { margin-bottom: 5px; }
   .contact-method-title { font-size: 1.1em; }
   .contact-link { font-size: 1em; }
   .form-group label { font-size: 0.9em; }
-  .form-group input, .form-group textarea { padding: 10px 12px; font-size: 0.95em; }
+  .form-group input,
+  .form-group textarea { padding: 10px 12px; font-size: 0.95em; }
   .submit-button { font-size: 1em; padding: 12px 25px; }
-}
-
-/* DESKTOP-ONLY: pokud chcete skrýt mobilní portfolio slider */
-@media (min-width: 769px) {
-  .portfolio-slider-mobile { display: none; }
 }

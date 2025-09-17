@@ -42,6 +42,41 @@
     </nav>
 </header>
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var header = document.querySelector('header');
+  if (!header) return;
+
+  // přidat řídící třídu, aby platily CSS styly výše
+  header.classList.add('hide-on-scroll');
+
+  var lastY = window.pageYOffset || document.documentElement.scrollTop || 0;
+  var ticking = false;
+
+  function onScroll() {
+    var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+
+    // směr: dolů => skrýt, nahoru => ukázat
+    if (y > lastY) {
+      header.classList.add('hidden');
+    } else {
+      header.classList.remove('hidden');
+    }
+
+    lastY = y;
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', function () {
+    if (!ticking) {
+      requestAnimationFrame(onScroll);
+      ticking = true;
+    }
+  }, { passive: true }); // pasivní pro lepší výkon
+});
+</script>
+
+
     <main>
 
         <section id="uvod" class="hero-section">
@@ -55,23 +90,22 @@
 
         <section id="sluzby">
             <h2>Co nabízím</h2>
-            <p class="sluzby-intro">Ačkoliv nejsem profesionál, rád vám pomohu zachytit vaše výjimečné okamžiky. Nabízím
-                přátelský a individuální přístup.</p>
+            <p class="sluzby-intro">S vášní pro fotografii proměním vaše nejkrásnější momenty v trvalé vzpomínky.</p>
             <div class="sluzby-list">
 
                 <div class="sluzba">
                     <picture>
                         <source srcset="images/sluzby/sluzba-akce.webp" type="image/webp">
-                        <img src="images/sluzby/sluzba-akce.jpg" alt="Reportáž z akcí">
+                        <img src="images/sluzby/sluzba-akce.jpg" alt="Reportáž z akcí" >
                     </picture>
                     <h3>Reportáž z akcí</h3>
-                    <p>Zdokumentování menších rodinných oslav, stužkovacích večírků nebo jiných událostí.</p>
+                    <p>Zdokumentování stužkáčů, oslav nebo jiných událostí.</p>
                 </div>
 
                     <div class="sluzba">
                     <picture>
                         <source srcset="images/sluzby/sluzba-portret.webp" type="image/webp">
-                        <img src="images/sluzby/sluzba-portret.jpg" alt="Portrétní focení">
+                        <img src="images/sluzby/sluzba-portret.jpg" alt="Portrétní focení" width="300" height="300">
                     </picture>
                     <h3>Portrétní focení</h3>
                     <p>Focení jednotlivců, párů nebo rodin v exteriéru.</p>
@@ -127,28 +161,19 @@
 
         <section id="portfolio">
             <h2>Portfolio</h2>
-            
-            <!-- MOBILNÍ SLIDER - zobrazí se jen na mobilu -->
-            <div class="portfolio-slider-mobile">
-                <div class="portfolio-track-mobile">
-                    <img src="images/portfolio/01.webp" alt="Portfolio" loading="lazy">
-                    <img src="images/portfolio/02.webp" alt="Portfolio" loading="lazy">
-                    <img src="images/portfolio/03.webp" alt="Portfolio" loading="lazy">
-                    <img src="images/portfolio/04.webp" alt="Portfolio" loading="lazy">
-                    <img src="images/portfolio/05.webp" alt="Portfolio" loading="lazy">
-                    <img src="images/portfolio/06.webp" alt="Portfolio" loading="lazy">
-                    <img src="images/portfolio/07.webp" alt="Portfolio" loading="lazy">
-                    <img src="images/portfolio/08.webp" alt="Portfolio" loading="lazy">
-                    <img src="images/portfolio/09.webp" alt="Portfolio" loading="lazy">
-                    <img src="images/portfolio/10.webp" alt="Portfolio" loading="lazy">
-                    <img src="images/portfolio/11.webp" alt="Portfolio" loading="lazy">
-                    <img src="images/portfolio/12.webp" alt="Portfolio" loading="lazy">
-                </div>
-            </div>
-            
-            <!-- PŮVODNÍ GALERIE - zobrazí se jen na desktopu -->
             <div class="gallery">
-                <!-- váš stávající obsah galerie -->
+                <div class="grid-sizer"></div>
+                <div class="gutter-sizer"></div>
+                <div class="gallery-item"><img src="images/portfolio/01.webp" alt="portfolio" loading="lazy"></div>
+                <div class="gallery-item"><img src="images/portfolio/02.webp" alt="portfolio" loading="lazy"></div>
+                <div class="gallery-item"><img src="images/portfolio/03.webp" alt="portfolio" loading="lazy"></div>
+                <div class="gallery-item"><img src="images/portfolio/04.webp" alt="portfolio" loading="lazy"></div>
+                <div class="gallery-item"><img src="images/portfolio/05.webp" alt="portfolio" loading="lazy"></div>
+                <div class="gallery-item"><img src="images/portfolio/06.webp" alt="portfolio" loading="lazy"></div>
+                <div class="gallery-item"><img src="images/portfolio/07.webp" alt="portfolio" loading="lazy"></div>
+                <div class="gallery-item"><img src="images/portfolio/08.webp" alt="portfolio" loading="lazy"></div>
+                <div class="gallery-item"><img src="images/portfolio/09.webp" alt="portfolio" loading="lazy"></div>
+                <div class="gallery-item"><img src="images/portfolio/10.webp" alt="portfolio" loading="lazy"></div>
             </div>
             
             <div class="portfolio-more">
@@ -162,10 +187,10 @@
             <h2>Něco o mně</h2>
             <div class="o-mne-content">
                 <div class="o-mne-text">
-                    <p>Jsem amatérský fotograf ze Slopného a focení je moje vášeň. Nejraději fotím zvířata, portréty a
-                        momentky z každodenního života.</p>
-                    <p>Tento web je mým osobním projektem, kde sdílím radost z fotografie. Každý snímek má pro mě svůj
-                        vlastní příběh. Doufám, že se Vám moje práce bude líbit.</p>
+                    <p>Jsem amatérský fotograf ze Slopného a focení je moje vášeň. Nejraději fotím zvířata, portréty a společenské akce.</p>
+                    <p>Tento web je mou vizuální kronikou - místem, kde dávám své tvorbě prostor, aby mohla být viděna.
+                        Nenajdete zde jen fotografie, ale příběhy a momenty, které mě zaujaly.
+                        Mým cílem je sdílet svůj pohled na svět a neustále se v koníčku posouvat dál.</p>
                 </div>
                 <div class="o-mne-foto">
                     <img src="images/o-mne-foto.webp" alt="Moje fotka">
@@ -202,33 +227,6 @@
                     <a href="https://www.linkedin.com/in/patrik-bedn%C3%A1%C5%99-688185362/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
                     </div>
             </div>
-
-            <div class="kontakt-formular">
-                <h3>Napište mi zprávu:</h3>
-                    <form id="contact-form" class="contact-form">
-                    <div class="form-group">
-                        <label for="name">Jméno:</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">E-mail:</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="subject">Předmět:</label>
-                        <input type="text" id="subject" name="subject">
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Zpráva:</label>
-                        <textarea id="message" name="message" rows="6" required></textarea>
-                    </div>
-                    <button type="submit" class="submit-button">Odeslat zprávu</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
-
     </main>
 
     <footer>
@@ -239,61 +237,6 @@
     <script src="js/imagesloaded.pkgd.min.js"></script>
     <script src="js/masonry.pkgd.min.js"></script>
     <script src="script.js"></script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const status = urlParams.get('status');
-        const messageContainer = document.querySelector('.kontakt-formular'); // Nebo kde chcete zobrazit zprávu
-
-        if (status) {
-            let messageDiv = document.createElement('div');
-            messageDiv.style.padding = '15px';
-            messageDiv.style.borderRadius = '5px';
-            messageDiv.style.marginTop = '20px';
-            messageDiv.style.textAlign = 'center';
-            messageDiv.style.fontWeight = 'bold';
-
-            if (status === 'success') {
-                messageDiv.style.backgroundColor = '#d4edda';
-                messageDiv.style.color = '#155724';
-                messageDiv.textContent = 'Vaše zpráva byla úspěšně odeslána! Děkujeme.';
-            } else if (status === 'error') {
-                const errorMsg = urlParams.get('msg');
-                messageDiv.style.backgroundColor = '#f8d7da';
-                messageDiv.style.color = '#721c24';
-                if (errorMsg === 'missing_fields') {
-                    messageDiv.textContent = 'Chyba: Vyplňte prosím všechna povinná pole.';
-                } else if (errorMsg === 'invalid_email') {
-                    messageDiv.textContent = 'Chyba: Zadejte prosím platnou e-mailovou adresu.';
-                } else {
-                    messageDiv.textContent = 'Došlo k chybě při odesílání zprávy. Zkuste to prosím později.';
-                }
-            }
-            // Vložíme zprávu před formulář nebo na jiné vhodné místo
-            // Pokud chcete pod nadpisem formuláře:
-            const formTitle = messageContainer.querySelector('h3');
-            if (formTitle) {
-                formTitle.after(messageDiv);
-            } else {
-                messageContainer.prepend(messageDiv);
-            }
-
-            // Odstraníme parametry z URL po zobrazení zprávy
-            history.replaceState({}, document.title, window.location.pathname + window.location.hash);
-        }
-    });
-</script>
-
-
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script type="text/javascript">
-   (function() {
-      // Inicializujte EmailJS s vaším Public Key
-      emailjs.init("6MfWivXt7UYdZ5xDP"); // ZDE ZADEJTE SVŮJ PUBLIC KEY Z EMAILJS
-   })();
-</script>
-<script src="js/main.js"></script>
 
 </body>
 
