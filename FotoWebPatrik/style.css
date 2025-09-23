@@ -777,3 +777,35 @@ footer {
   .form-group textarea { padding: 10px 12px; font-size: 0.95em; }
   .submit-button { font-size: 1em; padding: 12px 25px; }
 }
+
+/* rozvržení: levý menší, pravý širší */
+.kontakt-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 60px;
+  align-items: start;
+}
+
+/* obdélník pro IG feed */
+.kontakt-ig-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: var(--box-shadow-light);
+  padding: 24px;
+}
+
+/* nadpis karty */
+.kontakt-ig-card h3 { margin: 0 0 16px 0; }
+
+/* iframe od LightWidget responsivně na 100 % šířky */
+.kontakt-ig-card .lightwidget-widget {
+  display: block;
+  width: 100% !important;
+  border: 0;
+  overflow: hidden;
+}
+
+/* mobilně pod sebe */
+@media (max-width: 992px) {
+  .kontakt-grid { grid-template-columns: 1fr; gap: 24px; }
+}
