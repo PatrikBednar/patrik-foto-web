@@ -13,80 +13,80 @@
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-W5E9TPFMFV"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
 
-  gtag('config', 'G-W5E9TPFMFV');
+    gtag('config', 'G-W5E9TPFMFV');
 </script>
 
 <body>
 
     <header>
-    <nav>
-        <a href="#uvod" class="logo">
-            <img src="images/logo-web.png" alt="Logo Patrik Bednář - Fotografie">
-        </a>
-        <div class="menu-toggle" id="mobile-menu">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-        </div>
-        <ul id="main-nav">
-    <li><a href="#uvod">Úvod</a></li>
-    <li><a href="#sluzby">Služby</a></li>
-    <li><a href="#portfolio">Portfolio</a></li>
-    <li><a href="#o-mne">O mně</a></li>
-    <li><a href="#kontakt">Kontakt</a></li>
-</ul>
-    </nav>
-</header>
+        <nav>
+            <a href="#uvod" class="logo">
+                <img src="images/logo-web.png" alt="Logo Patrik Bednář - Fotografie">
+            </a>
+            <div class="menu-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            <ul id="main-nav">
+                <li><a href="#uvod">Úvod</a></li>
+                <li><a href="#sluzby">Služby</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#o-mne">O mně</a></li>
+                <li><a href="#kontakt">Kontakt</a></li>
+            </ul>
+        </nav>
+    </header>
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  var header = document.querySelector('header');
-  if (!header) return;
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var header = document.querySelector('header');
+            if (!header) return;
 
-  // přidat řídící třídu, aby platily CSS styly výše
-  header.classList.add('hide-on-scroll');
+            // přidat řídící třídu, aby platily CSS styly výše
+            header.classList.add('hide-on-scroll');
 
-  var lastY = window.pageYOffset || document.documentElement.scrollTop || 0;
-  var ticking = false;
+            var lastY = window.pageYOffset || document.documentElement.scrollTop || 0;
+            var ticking = false;
 
-  function onScroll() {
-    var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+            function onScroll() {
+                var y = window.pageYOffset || document.documentElement.scrollTop || 0;
 
-    // směr: dolů => skrýt, nahoru => ukázat
-    if (y > lastY) {
-      header.classList.add('hidden');
-    } else {
-      header.classList.remove('hidden');
-    }
+                // směr: dolů => skrýt, nahoru => ukázat
+                if (y > lastY) {
+                    header.classList.add('hidden');
+                } else {
+                    header.classList.remove('hidden');
+                }
 
-    lastY = y;
-    ticking = false;
-  }
+                lastY = y;
+                ticking = false;
+            }
 
-  window.addEventListener('scroll', function () {
-    if (!ticking) {
-      requestAnimationFrame(onScroll);
-      ticking = true;
-    }
-  }, { passive: true }); // pasivní pro lepší výkon
-});
-</script>
+            window.addEventListener('scroll', function () {
+                if (!ticking) {
+                    requestAnimationFrame(onScroll);
+                    ticking = true;
+                }
+            }, { passive: true }); // pasivní pro lepší výkon
+        });
+    </script>
 
 
     <main>
 
         <section id="uvod" class="hero-section">
-    <div class="hero-text">
-        </div>
-    <div class="hero-arrow left-arrow" id="prevArrow"><i class="fas fa-chevron-left"></i></div>
-    <div class="hero-arrow right-arrow" id="nextArrow"><i class="fas fa-chevron-right"></i></div>
-    <div class="hero-dots">
-    </div>
-</section>
+            <div class="hero-text">
+            </div>
+            <div class="hero-arrow left-arrow" id="prevArrow"><i class="fas fa-chevron-left"></i></div>
+            <div class="hero-arrow right-arrow" id="nextArrow"><i class="fas fa-chevron-right"></i></div>
+            <div class="hero-dots">
+            </div>
+        </section>
 
         <section id="sluzby">
             <h2>Co nabízím</h2>
@@ -96,13 +96,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 <div class="sluzba">
                     <picture>
                         <source srcset="images/sluzby/sluzba-akce.webp" type="image/webp">
-                        <img src="images/sluzby/sluzba-akce.jpg" alt="Reportáž z akcí" >
+                        <img src="images/sluzby/sluzba-akce.jpg" alt="Reportáž z akcí">
                     </picture>
                     <h3>Reportáž z akcí</h3>
                     <p>Zdokumentování stužkáčů, oslav nebo jiných událostí.</p>
                 </div>
 
-                    <div class="sluzba">
+                <div class="sluzba">
                     <picture>
                         <source srcset="images/sluzby/sluzba-portret.webp" type="image/webp">
                         <img src="images/sluzby/sluzba-portret.jpg" alt="Portrétní focení" width="300" height="300">
@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <span class="slider-dot"></span>
                 <span class="slider-dot"></span>
                 <span class="slider-dot"></span>
-              </div>
+            </div>
 
         </section>
 
@@ -164,30 +164,50 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="gallery">
                 <div class="grid-sizer"></div>
                 <div class="gutter-sizer"></div>
-                <div class="gallery-item"><img src="images/portfolio/01.webp" alt="portfolio" loading="lazy"></div>
-                <div class="gallery-item"><img src="images/portfolio/02.webp" alt="portfolio" loading="lazy"></div>
-                <div class="gallery-item"><img src="images/portfolio/03.webp" alt="portfolio" loading="lazy"></div>
-                <div class="gallery-item"><img src="images/portfolio/04.webp" alt="portfolio" loading="lazy"></div>
-                <div class="gallery-item"><img src="images/portfolio/05.webp" alt="portfolio" loading="lazy"></div>
-                <div class="gallery-item"><img src="images/portfolio/06.webp" alt="portfolio" loading="lazy"></div>
-                <div class="gallery-item"><img src="images/portfolio/07.webp" alt="portfolio" loading="lazy"></div>
-                <div class="gallery-item"><img src="images/portfolio/08.webp" alt="portfolio" loading="lazy"></div>
-                <div class="gallery-item"><img src="images/portfolio/09.webp" alt="portfolio" loading="lazy"></div>
-                <div class="gallery-item"><img src="images/portfolio/10.webp" alt="portfolio" loading="lazy"></div>
+                <div class="gallery-item"><img src="images/portfolio/01.webp"
+                        alt="Dvě usmívající se dívky v bílých šatech sedí na louce s kyticemi lučního kvítí při západu slunce."
+                        loading="lazy"></div>
+                <div class="gallery-item"><img src="images/portfolio/02.webp"
+                        alt="Dívka v bílých šatech stojící v poli vysoké trávy, ohlíží se přes rameno do fotoaparátu."
+                        loading="lazy"></div>
+                <div class="gallery-item"><img src="images/portfolio/03.webp"
+                        alt="Sýkora modřinka sedící na tenké větvi se suchým listím v zimě." loading="lazy"></div>
+                <div class="gallery-item"><img src="images/portfolio/04.webp"
+                        alt="Nevěsta na louce hází svatební kytici, zatímco ženich se usmívá a sleduje ji."
+                        loading="lazy"></div>
+                <div class="gallery-item"><img src="images/portfolio/05.webp"
+                        alt="Dva muži hrající fotbal, jeden v modrém a druhý v černém dresu, bojují o míč."
+                        loading="lazy"></div>
+                <div class="gallery-item"><img src="images/portfolio/06.webp"
+                        alt="Portrét mladé ženy s hnědými vlnitými vlasy a tetováním v růžovém topu při západu slunce."
+                        loading="lazy"></div>
+                <div class="gallery-item"><img src="images/portfolio/07.webp"
+                        alt="Noční krajina se siluetou dvou stromů na kopci pod hvězdnou oblohou s viditelnou Mléčnou dráhou."
+                        loading="lazy"></div>
+                <div class="gallery-item"><img src="images/portfolio/08.webp"
+                        alt="Dva draví ptáci v letu na zatažené obloze nad zeleným kopcem." loading="lazy"></div>
+                <div class="gallery-item"><img src="images/portfolio/09.webp"
+                        alt="Detailní záběr na dívku se zavřenýma očima, která si přivoní k barevné kytici lučních květů."
+                        loading="lazy"></div>
+                <div class="gallery-item"><img src="images/portfolio/10.webp"
+                        alt="Mladý fotbalista v bílém dresu a černých trenýrkách běží s míčem po zeleném hřišti."
+                        loading="lazy"></div>
             </div>
-            
+
             <div class="portfolio-more">
                 <p>Více naleznete na Zoneramě:</p>
-                <a href="https://www.zonerama.com/PatrikBednar/albums" target="_blank" class="submit-button">Přejít na Zoneramu</a>
+                <a href="https://www.zonerama.com/PatrikBednar/albums" target="_blank" class="submit-button">Přejít na
+                    Zoneramu</a>
             </div>
         </section>
-        
+
 
         <section id="o-mne">
             <h2>Něco o mně</h2>
             <div class="o-mne-content">
                 <div class="o-mne-text">
-                    <p>Jsem amatérský fotograf ze Slopného a focení je moje vášeň. Nejraději fotím zvířata, portréty a společenské akce.</p>
+                    <p>Jsem amatérský fotograf ze Slopného a focení je moje vášeň. Nejraději fotím zvířata, portréty a
+                        společenské akce.</p>
                     <p>Tento web je mou vizuální kronikou - místem, kde dávám své tvorbě prostor, aby mohla být viděna.
                         Nenajdete zde jen fotografie, ale příběhy a momenty, které mě zaujaly.
                         Mým cílem je sdílet svůj pohled na svět a neustále se v koníčku posouvat dál.</p>
@@ -199,53 +219,55 @@ document.addEventListener('DOMContentLoaded', function () {
         </section>
 
         <section id="kontakt" class="section-padding">
-    <div class="kontakt-container">
-        <h2>Kontaktujte mě</h2>
-        <p class="section-description">
-            Máte dotazy, potřebujete poradit, nebo se rovnou domluvit na termínu? Neváhejte se mi ozvat!
-        </p>
+            <div class="kontakt-container">
+                <h2>Kontakt</h2>
+                <div class="kontakt-grid">
 
-        <div class="kontakt-grid">
-            <div class="kontakt-info">
-                <h3>Máte raději přímý kontakt?</h3>
-                <p>Napište mi nebo zavolejte, rád se s vámi spojím.</p>
-                <div class="contact-method-item">
-                    <span class="contact-icon"><i class="fas fa-envelope"></i></span>
-                    <h4 class="contact-method-title">E-mail</h4>
-                    <a href="mailto:patrik.bednar.foto@example.com" class="contact-link">patrikbednar06@gmail.com</a>
-                </div>
-                <div class="contact-method-item">
-                    <span class="contact-icon"><i class="fas fa-phone-alt"></i></span>
-                    <h4 class="contact-method-title">Telefon</h4>
-                    <span class="contact-link">+420 736 725 152</span>
-                </div>
-
-                <div class="social-links-kontakt">
-                    <h3>Sledujte mě na sociálních sítích:</h3>
-                    <a href="https://www.facebook.com/paatrikbednar" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://www.instagram.com/paatrikbednar/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.linkedin.com/in/patrik-bedn%C3%A1%C5%99-688185362/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <div class="kontakt-info">
+                        <div class="contact-method-item">
+                            <span class="contact-icon"><i class="fas fa-envelope"></i></span>
+                            <h4 class="contact-method-title">E-mail</h4>
+                            <a href="mailto:patrikbednar06@gmail.com" class="contact-link">patrikbednar06@gmail.com</a>
+                        </div>
+                        <div class="contact-method-item">
+                            <span class="contact-icon"><i class="fas fa-phone-alt"></i></span>
+                            <h4 class="contact-method-title">Telefon</h4>
+                            <span class="contact-link">+420 736 725 152</span>
+                        </div>
+                        <div class="social-links-kontakt">
+                            <h3>Sledujte mě:</h3>
+                            <a href="https://www.facebook.com/paatrikbednar" target="_blank" aria-label="Facebook"><i
+                                    class="fab fa-facebook-f"></i></a>
+                            <a href="https://www.instagram.com/paatrikbednar/" target="_blank" aria-label="Instagram"><i
+                                    class="fab fa-instagram"></i></a>
+                            <a href="https://www.linkedin.com/in/patrik-bedn%C3%A1%C5%99-688185362/" target="_blank"
+                                aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
                     </div>
+
+                    <div class="kontakt-foto">
+                        <img src="" alt="Fotograf Patrik Bednář při práci s fotoaparátem">
+                    </div>
+
+                </div>
             </div>
-
-            <!-- uvnitř .kontakt-grid, hned vedle .kontakt-info -->
-<div class="kontakt-ig-card" aria-labelledby="ig-heading">
-
-  <div class="ig-embed">
-<!-- LightWidget WIDGET --><script src="https://cdn.lightwidget.com/widgets/lightwidget.js"></script><iframe src="//lightwidget.com/widgets/251bf0e3ff0350138395711d02229ec6.html" scrolling="no" allowtransparency="true" class="lightwidget-widget" style="width:100%;border:0;overflow:hidden;"></iframe>
-  </div>
-</div>
+        </section>
 
     </main>
 
     <footer>
-        <p>Všechny fotografie na tomto webu podléhají autorskému zákonu, není dovoleno je stahovat a dále šířit bez mého povolení.</p>
-        <p>&copy; 2025 - Patrik Bednář.</p>
+        <p>Všechny fotografie na tomto webu podléhají autorskému zákonu, není dovoleno je stahovat a dále šířit bez mého
+            povolení.</p>
+        <p>&copy; <span id="current-year"></span> - Patrik Bednář.</p>
     </footer>
 
     <script src="js/imagesloaded.pkgd.min.js"></script>
     <script src="js/masonry.pkgd.min.js"></script>
     <script src="script.js"></script>
+
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
 
 </body>
 

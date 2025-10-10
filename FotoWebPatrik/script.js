@@ -20,8 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var prevArrow = document.getElementById('prevArrow');
   var nextArrow = document.getElementById('nextArrow');
 
-  // interval pouze na jednom místě
-  var AUTO_INTERVAL_MS = 6000; // upravte dle potřeby
+  var AUTO_INTERVAL_MS = 6000;
   var autoTransitionDuration = '1s';
   var manualTransitionDuration = '0.2s';
 
@@ -30,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function () {
     var intervalId;
     var heroCache = {};
 
-    // přednačti všechny snímky (rychlejší reakce při kliknutí)
     for (var iPre = 0; iPre < heroImages.length; iPre++) {
       var im = new Image();
       im.src = heroImages[iPre];
@@ -48,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
             clearInterval(intervalId);
             currentImageIndex = idx;
             updateHeroSection('manual');
-            intervalId = startAuto(); // znovu spustit auto interval
+            intervalId = startAuto();
           }, false);
         })(i);
         heroDotsContainer.appendChild(dot);
@@ -96,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     createHeroDots();
     updateHeroSection('auto');
-    intervalId = startAuto(); // setInterval s jednou konstantou (viz MDN) [citace v textu]
+    intervalId = startAuto();
 
     if (prevArrow && nextArrow) {
       prevArrow.addEventListener('click', function () {
@@ -115,41 +113,57 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // =========================
-  // 2) SCHOVÁNÍ HLAVIČKY PŘI SCROLLU DOLŮ
+  // 2) SCHOVÁNÍ HLAVIČKY A NAVIGACE (NOVÉ ŘEŠENÍ)
   // =========================
   (function () {
     var header = document.querySelector('header');
     if (!header) return;
-    header.classList.add('hide-on-scroll');
 
-    var lastY = window.pageYOffset || document.documentElement.scrollTop || 0;
-    var ticking = false;
-    var tolerance = 10;
+    var lastY = window.pageYOffset;
+    var manualScroll = false; // "Vlajka", která pozná, jestli skrolujeme po kliknutí
+    
+    // Funkce, která schovává lištu POUZE při ručním skrolování
+    var handleManualScroll = function() {
+        if (manualScroll) return; // Pokud bylo skrolování spuštěno klikem, nic nedělej
 
-    function onScrollDir() {
-      var y = window.pageYOffset || document.documentElement.scrollTop || 0;
-      var delta = y - lastY;
-
-      if (delta > tolerance) {
-        header.classList.add('hidden');
+        var y = window.pageYOffset;
+        if (y > lastY && y > header.offsetHeight) {
+            header.classList.add('hidden');
+        } else if (y < lastY) {
+            header.classList.remove('hidden');
+        }
         lastY = y;
-      } else if (delta < -tolerance) {
-        header.classList.remove('hidden');
-        lastY = y;
-      }
-      ticking = false;
+    };
+
+    window.addEventListener('scroll', handleManualScroll, { passive: true });
+
+    // Funkce pro kliknutí na odkaz v menu
+    var navLinks = document.querySelectorAll('nav a[href^="#"]');
+    for (var i = 0; i < navLinks.length; i++) {
+        navLinks[i].addEventListener('click', function(e) {
+            e.preventDefault(); // Zastavíme výchozí chování odkazu
+
+            var targetId = this.getAttribute('href');
+            var targetElement = document.querySelector(targetId);
+            if (!targetElement) return;
+
+            manualScroll = true; // Zvedneme "vlajku", že přebíráme kontrolu
+            header.classList.remove('hidden'); // Zajistíme, že lišta je vidět
+
+            // Plynule doskrolujeme na místo určení
+            targetElement.scrollIntoView({ behavior: 'smooth' });
+
+            // Počkáme, až animace doběhne, a vrátíme kontrolu zpět ručnímu skrolování
+            setTimeout(function() {
+                lastY = window.pageYOffset; // Důležité: aktualizujeme pozici
+                manualScroll = false;
+            }, 800);
+        });
     }
-
-    window.addEventListener('scroll', function () {
-      if (!ticking) {
-        (window.requestAnimationFrame || function (cb) { return setTimeout(cb, 16); })(onScrollDir);
-        ticking = true;
-      }
-    }, { passive: true });
   })();
-
+  
   // =========================
-  // 3) SCROLLSPY NAVIGACE
+  // 3) SCROLLSPY NAVIGACE (beze změny)
   // =========================
   (function () {
     var sections = document.querySelectorAll('section');
@@ -160,11 +174,9 @@ document.addEventListener('DOMContentLoaded', function () {
     function highlightNavLink() {
       var currentSectionId = '';
       var activationOffset = 150;
-
       for (var i = sections.length - 1; i >= 0; i--) {
         var section = sections[i];
-        var topInViewport = section.getBoundingClientRect().top;
-        if (topInViewport <= headerHeight + activationOffset) {
+        if (section.getBoundingClientRect().top <= headerHeight + activationOffset) {
           currentSectionId = section.getAttribute('id');
           break;
         }
@@ -172,11 +184,14 @@ document.addEventListener('DOMContentLoaded', function () {
       if (currentSectionId === '' && window.pageYOffset < headerHeight + activationOffset) {
         currentSectionId = 'uvod';
       }
-
-      for (var j = 0; j < navLinks.length; j++) navLinks[j].classList.remove('active-link');
+      for (var j = 0; j < navLinks.length; j++) {
+        navLinks[j].classList.remove('active-link');
+      }
       for (var k = 0; k < navLinks.length; k++) {
         var hrefId = navLinks[k].getAttribute('href').substring(1);
-        if (hrefId === currentSectionId) navLinks[k].classList.add('active-link');
+        if (hrefId === currentSectionId) {
+          navLinks[k].classList.add('active-link');
+        }
       }
     }
 
@@ -198,7 +213,6 @@ document.addEventListener('DOMContentLoaded', function () {
     var gallery = document.querySelector('.gallery');
     if (gallery && typeof imagesLoaded !== 'undefined' && typeof Masonry !== 'undefined') {
       imagesLoaded(gallery, function () {
-        // grid-sizer a gutter-sizer z CSS/HTML určují přesnou šířku sloupce a mezeru
         var msnry = new Masonry(gallery, {
           itemSelector: '.gallery-item',
           columnWidth: '.grid-sizer',
@@ -247,7 +261,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (!(list && items.length)) return;
 
-    // pokud wrapper existuje, vygeneruj tečky podle počtu karet
     var dots = [];
     if (dotsWrap) {
       dotsWrap.innerHTML = '';
@@ -261,7 +274,6 @@ document.addEventListener('DOMContentLoaded', function () {
             try {
               target.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
             } catch (e) {
-              // fallback výpočet: vycentrovat ručně
               var targetCenter = target.offsetLeft + target.offsetWidth / 2;
               var containerCenter = list.clientWidth / 2;
               var to = targetCenter - containerCenter;
@@ -284,7 +296,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     setActive(0);
 
-    // IntersectionObserver – root = horizontálně scrollovatelný kontejner
     if ('IntersectionObserver' in window) {
       var io = new IntersectionObserver(function (entries) {
         for (var i = 0; i < entries.length; i++) {
@@ -297,13 +308,12 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       }, {
         root: list,
-        threshold: 0.35,               // rychlejší přepínání
-        rootMargin: '0px 12% 0px 12%'  // aktivace s mírným předstihem
+        threshold: 0.35,
+        rootMargin: '0px 12% 0px 12%'
       });
 
       for (var ob = 0; ob < items.length; ob++) io.observe(items[ob]);
     } else {
-      // Fallback: rAF scroll handler – vybírá nejblíž středu
       var ticking = false;
       list.addEventListener('scroll', function () {
         if (!ticking) {
