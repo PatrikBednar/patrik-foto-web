@@ -282,7 +282,16 @@ h2 { font-size: 3.5rem; }
 .o-mne-text {
   flex: 2;
   margin-left: 150px;
-  padding: 0 1rem;
+  padding: 0 1rem; /* <-- Tento řádek už tam máš, je v pořádku */
+}
+
+/* Uprav media query pro mobily */
+@media (max-width: 768px) {
+  .o-mne-text {
+    margin-left: 0;
+    text-align: center;
+    padding: 0 1rem; /* Přidej tento řádek pro mobily, pokud chybí */
+  }
 }
 
 .o-mne-foto {
@@ -340,7 +349,7 @@ h2 { font-size: 3.5rem; }
 
 .portfolio-more {
   text-align: center;
-  margin-top: 3rem;
+  margin-top: 3rem; /* Tento řádek už tam máš, je v pořádku */
   padding-top: 2rem;
   border-top: 1px solid #eee;
 }
@@ -709,29 +718,29 @@ footer {
 
   nav { padding: 0 1rem; }
   nav ul {
-    display: none;
-    flex-direction: column;
-    position: fixed;
-    top: var(--header-height);
-    left: 0;
-    width: 100%;
-    height: calc(100vh - var(--header-height));
-    background-color: #ebebeb;
-    text-align: center;
-    padding: 2rem 0;
-    box-shadow: 0 8px 10px rgba(0,0,0,0.1);
-    z-index: 999;
-    opacity: 0;
-    transform: translateY(-20px);
-    transition: transform 0.4s ease-out, opacity 0.4s ease-out;
-    pointer-events: none;
-  }
-  nav ul.open {
-    display: flex;
-    transform: translateY(0);
-    opacity: 1;
-    pointer-events: auto;
-  }
+  /* display: none; <-- Tento řádek jsme smazali */
+  flex-direction: column;
+  position: fixed;
+  top: var(--header-height);
+  left: 0;
+  width: 100%;
+  height: calc(100vh - var(--header-height));
+  background-color: #ebebeb;
+  text-align: center;
+  padding: 2rem 0;
+  box-shadow: 0 8px 10px rgba(0,0,0,0.1);
+  z-index: 999;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+  pointer-events: none;
+}
+nav ul.open {
+  /* display: flex; <-- Tento řádek jsme smazali */
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
 
   nav ul li { margin: 1rem 0; }
   nav a { font-size: 1.8rem; padding: 10px 0; width: 100%; }
@@ -801,4 +810,21 @@ footer {
   border-radius: 10px; /* Stejné zakulacení jako u kontaktního boxu */
   box-shadow: var(--box-shadow-light); /* Stejný stín jako u ostatních prvků */
   background-color: #f0f0f0; /* Světle šedé pozadí, dokud nevložíš fotku */
+}
+
+@media (max-width: 480px) {
+  h2 {
+    font-size: 1.8rem; /* Zmenšíme nadpis pro nejmenší telefony */
+  }
+}
+
+.skryty-nadpis {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
