@@ -6,10 +6,10 @@ document.addEventListener('DOMContentLoaded', function () {
   // =========================
   var heroImages = [
     'images/slide/slide-01.webp',
+    'images/slide/slide-05.webp',
     'images/slide/slide-02.webp',
     'images/slide/slide-03.webp',
     'images/slide/slide-04.webp',
-    'images/slide/slide-05.webp',
     'images/slide/slide-06.webp',
     'images/slide/slide-07.webp',
     'images/slide/slide-08.webp'
