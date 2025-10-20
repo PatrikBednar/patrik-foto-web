@@ -687,6 +687,13 @@ footer {
 @media (max-width: 992px) {
   .gallery-item { flex: 1 1 calc(50% - 1rem); }
 
+  .kontakt-foto {
+    max-width: 350px; /* Můžete upravit, 350px je méně než původních 450px */
+  }
+
+  .kontakt-foto img {
+    aspect-ratio: 1 / 1; /* Změní poměr stran na čtverec */
+  }
   .kontakt-grid {
     grid-template-columns: 1fr;
     gap: 40px;
@@ -785,14 +792,6 @@ nav ul.open {
   .form-group input,
   .form-group textarea { padding: 10px 12px; font-size: 0.95em; }
   .submit-button { font-size: 1em; padding: 12px 25px; }
-}
-
-/* rozvržení: levý menší, pravý širší */
-.kontakt-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* Dva stejně široké sloupce */
-  gap: 60px;
-  align-items: center; /* Zarovná obsah vertikálně na střed */
 }
 
 .kontakt-foto {
