@@ -1,225 +1,130 @@
 <!DOCTYPE html>
 <html lang="cs">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patrik Bednář | Fotograf</title>
-
-    <meta name="description" content="Patrik Bednář - fotograf ze Slopného (Valašsko). Nabízím focení portrétů, svateb, akcí a sportu. Zachytím vaše jedinečné momenty s citem a profesionalitou.">
-    <meta name="keywords" content="fotograf, focení, Slopné, Valašsko, Valašské Klobouky, Zlínský kraj, svatební fotograf, portrétní focení, reportáž, sportovní fotografie, stužkovací večírek, stužkáč, maturák, maturitní ples, ples, Patrik Bednář">
-    <meta name="author" content="Patrik Bednář">
+    <title>Patrik Bednář - Fotograf</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="icon" href="/favicon.png" type="image/x-icon">
 </head>
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-W5E9TPFMFV"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'G-W5E9TPFMFV');
-</script>
-
 <body>
 
-    <header>
-        <nav>
-            <a href="#uvod" class="logo">
-                <img src="images/logo-web.png" alt="Logo Patrik Bednář - Fotografie">
-            </a>
-            <div class="menu-toggle" id="mobile-menu">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
+    <header class="navbar">
+        <div class="navbar-container">
+            
+            <div class="logo">
+                <a href="#hero">Patrik Bednář</a> 
             </div>
-            <ul id="main-nav">
-                <li><a href="#uvod">Úvod</a></li>
-                <li><a href="#sluzby">Služby</a></li>
-                <li><a href="#portfolio">Portfolio</a></li>
-                <li><a href="#o-mne">O mně</a></li>
-                <li><a href="#kontakt">Kontakt</a></li>
-            </ul>
-        </nav>
+
+            <nav class="main-menu">
+                <ul>
+                    <li><a href="#o-mne">O mně</a></li>
+                    <li><a href="#portfolio">Portfolio</a></li>
+                    <li><a href="#kontakt">Kontakt</a></li>
+                    <li><a href="wildlife.html">Wildlife</a></li>
+                </ul>
+            </nav>
+
+        </div>
     </header>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var header = document.querySelector('header');
-            if (!header) return;
-
-            // přidat řídící třídu, aby platily CSS styly výše
-            header.classList.add('hide-on-scroll');
-
-            var lastY = window.pageYOffset || document.documentElement.scrollTop || 0;
-            var ticking = false;
-
-            function onScroll() {
-                var y = window.pageYOffset || document.documentElement.scrollTop || 0;
-
-                // směr: dolů => skrýt, nahoru => ukázat
-                if (y > lastY) {
-                    header.classList.add('hidden');
-                } else {
-                    header.classList.remove('hidden');
-                }
-
-                lastY = y;
-                ticking = false;
-            }
-
-            window.addEventListener('scroll', function () {
-                if (!ticking) {
-                    requestAnimationFrame(onScroll);
-                    ticking = true;
-                }
-            }, { passive: true }); // pasivní pro lepší výkon
-        });
-    </script>
-
-
     <main>
-
-        <section id="uvod" class="hero-section">
-            <h1 class="skryty-nadpis">Fotograf Patrik Bednář | Zlínsko a Valašsko</h1>
-            <div class="hero-text">
-            </div>
-            <div class="hero-arrow left-arrow" id="prevArrow"><i class="fas fa-chevron-left"></i></div>
-            <div class="hero-arrow right-arrow" id="nextArrow"><i class="fas fa-chevron-right"></i></div>
-            <div class="hero-dots">
+        <section id="hero">
+            <div class="hero-content">
+                <h1>Patrik Bednář</h1>
+                <p>Fotograf | Portrét, Akce, Wildlife</p>
             </div>
         </section>
 
-        <section id="sluzby">
-            <h2>Co nabízím</h2>
-            <p class="sluzby-intro"><!--S vášní pro fotografii proměním vaše nejkrásnější momenty v trvalé vzpomínky.--></p>
-            <div class="sluzby-list">
-            </div>
+        <section id="o-mne" class="page-section">
+            <div class="about-me-container">
+                
+                <div class="about-me-photo">
+                    <img src="images/o-mne-foto.webp" alt="Moje profilová fotografie">
+                </div>
 
-            <div class="slider-dots-mobile">
-                <span class="slider-dot"></span>
-                <span class="slider-dot"></span>
-                <span class="slider-dot"></span>
-                <span class="slider-dot"></span>
-                <span class="slider-dot"></span>
-                <span class="slider-dot"></span>
-            </div>
+                <div class="about-me-text">
+                    <h2>Něco málo o mně</h2>
+                    <p>
+                        Tady bude text o tobě. Kdo jsi, co tě baví, proč fotíš. 
+                        Snaž se být stručný, ale osobní. Můžeš sem pak přidat i svou fotku.
+                        Jsem vášnivý fotograf specializující se na zachycení jedinečných okamžiků a emocí. 
+                        Mým cílem je vyprávět příběhy skrze objektiv a vytvářet snímky, které přetrvají.
+                    </p>
+                </div>
 
+            </div>
         </section>
 
-        <section id="portfolio">
+        <section id="portfolio" class="page-section">
             <h2>Portfolio</h2>
-            <div class="gallery">
-                <div class="grid-sizer"></div>
-                <div class="gutter-sizer"></div>
-                <div class="gallery-item"><img src="images/portfolio/01.webp"
-                        alt="Dvě usmívající se dívky v bílých šatech sedí na louce s kyticemi lučního kvítí při západu slunce."
-                        loading="lazy"></div>
-                <div class="gallery-item"><img src="images/portfolio/02.webp"
-                        alt="Dívka v bílých šatech stojící v poli vysoké trávy, ohlíží se přes rameno do fotoaparátu."
-                        loading="lazy"></div>
-                <div class="gallery-item"><img src="images/portfolio/03.webp"
-                        alt="Sýkora modřinka sedící na tenké větvi se suchým listím v zimě." loading="lazy"></div>
-                <div class="gallery-item"><img src="images/portfolio/04.webp"
-                        alt="Nevěsta na louce hází svatební kytici, zatímco ženich se usmívá a sleduje ji."
-                        loading="lazy"></div>
-                <div class="gallery-item"><img src="images/portfolio/05.webp"
-                        alt="Dva muži hrající fotbal, jeden v modrém a druhý v černém dresu, bojují o míč."
-                        loading="lazy"></div>
-                <div class="gallery-item"><img src="images/portfolio/06.webp"
-                        alt="Portrét mladé ženy s hnědými vlnitými vlasy a tetováním v růžovém topu při západu slunce."
-                        loading="lazy"></div>
-                <div class="gallery-item"><img src="images/portfolio/07.webp"
-                        alt="Noční krajina se siluetou dvou stromů na kopci pod hvězdnou oblohou s viditelnou Mléčnou dráhou."
-                        loading="lazy"></div>
-                <div class="gallery-item"><img src="images/portfolio/08.webp"
-                        alt="Dva draví ptáci v letu na zatažené obloze nad zeleným kopcem." loading="lazy"></div>
-                <div class="gallery-item"><img src="images/portfolio/09.webp"
-                        alt="Detailní záběr na dívku se zavřenýma očima, která si přivoní k barevné kytici lučních květů."
-                        loading="lazy"></div>
-                <div class="gallery-item"><img src="images/portfolio/10.webp"
-                        alt="Mladý fotbalista v bílém dresu a černých trenýrkách běží s míčem po zeleném hřišti."
-                        loading="lazy"></div>
-            </div>
+            <div class="portfolio-grid">
+                
+                <div class="gallery-item">
+                    <h3>Společenské akce</h3>
+                </div>
+                
+                <div class="gallery-item">
+                    <h3>Portréty</h3>
+                </div>
+                
+                <div class="gallery-item">
+                    <h3>Sport</h3>
+                </div>
 
-            <div class="portfolio-more">
-                <p>Více naleznete na Zoneramě:</p>
-                <a href="https://www.zonerama.com/PatrikBednar/albums" target="_blank" class="submit-button">Přejít na
-                    Zoneramu</a>
             </div>
         </section>
 
-
-        <section id="o-mne">
-            <h2>Něco o mně</h2>
-            <div class="o-mne-content">
-                <div class="o-mne-text">
-                    <p>Jsem amatérský fotograf ze Slopného a focení je moje vášeň. Nejraději fotím zvířata, portréty a
-                        společenské akce.</p>
-                    <p>Tento web je mou vizuální kronikou - místem, kde dávám své tvorbě prostor, aby mohla být viděna.
-                        Nenajdete zde jen fotografie, ale příběhy a momenty, které mě zaujaly.
-                        Mým cílem je sdílet svůj pohled na svět a neustále se v koníčku posouvat dál.</p>
-                </div>
-                <div class="o-mne-foto">
-                    <img src="images/o-mne-foto.webp" alt="Moje fotka">
-                </div>
-            </div>
-        </section>
-
-        <section id="kontakt" class="section-padding">
-            <div class="kontakt-container">
-                <h2>Kontakt</h2>
-                <div class="kontakt-grid">
-
-                    <div class="kontakt-info">
-                        <div class="contact-method-item">
-                            <span class="contact-icon"><i class="fas fa-envelope"></i></span>
-                            <h4 class="contact-method-title">E-mail</h4>
-                            <a href="mailto:patrikbednar06@gmail.com" class="contact-link">patrikbednar06@gmail.com</a>
-                        </div>
-                        <div class="contact-method-item">
-                            <span class="contact-icon"><i class="fas fa-phone-alt"></i></span>
-                            <h4 class="contact-method-title">Telefon</h4>
-                            <span class="contact-link">+420 736 725 152</span>
-                        </div>
-                        <div class="social-links-kontakt">
-                            <h3>Sledujte mě:</h3>
-                            <a href="https://www.facebook.com/paatrikbednar" target="_blank" aria-label="Facebook"><i
-                                    class="fab fa-facebook-f"></i></a>
-                            <a href="https://www.instagram.com/paatrikbednar/" target="_blank" aria-label="Instagram"><i
-                                    class="fab fa-instagram"></i></a>
-                            <a href="https://www.linkedin.com/in/patrik-bedn%C3%A1%C5%99-688185362/" target="_blank"
-                                aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-
-                    <div class="kontakt-foto">
-                        <img src="images/s_fotakem_v_lese.webp" alt="Fotograf Patrik Bednář při práci s fotoaparátem">
-                    </div>
-
-                </div>
-            </div>
+        <section id="wildlife-cta" class="page-section">
+            <a href="wildlife.html">
+                <h2>Na skok do přírody</h2>
+                <p>Prozkoumat galerii</p>
+            </a>
         </section>
 
     </main>
+    
+    <footer id="kontakt" class="page-section">
+    
+    <div class="footer-socials">
+        <a href="#" target="_blank">Facebook</a>
+        <a href="#" target="_blank">Instagram</a>
+    </div>
 
-    <footer>
-        <p>Všechny fotografie na tomto webu podléhají autorskému zákonu, není dovoleno je stahovat a dále šířit bez mého
-            povolení.</p>
-        <p>&copy; <span id="current-year"></span> - Patrik Bednář.</p>
-    </footer>
+    <div class="footer-grid">
+        
+        <div class="footer-bio">
+            <h3>Tvoje Jméno</h3>
+            <p>
+                Profesionální fotograf s citem pro čistou práci a lidskými
+                emocemi. K Vašim službám.
+            </p>
+        </div>
 
-    <script src="js/imagesloaded.pkgd.min.js"></script>
-    <script src="js/masonry.pkgd.min.js"></script>
+        <div class="footer-contact">
+            <h3>Kontakt</h3>
+            <p>
+                <strong>Telefon:</strong> <a href="tel:+420123456789">+420 736 725 152</a><br>
+                <strong>E-mail:</strong> <a href="mailto:tvuj@email.cz">patrikbednar06@gmail.com</a>
+                <strong>IČO:</strong> <a href="mailto:tvuj@email.cz">123456789</a>
+            </p>
+            <p class="cookie-info">
+                Ano, i tento web používá soubory Cookie. Používáním webu
+                vyjadřujete souhlas.
+            </p>
+            <p class="copyright">
+                Copyright © 2025 Patrik Bednář. All Rights Reserved.
+            </V>
+        </div>
+
+    </div>
+
+    <a href="#hero" class="back-to-top" aria-label="Zpět nahoru">
+        &#8593; </a>
+
+</footer>
+
+
     <script src="script.js"></script>
 
-    <script>
-        document.getElementById('current-year').textContent = new Date().getFullYear();
-    </script>
-
 </body>
-
 </html>
