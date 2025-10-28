@@ -1,19 +1,17 @@
 /* ======== GLOBÁLNÍ NASTAVENÍ A BARVY ======== */
 :root {
-    /* Tmavé barvy (pro horní část) */
     --bg-color-dark: #111111;
     --text-color-light: #ffffff;
     --border-color-dark: #333333;
     --placeholder-color-dark: #222;
+    --gold-color: #e0ac69; 
 
-    /* Světlé barvy (pro spodní část) */
     --bg-color-light: #ffffff;
-    --bg-color-light-gray: #f4f4f4; /* "Lehce našedlá" */
+    --bg-color-light-gray: #f4f4f4; 
     --text-color-dark: #111111;
     --border-color-light: #eeeeee;
 }
 
-/* Plynulé rolování, když se klikne na kotvu */
 html {
     scroll-behavior: smooth;
 }
@@ -22,7 +20,6 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 0;
-    /* Výchozí barvy jsou tmavé (pro #hero a #o-mne) */
     background-color: var(--bg-color-dark);
     color: var(--text-color-light);
     line-height: 1.6;
@@ -35,20 +32,32 @@ h1, h2, h3 {
 }
 
 a {
-    color: var(--text-color-light); /* Výchozí barva odkazů je světlá */
+    color: var(--text-color-light); 
     text-decoration: none; 
 }
 
-/* Toto je třída, kterou mají všechny sekce kromě úvodní fotky */
-.page-section {
-    /* --- ZMĚNA ZDE --- */
-    /* Odebrali jsme max-width a margin: auto */
-    /* Používáme procentuální padding pro responzivní okraje */
-    padding: 80px 8%; 
-    
-    scroll-margin-top: 80px; 
-    box-sizing: border-box; /* Zajišťuje, že padding neovlivní 100% šířku */
+/* ======== KONTEJNER PRO CENTROVÁNÍ ======== */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px; /* ZMĚNA: z 40px na 20px */
+    box-sizing: border-box;
 }
+
+/* Stránková sekce (100% široká) */
+.page-section {
+    padding: 80px 0; 
+    scroll-margin-top: 80px; 
+    box-sizing: border-box; 
+}
+
+/* Zarovnání nadpisů sekcí */
+#portfolio .container h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 30px; 
+}
+
 
 /* ======== NAVIGACE ======== */
 .navbar {
@@ -67,17 +76,16 @@ a {
     border-bottom: 1px solid var(--border-color-dark);
 }
 
-/* Kontejner, který drží logo a menu */
 .navbar-container {
-    /* --- ZMĚNA ZDE --- */
-    /* Také jsme odebrali max-width, aby logo a menu šly k okrajům */
+    max-width: 1200px; 
     margin: 0 auto; 
-    padding: 0 8%; /* Stejný padding jako .page-section */
+    padding: 0 20px; /* ZMĚNA: z 40px na 20px */
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
+/* Logo (zvětšené) */
 .logo {
     font-size: 1.5rem; 
     font-weight: 700;
@@ -85,15 +93,19 @@ a {
 }
 .logo a {
     text-decoration: none;
-    color: var(--text-color-light); /* Text loga je vždy bílý */
+    color: var(--text-color-light);
+}
+.logo img {
+    height: 50px; 
+    width: auto;
 }
 
+/* Menu vpravo */
 .main-menu ul {
     margin: 0;
     padding: 0;
     list-style: none;
 }
-
 .main-menu li {
     display: inline-block;
     margin-left: 25px;
@@ -101,14 +113,12 @@ a {
     font-weight: 600;
     text-transform: uppercase;
 }
-
 .main-menu a {
     text-decoration: none;
-    color: var(--text-color-light); /* Text menu je vždy bílý */
+    color: var(--text-color-light); 
     padding-bottom: 5px;
     transition: border-color 0.3s;
 }
-
 .main-menu a:hover {
     text-decoration: none; 
     border-bottom: 2px solid var(--text-color-light);
@@ -118,7 +128,7 @@ a {
 /* ======== 1. VELKÁ FOTKA (HERO) ======== */
 #hero {
     height: 100vh; 
-    /* background-image: url('images/tvoje-hero-fotka.jpg'); */
+    background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('images/slide/slide-01.webp'); 
     background-color: var(--placeholder-color-dark); 
     background-size: cover;
     background-position: center;
@@ -126,8 +136,6 @@ a {
     justify-content: flex-start; 
     align-items: flex-end;     
     color: var(--text-color-light);
-    
-    /* Padding už máme definovaný, ale zde ho přepisujeme pro specifický styl */
     padding: 0 0 10% 8%; 
     box-sizing: border-box;
 }
@@ -135,7 +143,6 @@ a {
 .hero-content {
     text-align: left;
 }
-
 .hero-content h1 {
     font-size: 3.5rem;
 }
@@ -145,99 +152,142 @@ a {
 }
 
 /* ======== 2. O MNĚ ======== */
-/* Tato sekce používá .page-section styl, takže bude mít */
-/* 100% šířku s tmavým pozadím a 8% padding po stranách. */
-
-
-/* ======== 3. PORTFOLIO (PŘECHOD NA BÍLOU) ======== */
-#portfolio {
-    background-color: var(--bg-color-light); /* Bílé pozadí */
-    color: var(--text-color-dark);           /* Tmavý text */
+#o-mne {
+    padding: 100px 0; 
 }
-#portfolio h2 {
-    color: var(--text-color-dark); /* Nadpis musí být taky tmavý */
+.about-me-container {
+    display: flex; 
+    flex-direction: row; 
+    align-items: center; 
+    gap: 60px; 
 }
 
-.portfolio-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px; 
-    margin-top: 30px;
-}
-
-.gallery-item {
-    height: 400px;
-    background-color: #e0e0e0; /* Světlý placeholder */
-    border: 1px solid var(--border-color-light);
-    
-    /* background-image: url('cesta/k/nahledu.jpg'); */
-    background-size: cover;
-    background-position: center;
-    
-    display: flex;
+.about-me-photo {
+    flex: 1; 
+    display: flex; 
     justify-content: center;
     align-items: center;
-    color: var(--text-color-dark); /* Tmavý text na placeholderu */
-    font-size: 1.5rem;
-    transition: transform 0.3s ease;
 }
-.gallery-item:hover {
-    transform: scale(1.03);
-}
-
-/* ======== 4. ODKAZ NA WILDLIFE (LEHCE NAŠEDLÁ) ======== */
-#wildlife-cta {
-    background-color: var(--bg-color-light-gray); /* Lehce našedlá */
-    color: var(--text-color-dark); /* Tmavý text */
-    text-align: center;
-    /* Upravíme padding, aby byl svisle větší */
-    padding-top: 100px;
-    padding-bottom: 100px;
-    transition: background-color 0.3s ease;
-}
-#wildlife-cta:hover {
-    background-color: #e0e0e0; /* O něco tmavší šedá při najetí */
+.about-me-photo img {
+    width: 400px;  
+    height: 400px; 
+    object-fit: cover; 
+    border-radius: 50%; 
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
 }
 
-#wildlife-cta a {
-    text-decoration: none;
+.about-me-text {
+    flex: 2; 
+    text-align: left;
+}
+.about-me-text .subheading {
+    color: var(--gold-color);
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 15px;
+}
+.about-me-text h2 {
+    font-size: 2.8rem; 
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 25px;
+    color: var(--text-color-light);
+}
+.about-me-text h2 span {
+    color: var(--gold-color);
+}
+.about-me-text p {
+    font-size: 1.1rem;
+    color: var(--text-color-light); 
+    max-width: 600px; 
+}
+
+
+/* ======== 3. PORTFOLIO (LAYOUT 3+1) ======== */
+#portfolio {
+    background-color: var(--bg-color-light); 
     color: var(--text-color-dark);
 }
 
-#wildlife-cta h2 {
-    font-size: 2.5rem;
+/* Mřížka je uvnitř .container */
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 sloupce */
+    gap: 20px; /* Mezery mezi všemi položkami */
 }
 
-#wildlife-cta p {
-    font-size: 1.2rem;
-    font-weight: 600;
+.gallery-item {
+    height: 300px; 
+    border: 1px solid var(--border-color-light); 
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-color-light); 
+    font-size: 1.8rem;
+    transition: transform 0.3s ease;
+    text-decoration: none;
+    position: relative; 
+    overflow: hidden; 
 }
+.gallery-item::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.4);
+    transition: background-color 0.3s ease;
+}
+.gallery-item h3 {
+    position: relative; 
+    z-index: 2;
+    font-size: 2.0rem; 
+}
+
+.gallery-item:hover {
+    transform: scale(1.03); 
+}
+.gallery-item:hover::before {
+    background-color: rgba(0,0,0,0.2); 
+}
+
+/* STYL pro Wildlife */
+.gallery-item.full-width {
+    grid-column: 1 / -1; /* Roztáhne se přes všechny 3 sloupce */
+    height: 300px; 
+}
+.gallery-item.full-width h3 {
+    font-size: 2.5rem; 
+}
+
+
+#item-akce { background-image: url('images/sluzby/sluzba-akce.webp'); }
+#item-portret { background-image: url('images/sluzby/sluzba-portret.webp'); }
+#item-sport { background-image: url('images/sluzby/sluzba-sport.webp'); }
+#item-wildlife { background-image: url('images/slide/slide-06.webp'); }
 
 
 /* ======== 5. KONTAKT (PATIČKA) ======== */
 #kontakt {
-    /* Použijeme tu "lehce našedlou" barvu pozadí */
     background-color: var(--bg-color-light-gray);
     color: var(--text-color-dark);
-    text-align: left; /* Zarovnání doleva, ne na střed */
-    
-    /* Důležité pro pozicování "back-to-top" tlačítka */
+    text-align: left;
     position: relative; 
 }
 
-/* Odkazy v patičce budou tmavé */
 #kontakt a {
     color: var(--text-color-dark);
 }
 
-/* Ikonky sociálních sítí nahoře */
 .footer-socials {
     text-align: center;
     padding-bottom: 30px;
     margin-bottom: 30px;
-    border-bottom: 1px solid var(--border-color-light); /* Linka jako v inspiraci */
+    border-bottom: 1px solid var(--border-color-light); 
 }
-
 .footer-socials a {
     font-weight: 600;
     margin: 0 15px;
@@ -248,15 +298,12 @@ a {
     text-decoration: underline;
 }
 
-/* Mřížka pro dva sloupce */
 .footer-grid {
     display: grid;
-    /* Dva sloupce na PC */
     grid-template-columns: 1fr 1fr;
-    gap: 40px; /* Mezera mezi sloupci */
+    gap: 40px; 
 }
 
-/* Styly pro oba sloupce */
 .footer-bio h3,
 .footer-contact h3 {
     font-size: 1.8rem;
@@ -274,11 +321,10 @@ a {
     font-weight: 700;
 }
 
-/* Texty o cookie a copyright */
 .cookie-info,
 .copyright {
     font-size: 0.8rem;
-    color: #777; /* Trochu světlejší text */
+    color: #777; 
     margin-top: 20px;
 }
 .copyright {
@@ -286,23 +332,17 @@ a {
     margin-bottom: 0;
 }
 
-/* Tlačítko "Zpět nahoru" */
 .back-to-top {
     position: absolute;
-    /* Dáme ho doprava podle hlavního odsazení stránky */
-    right: 8%; 
+    right: 20px; /* ZMĚNA: z 40px na 20px */
     bottom: 40px; 
-    
     width: 40px;
     height: 40px;
-    border: 1px solid #ccc; /* Rámeček jako v inspiraci */
+    border: 1px solid #ccc; 
     background-color: var(--bg-color-light-gray);
-    
-    /* Vycentrování šipky */
     display: flex;
     justify-content: center;
     align-items: center;
-    
     font-size: 1.5rem;
     text-decoration: none;
     color: #555;
@@ -316,18 +356,60 @@ a {
 }
 
 
-/* ======== RESPONZIVITA PRO PATIČKU ======== */
-/* Na menších obrazovkách (mobily) dáme sloupce pod sebe */
+/* ======== RESPONZIVITA (MOBILY) ======== */
 @media (max-width: 768px) {
-    .footer-grid {
-        grid-template-columns: 1fr; /* Jeden sloupec */
+    .container {
+        padding: 0 15px; /* ZMĚNA: z 20px na 15px */
     }
-    
+    .navbar-container {
+        padding: 0 15px; /* ZMĚNA: z 20px na 15px */
+    }
+
+    .main-menu li {
+        margin-left: 10px;
+        font-size: 0.75rem;
+    }
+    .logo img {
+        height: 30px;
+    }
+
+    /* O mně - Mobil */
+    .about-me-container {
+        flex-direction: column; 
+        text-align: center; 
+    }
+    .about-me-text {
+        order: 2; 
+    }
+    .about-me-photo {
+        order: 1; 
+        margin-bottom: 30px;
+    }
+    .about-me-photo img {
+        width: 250px; 
+        height: 250px;
+    }
+    .about-me-text h2 {
+        font-size: 2rem; 
+    }
+    .about-me-text p {
+        max-width: 100%; 
+    }
+
+    /* Portfolio - Mobil (Vše pod sebou) */
+    .portfolio-grid {
+        grid-template-columns: 1fr; /* 1 sloupec */
+    }
+    .gallery-item h3 {
+        font-size: 1.8rem; 
+    }
+
+    /* Patička - Mobil */
+    .footer-grid {
+        grid-template-columns: 1fr; 
+    }
     .back-to-top {
-        /* Na mobilu může být tlačítko moc velké */
         bottom: 20px;
         right: 20px;
-        width: 35px;
-        height: 35px;
     }
 }
