@@ -98,7 +98,8 @@ a {
 #portfolio .container h2 {
     text-align: center;
     font-size: 2.5rem;
-    margin-bottom: 30px; 
+    margin-top: 30px;
+    margin-bottom: 40px; 
 }
 
 
@@ -112,11 +113,12 @@ a {
     padding: 20px 0;
     z-index: 100;
     transition: background-color 0.4s ease, border-color 0.4s ease;
+    border-bottom: 1px solid transparent; /* ZMĚNA: Linka je zde, ale průhledná */
 }
 
 .navbar.scrolled {
     background-color: var(--bg-color-dark);
-    border-bottom: 1px solid var(--border-color-dark);
+    border-color: var(--border-color-dark); /* ZMĚNA: Měníme jen barvu, ne linku */
 }
 
 .navbar-container {
@@ -141,6 +143,7 @@ a {
 .logo img {
     height: 50px; 
     width: auto;
+    display: block; /* ZMĚNA: Toto opraví vertikální zarovnání */
 }
 
 /* Menu vpravo */
@@ -160,11 +163,16 @@ a {
     text-decoration: none;
     color: var(--text-color-light); 
     padding-bottom: 5px;
-    transition: border-color 0.3s;
+    /* ZMĚNA ZDE: Přidali jsme 'color' do plynulého přechodu */
+    transition: border-color 0.3s, color 0.3s;
 }
+
 .main-menu a:hover {
     text-decoration: none; 
-    border-bottom: 2px solid var(--text-color-light);
+    /* ZMĚNA ZDE: Barva textu bude zlatá */
+    color: var(--gold-color); 
+    /* ZMĚNA ZDE: Barva linky bude také zlatá */
+    border-bottom: 2px solid var(--gold-color);
 }
 
 
@@ -254,11 +262,15 @@ a {
     color: var(--text-color-dark);
 }
 
+.portfolio-text h2 span {
+    color: var(--gold-color);
+}
+
 /* Mřížka je uvnitř .container */
 .portfolio-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr); 
-    gap: 20px; 
+    gap: 10px; 
 }
 
 .gallery-item {
@@ -330,16 +342,35 @@ a {
     padding-bottom: 30px;
     margin-bottom: 30px;
     border-bottom: 1px solid var(--border-color-light); 
+    display: flex; /* ZMĚNA: Pro zarovnání položek na řádek */
+    justify-content: center; /* ZMĚNA: Pro centrování na střed */
+    align-items: center; /* ZMĚNA: Pro vertikální zarovnání */
 }
 .footer-socials a {
     font-weight: 600;
-    margin: 0 15px;
+    margin: 0 10px; /* ZMĚNA: Zmenšena mezera mezi odkazy */
     text-decoration: none;
     font-size: 0.9rem;
+    display: flex; /* ZMĚNA: Aby ikonka a text byly na jednom řádku a zarovnané */
+    align-items: center;
 }
 .footer-socials a:hover {
     text-decoration: underline;
 }
+
+.footer-socials i {
+    color: var(--gold-color); /* ZMĚNA: Ikony zlaté */
+    margin-right: 8px; /* ZMĚNA: Mezera mezi ikonou a textem */
+    font-size: 1.1rem; /* Trochu větší ikony */
+}
+
+.footer-socials span {
+    color: var(--gold-color); /* ZMĚNA: Zlatá barva tečky */
+    font-size: 1.5rem; /* Větší tečka */
+    line-height: 1; /* Aby byla tečka lépe zarovnaná s textem */
+    margin: 0 5px; /* Mezera kolem tečky */
+}
+
 
 .footer-grid {
     display: grid;
