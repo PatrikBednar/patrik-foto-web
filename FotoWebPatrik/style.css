@@ -6,33 +6,35 @@
     width: 100%;
     height: 100%;
     z-index: 9999;
-    background-color: #ffffff; 
-    
+    background-color: #ffffff;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
+
     opacity: 1;
     visibility: visible;
     transition: opacity 1.0s ease, visibility 1.0s ease;
 }
 
 #preloader img {
-    height: 120px; 
+    height: 120px;
     width: auto;
-    margin-bottom: 0; 
+    margin-bottom: 0;
     margin-top: -80px;
+    display: block;
 }
 
 #preloader p {
-    color: #000000; 
-    font-size: 1.0rem; 
-    font-weight: 400; 
+    color: #000000;
+    font-size: 1.0rem;
+    font-weight: 400;
     text-transform: uppercase;
-    letter-spacing: 10px; 
-    font-family: Georgia, 'Times New Roman', Times, serif; 
-    margin-top: -20px; /* ZMĚNA: Ještě menší mezera (bylo 10px) */
+    letter-spacing: 10px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin: 0;
+    margin-top: -5px;
 }
 
 #preloader.hidden {
@@ -47,10 +49,10 @@
     --text-color-light: #ffffff;
     --border-color-dark: #333333;
     --placeholder-color-dark: #222;
-    --gold-color: #e0ac69; 
+    --gold-color: #e0ac69;
 
     --bg-color-light: #ffffff;
-    --bg-color-light-gray: #f4f4f4; 
+    --bg-color-light-gray: #f4f4f4;
     --text-color-dark: #111111;
     --border-color-light: #eeeeee;
 }
@@ -75,23 +77,23 @@ h1, h2, h3 {
 }
 
 a {
-    color: var(--text-color-light); 
-    text-decoration: none; 
+    color: var(--text-color-light);
+    text-decoration: none;
 }
 
 /* ======== KONTEJNER PRO CENTROVÁNÍ ======== */
 .container {
-    max-width: 1600px; 
+    max-width: 1600px;
     margin: 0 auto;
-    padding: 0 20px; 
+    padding: 0 20px;
     box-sizing: border-box;
 }
 
 /* Stránková sekce (100% široká) */
 .page-section {
-    padding: 80px 0; 
-    scroll-margin-top: 80px; 
-    box-sizing: border-box; 
+    padding: 80px 0;
+    scroll-margin-top: 80px;
+    box-sizing: border-box;
 }
 
 /* Zarovnání nadpisů sekcí */
@@ -99,103 +101,130 @@ a {
     text-align: center;
     font-size: 2.5rem;
     margin-top: 30px;
-    margin-bottom: 40px; 
+    margin-bottom: 40px;
 }
 
 
 /* ======== NAVIGACE ======== */
 .navbar {
-    background-color: transparent; 
+    background-color: transparent;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    padding: 20px 0;
+    padding: 15px 0;
     z-index: 100;
     transition: background-color 0.4s ease, border-color 0.4s ease;
-    border-bottom: 1px solid transparent; 
 }
 
 .navbar.scrolled {
     background-color: var(--bg-color-dark);
-    border-color: var(--border-color-dark); 
 }
 
 .navbar-container {
-    max-width: 1600px; 
-    margin: 0 auto; 
-    padding: 0 20px; 
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 20px; /* ZMĚNA: Vrácen padding vlevo i vpravo */
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; <-- SMAZAT nebo zakomentovat */
     align-items: center;
 }
 
-/* Logo (zvětšené) */
+/* Logo */
 .logo {
-    font-size: 1.5rem; 
-    font-weight: 700;
-    text-transform: uppercase;
+    margin-right: 10px;
 }
 .logo a {
     text-decoration: none;
     color: var(--text-color-light);
 }
 .logo img {
-    height: 50px; 
+    height: 40px;
     width: auto;
-    display: block; 
+    display: block;
 }
 
-/* Menu vpravo */
+/* Menu */
+.main-menu {
+    margin-left: auto; /* NOVÉ: Posune menu úplně doprava */
+}
 .main-menu ul {
     margin: 0;
     padding: 0;
     list-style: none;
+    display: flex;
+    gap: 25px;
 }
 .main-menu li {
-    display: inline-block;
-    margin-left: 25px;
-    font-size: 0.85rem; 
+    font-size: 0.85rem;
     font-weight: 600;
     text-transform: uppercase;
 }
 .main-menu a {
     text-decoration: none;
-    color: var(--text-color-light); 
+    color: var(--text-color-light);
     padding-bottom: 5px;
     transition: border-color 0.3s, color 0.3s;
 }
 
 .main-menu a:hover {
-    text-decoration: none; 
-    color: var(--gold-color); 
+    text-decoration: none;
+    color: var(--gold-color);
     border-bottom: 2px solid var(--gold-color);
 }
 
 
-/* ======== 1. VELKÁ FOTKA (HERO) ======== */
+/* ======== 1. VELKÁ FOTKA (HERO SLIDER - CROSS-FADE) ======== */
 #hero {
-    height: 100vh; 
-    background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('images/slide/slide-01.webp'); 
-    background-color: var(--placeholder-color-dark); 
-    background-size: cover;
-    background-position: center;
+    height: 100vh;
+    background-color: var(--bg-color-dark); /* Tmavé pozadí pro jistotu */
     color: var(--text-color-light);
     box-sizing: border-box;
-    position: relative; /* Toto zůstává */
-    overflow: hidden; /* Toto zůstává */
-    transition: background-image 0s 0.3s, opacity 0.3s ease-out; 
-    
-    /* ZMĚNA: Vrácení Flexboxu pro správné zarovnání obsahu a šipek */
-    display: flex;
-    /* justify-content: flex-start; <-- Toto už nepotřebujeme, řídí .hero-content */
-    align-items: flex-end; /* Zarovná .hero-content dolů */
+    position: relative; /* Pro pozicování vnitřních prvků */
+    overflow: hidden;
 }
 
+/* Kontejner pro obrázky */
+.hero-image-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0; /* Pod obsahem a šipkami */
+}
+
+/* Jednotlivé obrázky slideru */
+.hero-slide-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Aby obrázek pokryl plochu bez deformace */
+    object-position: center center; /* Centrované oříznutí */
+    opacity: 0; /* Výchozí stav - neviditelný */
+    transition: opacity 0.6s ease-in-out; /* Plynulé prolínání */
+    /* Mírné ztmavení pro lepší čitelnost textu */
+    filter: brightness(0.8);
+}
+/* Aktivní (viditelný) slide */
+.hero-slide-img.active {
+    opacity: 1;
+}
+
+/* Obsah (nad obrázky) */
 .hero-content {
     text-align: left;
-    position: relative; 
-    z-index: 2;
+    position: absolute; /* Vůči #hero */
+    bottom: 10%;
+    left: 8%;
+    z-index: 2; /* Nad obrázky, pod šipkami */
+    box-sizing: border-box;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5); /* Stín textu */
+    /* Transition pro plynulé mizení/zobrazení */
+    opacity: 1; /* Výchozí stav (pro první slide) */
+    transition: opacity 0.3s ease-in-out 0.1s; /* Mírné zpoždění */
 }
 .hero-content h1 {
     font-size: 3.5rem;
@@ -207,73 +236,61 @@ a {
 
 /* ======== HERO SLIDER ŠIPKY ======== */
 .slide-buttons {
-    position: absolute; 
-    bottom: 5%; 
+    position: absolute; /* Vůči #hero */
+    bottom: 5%;
     left: 0;
-    width: 100%; 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    padding: 0 4%; 
-    box-sizing: border-box; 
-    z-index: 1; 
-    pointer-events: none; 
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 4%;
+    box-sizing: border-box;
+    z-index: 3; /* Nejvyšší vrstva */
+    pointer-events: none;
 }
 
 .slide-btn {
-    font-size: 1.6rem; /* ZMĚNA: Menší velikost pro tenčí vzhled */
-    color: rgba(255, 255, 255, 1); /* ZMĚNA: Plná bílá */
+    font-size: 1.6rem;
+    color: rgba(255, 255, 255, 1);
     cursor: pointer;
-    transition: color 0.3s ease; 
-    pointer-events: auto; 
-    font-weight: 300; /* NOVÉ: Nastavení tenčího řezu (pokud ikona podporuje) */
-    
-    /* SMAZÁNO: Odstranili jsme text-stroke a color: transparent */
+    transition: color 0.3s ease;
+    pointer-events: auto;
+    font-weight: 300;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.4); /* Stín šipek */
 }
 
 .slide-btn:hover {
-    color: var(--gold-color); /* Zlatá barva při najetí */
-    /* SMAZÁNO: Odstranili jsme vypnutí text-stroke */
-}
-
-/* Padding a pozicování pro .hero-content */
-.hero-content {
-    text-align: left;
-    padding: 0 0 10% 8%; /* Padding je teď zde */
-    position: relative; 
-    z-index: 2;
-    /* ZMĚNA: Přidáme flex-grow, aby zabral dostupné místo */
-    flex-grow: 1; 
+    color: var(--gold-color);
 }
 
 
 /* ======== 2. O MNĚ ======== */
 #o-mne {
-    padding: 100px 0; 
+    padding: 100px 0;
 }
 .about-me-container {
-    display: flex; 
-    flex-direction: row; 
-    align-items: center; 
-    gap: 60px; 
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 60px;
 }
 
 .about-me-photo {
-    flex: 1; 
-    display: flex; 
+    flex: 1;
+    display: flex;
     justify-content: center;
     align-items: center;
 }
 .about-me-photo img {
-    width: 400px;  
-    height: 400px; 
-    object-fit: cover; 
-    border-radius: 50%; 
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 50%;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
 }
 
 .about-me-text {
-    flex: 2; 
+    flex: 2;
     text-align: left;
 }
 .about-me-text .subheading {
@@ -285,7 +302,7 @@ a {
     margin-bottom: 15px;
 }
 .about-me-text h2 {
-    font-size: 2.8rem; 
+    font-size: 2.8rem;
     font-weight: 700;
     line-height: 1.3;
     margin-bottom: 25px;
@@ -296,14 +313,14 @@ a {
 }
 .about-me-text p {
     font-size: 1.1rem;
-    color: var(--text-color-light); 
-    max-width: 800px; 
+    color: var(--text-color-light);
+    max-width: 800px;
 }
 
 
 /* ======== 3. PORTFOLIO (LAYOUT 3+1) ======== */
 #portfolio {
-    background-color: var(--bg-color-light); 
+    background-color: var(--bg-color-light);
     color: var(--text-color-dark);
 }
 
@@ -314,24 +331,24 @@ a {
 /* Mřížka je uvnitř .container */
 .portfolio-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); 
-    gap: 10px; 
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
 }
 
 .gallery-item {
-    height: 300px; 
-    border: 1px solid var(--border-color-light); 
+    height: 300px;
+    border: 1px solid var(--border-color-light);
     background-size: cover;
     background-position: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: var(--text-color-light); 
+    color: var(--text-color-light);
     font-size: 1.8rem;
     transition: transform 0.3s ease;
     text-decoration: none;
-    position: relative; 
-    overflow: hidden; 
+    position: relative;
+    overflow: hidden;
 }
 .gallery-item::before {
     content: '';
@@ -342,25 +359,25 @@ a {
     transition: background-color 0.3s ease;
 }
 .gallery-item h3 {
-    position: relative; 
+    position: relative;
     z-index: 2;
-    font-size: 2.0rem; 
+    font-size: 2.0rem;
 }
 
 .gallery-item:hover {
-    transform: scale(1.03); 
+    transform: scale(1.03);
 }
 .gallery-item:hover::before {
-    background-color: rgba(0,0,0,0.2); 
+    background-color: rgba(0,0,0,0.2);
 }
 
 /* STYL pro Wildlife */
 .gallery-item.full-width {
-    grid-column: 1 / -1; 
-    height: 300px; 
+    grid-column: 1 / -1;
+    height: 300px;
 }
 .gallery-item.full-width h3 {
-    font-size: 2.5rem; 
+    font-size: 2.5rem;
 }
 
 
@@ -375,7 +392,7 @@ a {
     background-color: var(--bg-color-light-gray);
     color: var(--text-color-dark);
     text-align: left;
-    position: relative; 
+    position: relative;
 }
 
 #kontakt a {
@@ -386,17 +403,17 @@ a {
     text-align: center;
     padding-bottom: 30px;
     margin-bottom: 30px;
-    border-bottom: 1px solid var(--border-color-light); 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
+    border-bottom: 1px solid var(--border-color-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .footer-socials a {
     font-weight: 600;
-    margin: 0 10px; 
+    margin: 0 10px;
     text-decoration: none;
     font-size: 0.9rem;
-    display: flex; 
+    display: flex;
     align-items: center;
 }
 .footer-socials a:hover {
@@ -404,23 +421,23 @@ a {
 }
 
 .footer-socials i {
-    color: var(--gold-color); 
-    margin-right: 8px; 
-    font-size: 1.1rem; 
+    color: var(--text-color-dark);
+    margin-right: 8px;
+    font-size: 1.1rem;
 }
 
 .footer-socials span {
-    color: var(--gold-color); 
-    font-size: 1.5rem; 
-    line-height: 1; 
-    margin: 0 5px; 
+    color: var(--gold-color);
+    font-size: 1.5rem;
+    line-height: 1;
+    margin: 0 5px;
 }
 
 
 .footer-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 40px; 
+    gap: 40px;
 }
 
 .footer-bio h3,
@@ -443,7 +460,7 @@ a {
 .cookie-info,
 .copyright {
     font-size: 0.8rem;
-    color: #777; 
+    color: #777;
     margin-top: 20px;
 }
 .copyright {
@@ -453,11 +470,11 @@ a {
 
 .back-to-top {
     position: absolute;
-    right: 20px; 
-    bottom: 40px; 
+    right: 20px;
+    bottom: 40px;
     width: 40px;
     height: 40px;
-    border: 1px solid #ccc; 
+    border: 1px solid #ccc;
     background-color: var(--bg-color-light-gray);
     display: flex;
     justify-content: center;
@@ -475,66 +492,129 @@ a {
 }
 
 
+/* ======== HAMBURGER MENU (MOBIL) ======== */
+.hamburger-btn {
+    display: none; /* Skryté na PC */
+    background: none;
+    border: none;
+    color: var(--text-color-light);
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 5px;
+    margin-left: auto;
+
+    /* ZMĚNA: Výchozí stav - neviditelný, nereaguje */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease; /* Plynulý přechod viditelnosti */
+}
+
+/* ZMĚNA: Zobrazí se až když je navbar "scrolled" */
+.navbar.scrolled .hamburger-btn {
+     opacity: 1;
+     pointer-events: auto;
+}
 /* ======== RESPONZIVITA (MOBILY) ======== */
 @media (max-width: 768px) {
     .container {
-        padding: 0 15px; 
+        padding: 0 15px;
     }
     .navbar-container {
-        padding: 0 15px; 
+        padding: 0 15px; /* Obnoven padding vlevo pro mobil */
+    }
+
+     .main-menu {
+        position: absolute; /* Menu bude vysouvací */
+        top: 100%; /* Začne hned pod lištou */
+        left: 0;
+        width: 100%;
+        background-color: var(--bg-color-dark); /* Tmavé pozadí menu */
+        border-top: 1px solid var(--border-color-dark);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease-out; /* Animace vysunutí */
+    }
+
+    .main-menu.mobile-menu-open {
+        max-height: 300px;
+    }
+
+    .main-menu ul {
+        flex-direction: column;
+        padding: 15px 0;
+        gap: 0;
     }
 
     .main-menu li {
-        margin-left: 10px;
-        font-size: 0.75rem;
+        text-align: center;
     }
-    .logo img {
-        height: 30px;
+
+    .main-menu a {
+        display: block;
+        padding: 12px 20px;
+        border-bottom: none;
     }
+     .main-menu a:hover {
+         background-color: rgba(255, 255, 255, 0.1);
+         color: var(--gold-color);
+         border-bottom: none;
+     }
+
+    .hamburger-btn {
+        display: block;
+    }
+
+    /* Když je menu otevřené a navbar NENÍ scrolled, uděláme ho viditelným */
+    /* Toto je potřeba, aby ikona křížku byla vidět i nahoře, pokud uživatel otevře menu a scrollne nahoru */
+     .navbar .hamburger-btn:has(+ .main-menu.mobile-menu-open), /* Pokud má otevřené menu jako souseda */
+     .navbar.scrolled .hamburger-btn { /* Nebo pokud je scrolled */
+        opacity: 1;
+        pointer-events: auto;
+     }
 
     /* O mně - Mobil */
     .about-me-container {
-        flex-direction: column; 
-        text-align: center; 
+        flex-direction: column;
+        text-align: center;
     }
     .about-me-text {
-        order: 2; 
+        order: 2;
     }
     .about-me-photo {
-        order: 1; 
+        order: 1;
         margin-bottom: 30px;
     }
     .about-me-photo img {
-        width: 250px; 
+        width: 250px;
         height: 250px;
     }
     .about-me-text h2 {
-        font-size: 2rem; 
+        font-size: 2rem;
     }
     .about-me-text p {
-        max-width: 100%; 
+        max-width: 100%;
     }
 
-    /* Portfolio - Mobil (Vše pod sebou) */
+    /* Portfolio - Mobil */
     .portfolio-grid {
-        grid-template-columns: 1fr; 
+        grid-template-columns: 1fr;
     }
     .gallery-item h3 {
-        font-size: 1.8rem; 
+        font-size: 1.8rem;
     }
 
     /* Patička - Mobil */
     .footer-grid {
-        grid-template-columns: 1fr; 
+        grid-template-columns: 1fr;
     }
     .back-to-top {
         bottom: 20px;
         right: 20px;
     }
-    
-    /* Šipky na mobilu (menší a blíž ke kraji) */
+
+    /* Šipky na mobilu */
     .slide-buttons {
-        padding: 0 2%; 
+        padding: 0 2%;
         bottom: 3%;
     }
     .slide-btn {

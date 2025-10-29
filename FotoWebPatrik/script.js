@@ -11,91 +11,133 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // ======== HERO SLIDER LOGIKA ========
-    const heroSection = document.getElementById('hero'); // Cílíme na celou sekci #hero
+    // Kód pro hamburger menu
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const mainMenu = document.querySelector('.main-menu');
+
+    if (hamburgerBtn && mainMenu) {
+        hamburgerBtn.addEventListener('click', function() {
+            mainMenu.classList.toggle('mobile-menu-open');
+            const icon = hamburgerBtn.querySelector('i');
+            if (mainMenu.classList.contains('mobile-menu-open')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+                hamburgerBtn.setAttribute('aria-label', 'Zavřít menu');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+                hamburgerBtn.setAttribute('aria-label', 'Otevřít menu');
+            }
+        });
+
+        const menuLinks = mainMenu.querySelectorAll('a');
+        menuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (mainMenu.classList.contains('mobile-menu-open')) {
+                    mainMenu.classList.remove('mobile-menu-open');
+                    // Vrátíme ikonu hamburgeru
+                    const icon = hamburgerBtn.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                    hamburgerBtn.setAttribute('aria-label', 'Otevřít menu');
+
+                    // ZMĚNA: Skryjeme tlačítko, pokud nejsme scrolled (aby se schovalo po kliku na odkaz nahoře)
+                    if (!navbar.classList.contains('scrolled')) {
+                         // Můžeme nechat CSS, ať to řeší samo - není potřeba nic přidávat
+                         // hamburgerBtn.style.opacity = '0';
+                         // hamburgerBtn.style.pointerEvents = 'none';
+                    }
+                }
+            });
+        });
+    } else {
+        console.error("Hamburger button or main menu not found!");
+    }
+
+
+    // ======== HERO SLIDER LOGIKA (CROSS-FADE EFEKT) ========
+    const slideImages = document.querySelectorAll('.hero-slide-img'); // Všechny obrázky
+    const heroContent = document.querySelector('#hero .hero-content'); // Obsah
     const prevBtn = document.querySelector('.slide-btn.prev');
     const nextBtn = document.querySelector('.slide-btn.next');
 
-    // Místo jednoho obrázku, pole obrázků pro slider
-    const slides = [
-        'images/slide/slide-01.webp',
-        'images/slide/slide-02.webp', // nebo 'images/slide/slide-02.jpg' pokud preferuješ jpg
-        'images/slide/slide-023.webp',
-        'images/slide/slide-03.webp',
-        'images/slide/slide-04.webp',
-        'images/slide/slide-05.webp',
-        'images/slide/slide-06.webp',
-        'images/slide/slide-07.webp',
-        'images/slide/slide-08.webp'
-        // Můžeš si upravit pořadí nebo odstranit obrázky podle potřeby
-    ];
+    if (!slideImages.length || !prevBtn || !nextBtn) {
+         console.error("Slider elements not found!");
+         return; // Pokud něco chybí, nic neděláme
+    }
+
     let currentSlideIndex = 0;
+    const totalSlides = slideImages.length;
+    let isTransitioning = false; // Zabrání rychlému klikání
+
+    // Skryjeme/zobrazíme obsah podle toho, jestli je to první slide
+    function updateContentVisibility(index) {
+        if (heroContent) {
+            heroContent.style.opacity = (index === 0) ? '1' : '0';
+        }
+    }
 
     function changeSlide(direction) {
+        if (isTransitioning) return;
+        isTransitioning = true;
+
+        const previousSlideIndex = currentSlideIndex;
         currentSlideIndex += direction;
 
         // Zacyklení indexu
         if (currentSlideIndex < 0) {
-            currentSlideIndex = slides.length - 1;
-        } else if (currentSlideIndex >= slides.length) {
+            currentSlideIndex = totalSlides - 1;
+        } else if (currentSlideIndex >= totalSlides) {
             currentSlideIndex = 0;
         }
 
-        // Plynulá změna background-image na #hero s fade efektem
-        if (heroSection) { // Kontrola, jestli heroSection existuje
-             heroSection.style.opacity = 0; // Začne mizet
+        // Aktualizujeme viditelnost obsahu
+        updateContentVisibility(currentSlideIndex);
 
-             setTimeout(() => {
-                 heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('${slides[currentSlideIndex]}')`;
-                 heroSection.style.opacity = 1; // Zobrazí se nový obrázek
-             }, 300); // 300ms = doba pro fade-out (musí odpovídat transition v CSS)
-        }
+        // Odebereme 'active' z předchozího obrázku
+        slideImages[previousSlideIndex].classList.remove('active');
+        // Přidáme 'active' na nový obrázek
+        slideImages[currentSlideIndex].classList.add('active');
+
+        // Povolíme další kliknutí po skončení CSS transition (cca 600ms)
+        setTimeout(() => {
+            isTransitioning = false;
+        }, 600); // Musí odpovídat transition v .hero-slide-img
     }
 
     function initSlider() {
-        // Přidání posluchačů na kliknutí (až když prvky existují)
-        if (prevBtn && nextBtn) { // Kontrola, jestli se šipky našly
-            prevBtn.addEventListener('click', () => changeSlide(-1));
-            nextBtn.addEventListener('click', () => changeSlide(1));
-        } else {
-            console.error("Slider buttons not found!"); // Výpis chyby, pokud se nenajdou
-        }
+         // Zajistíme, že na začátku je vidět jen první slide a obsah
+        slideImages.forEach((img, index) => {
+            if (index === 0) {
+                img.classList.add('active');
+            } else {
+                img.classList.remove('active');
+            }
+        });
+        updateContentVisibility(currentSlideIndex); // Zobrazíme obsah pro první slide
 
-        // Nastavení výchozího obrázku, pokud není v CSS (pro jistotu)
-         if (heroSection) {
-            // Zajistíme, že transition pro opacity je nastaveno
-            heroSection.style.transition = 'background-image 0s 0.3s, opacity 0.3s ease-out';
-            // Nastavíme výchozí obrázek
-            heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('${slides[currentSlideIndex]}')`;
-         }
+        // Přidání posluchačů na kliknutí
+        prevBtn.addEventListener('click', () => changeSlide(-1));
+        nextBtn.addEventListener('click', () => changeSlide(1));
     }
 
     // Inicializujeme slider
     initSlider();
 
-}); // <-- Konec DOMContentLoaded listeneru
+}); // <-- Konec DOMContentLoaded
 
 
 // Počkáme, až se načte CELÁ stránka (včetně obrázků)
 window.addEventListener('load', function() {
-
-    // Najdeme si preloader
     const preloader = document.getElementById('preloader');
-
-    // Po 0.5 sekundě spustíme mizení (podle tvého kódu)
     setTimeout(function() {
         if (preloader) {
              preloader.classList.add('hidden');
         }
     }, 500);
-
-    // Po 1.5 sekundě preloader úplně skryjeme z DOM (podle tvého kódu)
     setTimeout(function() {
         if (preloader) {
            preloader.style.display = 'none';
         }
     }, 1500);
-
-}); // <-- Konec load listeneru
-
-//
+}); // <-- Konec load
