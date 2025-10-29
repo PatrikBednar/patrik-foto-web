@@ -318,23 +318,34 @@ a {
 }
 
 
-/* ======== 3. PORTFOLIO (LAYOUT 3+1) ======== */
+/* ======== 3. PORTFOLIO (LAYOUT 3) ======== */
 #portfolio {
     background-color: var(--bg-color-light);
     color: var(--text-color-dark);
+    /* ZMĚNA: Přidáme větší mezeru pod sekcí */
+    padding-bottom: 60px; /* Menší padding zde */
 }
 
+/* Nadpis zůstává stejný */
 .portfolio-text h2 span {
     color: var(--gold-color);
 }
+#portfolio .container h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-top: 0; /* Upraveno z 30px, protože padding sekce je už 80px */
+    margin-bottom: 40px;
+}
 
-/* Mřížka je uvnitř .container */
+/* Mřížka má teď jen 3 sloupce */
 .portfolio-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
+    /* margin-bottom: 20px; <-- SMAZAT, mezeru řeší padding nové sekce */
 }
 
+/* Styly pro horní 3 položky (zůstávají stejné) */
 .gallery-item {
     height: 300px;
     border: 1px solid var(--border-color-light);
@@ -345,10 +356,11 @@ a {
     align-items: center;
     color: var(--text-color-light);
     font-size: 1.8rem;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     text-decoration: none;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 .gallery-item::before {
     content: '';
@@ -365,45 +377,97 @@ a {
 }
 
 .gallery-item:hover {
-    transform: scale(1.03);
+    transform: scale(1.03) translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
 }
 .gallery-item:hover::before {
     background-color: rgba(0,0,0,0.2);
 }
 
-/* STYL pro Wildlife */
-.gallery-item.full-width {
-    grid-column: 1 / -1;
-    height: 300px;
-}
-.gallery-item.full-width h3 {
-    font-size: 2.5rem;
-}
-
-
+/* Pozadí pro jednotlivé položky zůstávají stejná */
 #item-akce { background-image: url('images/sluzby/sluzba-akce.webp'); }
 #item-portret { background-image: url('images/sluzby/sluzba-portret.webp'); }
 #item-sport { background-image: url('images/sluzby/sluzba-sport.webp'); }
-#item-wildlife { background-image: url('images/slide/slide-06.webp'); }
 
 
-/* ======== 5. KONTAKT (PATIČKA) ======== */
+/* ======== 4. NOVÁ SEKCE WILDLIFE CTA ======== */
+.full-width-section {
+    padding: 60px 0;
+    background-color: var(--bg-color-light);
+}
+
+.wildlife-link-cta {
+    display: block;
+    height: 350px;
+    background-image: url('images/slide/slide-06.webp');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-color-light);
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    /* ZMĚNA: Odebrána transition pro transform a box-shadow */
+    transition: none; /* Nebo jen transition: background-color 0.3s ease; pokud chceme zachovat plynulost overlaye */
+    /* box-shadow: 0 2px 5px rgba(0,0,0,0.1); <-- Můžeme smazat, pokud nechceme ani výchozí stín */
+    /* border: 1px solid var(--border-color-light); <-- Už je smazaný */
+}
+.wildlife-link-cta::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.4);
+    transition: background-color 0.3s ease; /* Ponecháme transition pro overlay */
+}
+.wildlife-link-cta h3 {
+    position: relative;
+    z-index: 2;
+    font-size: 2.8rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+.wildlife-link-cta:hover {
+    /* ZMĚNA: Odebrán transform a box-shadow */
+    transform: none;
+    box-shadow: none; /* Pokud jsme smazali i výchozí */
+    /* transform: scale(1.02) translateY(-5px); <-- SMAZAT */
+    /* box-shadow: 0 8px 15px rgba(0,0,0,0.2); <-- SMAZAT */
+}
+.wildlife-link-cta:hover::before {
+    background-color: rgba(0,0,0,0.2); /* Efekt zesvětlení overlaye zůstává */
+}
+
+/* ======== 5. KONTAKT (PATIČKA) - TMAVÝ STYL ======== */
 #kontakt {
-    background-color: var(--bg-color-light-gray);
-    color: var(--text-color-dark);
+    /* ZMĚNA: Tmavé pozadí */
+    background-color: var(--bg-color-dark);
+    /* ZMĚNA: Světlý text */
+    color: var(--text-color-light);
     text-align: left;
     position: relative;
+    /* ZMĚNA: Tmavá horní linka */
+    border-top: 1px solid var(--border-color-dark);
 }
 
+/* ZMĚNA: Odkazy v patičce budou světlé */
 #kontakt a {
-    color: var(--text-color-dark);
+    color: var(--text-color-light);
+}
+#kontakt a:hover {
+    color: var(--gold-color); /* Zlatá při najetí */
+    text-decoration: underline;
 }
 
+
+/* Sociální ikonky */
 .footer-socials {
     text-align: center;
     padding-bottom: 30px;
     margin-bottom: 30px;
-    border-bottom: 1px solid var(--border-color-light);
+    /* ZMĚNA: Tmavá spodní linka */
+    border-bottom: 1px solid var(--border-color-dark);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -415,25 +479,26 @@ a {
     font-size: 0.9rem;
     display: flex;
     align-items: center;
+    /* ZMĚNA: Barva odkazu už je nastavena v #kontakt a */
 }
-.footer-socials a:hover {
-    text-decoration: underline;
-}
+/* Hover efekt je už nastaven v #kontakt a:hover */
+/* .footer-socials a:hover { ... } */
 
 .footer-socials i {
-    color: var(--text-color-dark);
+    color: var(--text-color-light); /* Ikony zůstanou zlaté */
     margin-right: 8px;
     font-size: 1.1rem;
 }
 
 .footer-socials span {
-    color: var(--gold-color);
+    color: var(--gold-color); /* Tečka zůstane zlatá */
     font-size: 1.5rem;
     line-height: 1;
     margin: 0 5px;
 }
 
 
+/* Mřížka patičky */
 .footer-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -444,6 +509,7 @@ a {
 .footer-contact h3 {
     font-size: 1.8rem;
     margin-bottom: 15px;
+    /* Barva textu je světlá z #kontakt */
 }
 
 .footer-bio p,
@@ -451,16 +517,19 @@ a {
     font-size: 0.9rem;
     line-height: 1.7;
     margin-bottom: 15px;
+    /* Barva textu je světlá z #kontakt */
 }
 
 .footer-contact strong {
     font-weight: 700;
 }
 
+/* Cookie a copyright text - uděláme ho méně výrazný */
 .cookie-info,
 .copyright {
     font-size: 0.8rem;
-    color: #777;
+    /* ZMĚNA: Světle šedá pro méně důležitý text */
+    color: #999;
     margin-top: 20px;
 }
 .copyright {
@@ -468,27 +537,45 @@ a {
     margin-bottom: 0;
 }
 
+/* Tlačítko zpět nahoru */
 .back-to-top {
     position: absolute;
     right: 20px;
     bottom: 40px;
     width: 40px;
     height: 40px;
-    border: 1px solid #ccc;
-    background-color: var(--bg-color-light-gray);
+    /* ZMĚNA: Tmavý rámeček */
+    border: 1px solid var(--border-color-dark);
+    /* ZMĚNA: Tmavé pozadí */
+    background-color: var(--bg-color-dark);
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 1.5rem;
     text-decoration: none;
-    color: #555;
+    /* ZMĚNA: Světlá barva šipky */
+    color: var(--text-color-light);
     transition: all 0.3s ease;
 }
 
 .back-to-top:hover {
-    background-color: #e0e0e0;
-    color: #000;
-    border-color: #aaa;
+    /* ZMĚNA: Světlejší tmavé pozadí */
+    background-color: #333;
+    /* ZMĚNA: Zlatá barva šipky */
+    color: var(--gold-color);
+    border-color: #555;
+}
+
+/* Responzivita patičky zůstává stejná */
+@media (max-width: 768px) {
+   /* ... stávající styly pro .footer-grid a .back-to-top ... */
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+    .back-to-top {
+        bottom: 20px;
+        right: 20px;
+    }
 }
 
 
@@ -529,7 +616,6 @@ a {
         left: 0;
         width: 100%;
         background-color: var(--bg-color-dark); /* Tmavé pozadí menu */
-        border-top: 1px solid var(--border-color-dark);
         max-height: 0;
         overflow: hidden;
         transition: max-height 0.4s ease-out; /* Animace vysunutí */
