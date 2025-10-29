@@ -1,19 +1,33 @@
-// Počkáme, až se načte celá stránka
+// Počkáme, až se načte základní struktura DOM
 document.addEventListener("DOMContentLoaded", function() {
 
-    // Najdeme si naši navigaci (header)
+    // Kód pro rolovací navigaci
     const navbar = document.querySelector('.navbar');
-
-    // Přidáme "posluchače" na událost rolování
     window.addEventListener('scroll', function() {
-        
-        // Zjistíme, jak moc je odrolováno shora
         if (window.scrollY > 50) { 
-            // Pokud je to víc než 50px, přidáme třídu .scrolled
             navbar.classList.add('scrolled');
         } else {
-            // Jinak ji odebereme
             navbar.classList.remove('scrolled');
         }
     });
+
+});
+
+
+// Počkáme, až se načte CELÁ stránka (včetně obrázků)
+window.addEventListener('load', function() {
+    
+    // Najdeme si preloader
+    const preloader = document.getElementById('preloader');
+    
+    // Po 1 sekundě spustíme mizení
+    setTimeout(function() {
+        preloader.classList.add('hidden');
+    }, 500); // 1000ms = 1 sekunda
+
+    // ZMĚNA ZDE: Po 2 sekundách preloader úplně skryjeme z DOM
+    setTimeout(function() {
+        preloader.style.display = 'none';
+    }, 1500); // 2000ms = 2 sekundy (1s čekání + 1s mizení)
+
 });

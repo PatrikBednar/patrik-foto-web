@@ -1,3 +1,46 @@
+/* ======== PRELOADER ======== */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background-color: #ffffff; 
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 1.0s ease, visibility 1.0s ease;
+}
+
+#preloader img {
+    height: 120px; 
+    width: auto;
+    margin-bottom: 0; 
+    margin-top: -80px;
+}
+
+#preloader p {
+    color: #000000; 
+    font-size: 1.0rem; 
+    font-weight: 400; 
+    text-transform: uppercase;
+    letter-spacing: 10px; 
+    font-family: Georgia, 'Times New Roman', Times, serif; 
+    margin-top: -20px; /* ZMĚNA: Ještě menší mezera (bylo 10px) */
+}
+
+#preloader.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+
 /* ======== GLOBÁLNÍ NASTAVENÍ A BARVY ======== */
 :root {
     --bg-color-dark: #111111;
@@ -38,9 +81,9 @@ a {
 
 /* ======== KONTEJNER PRO CENTROVÁNÍ ======== */
 .container {
-    max-width: 1200px;
+    max-width: 1600px; 
     margin: 0 auto;
-    padding: 0 20px; /* ZMĚNA: z 40px na 20px */
+    padding: 0 20px; 
     box-sizing: border-box;
 }
 
@@ -77,9 +120,9 @@ a {
 }
 
 .navbar-container {
-    max-width: 1200px; 
+    max-width: 1600px; 
     margin: 0 auto; 
-    padding: 0 20px; /* ZMĚNA: z 40px na 20px */
+    padding: 0 20px; 
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -201,7 +244,7 @@ a {
 .about-me-text p {
     font-size: 1.1rem;
     color: var(--text-color-light); 
-    max-width: 600px; 
+    max-width: 800px; 
 }
 
 
@@ -214,8 +257,8 @@ a {
 /* Mřížka je uvnitř .container */
 .portfolio-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 sloupce */
-    gap: 20px; /* Mezery mezi všemi položkami */
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 20px; 
 }
 
 .gallery-item {
@@ -256,7 +299,7 @@ a {
 
 /* STYL pro Wildlife */
 .gallery-item.full-width {
-    grid-column: 1 / -1; /* Roztáhne se přes všechny 3 sloupce */
+    grid-column: 1 / -1; 
     height: 300px; 
 }
 .gallery-item.full-width h3 {
@@ -334,7 +377,7 @@ a {
 
 .back-to-top {
     position: absolute;
-    right: 20px; /* ZMĚNA: z 40px na 20px */
+    right: 20px; 
     bottom: 40px; 
     width: 40px;
     height: 40px;
@@ -359,10 +402,10 @@ a {
 /* ======== RESPONZIVITA (MOBILY) ======== */
 @media (max-width: 768px) {
     .container {
-        padding: 0 15px; /* ZMĚNA: z 20px na 15px */
+        padding: 0 15px; 
     }
     .navbar-container {
-        padding: 0 15px; /* ZMĚNA: z 20px na 15px */
+        padding: 0 15px; 
     }
 
     .main-menu li {
@@ -398,7 +441,7 @@ a {
 
     /* Portfolio - Mobil (Vše pod sebou) */
     .portfolio-grid {
-        grid-template-columns: 1fr; /* 1 sloupec */
+        grid-template-columns: 1fr; 
     }
     .gallery-item h3 {
         font-size: 1.8rem; 
