@@ -113,12 +113,12 @@ a {
     padding: 20px 0;
     z-index: 100;
     transition: background-color 0.4s ease, border-color 0.4s ease;
-    border-bottom: 1px solid transparent; /* ZMĚNA: Linka je zde, ale průhledná */
+    border-bottom: 1px solid transparent; 
 }
 
 .navbar.scrolled {
     background-color: var(--bg-color-dark);
-    border-color: var(--border-color-dark); /* ZMĚNA: Měníme jen barvu, ne linku */
+    border-color: var(--border-color-dark); 
 }
 
 .navbar-container {
@@ -143,7 +143,7 @@ a {
 .logo img {
     height: 50px; 
     width: auto;
-    display: block; /* ZMĚNA: Toto opraví vertikální zarovnání */
+    display: block; 
 }
 
 /* Menu vpravo */
@@ -163,15 +163,12 @@ a {
     text-decoration: none;
     color: var(--text-color-light); 
     padding-bottom: 5px;
-    /* ZMĚNA ZDE: Přidali jsme 'color' do plynulého přechodu */
     transition: border-color 0.3s, color 0.3s;
 }
 
 .main-menu a:hover {
     text-decoration: none; 
-    /* ZMĚNA ZDE: Barva textu bude zlatá */
     color: var(--gold-color); 
-    /* ZMĚNA ZDE: Barva linky bude také zlatá */
     border-bottom: 2px solid var(--gold-color);
 }
 
@@ -183,16 +180,22 @@ a {
     background-color: var(--placeholder-color-dark); 
     background-size: cover;
     background-position: center;
-    display: flex;
-    justify-content: flex-start; 
-    align-items: flex-end;     
     color: var(--text-color-light);
-    padding: 0 0 10% 8%; 
     box-sizing: border-box;
+    position: relative; /* Toto zůstává */
+    overflow: hidden; /* Toto zůstává */
+    transition: background-image 0s 0.3s, opacity 0.3s ease-out; 
+    
+    /* ZMĚNA: Vrácení Flexboxu pro správné zarovnání obsahu a šipek */
+    display: flex;
+    /* justify-content: flex-start; <-- Toto už nepotřebujeme, řídí .hero-content */
+    align-items: flex-end; /* Zarovná .hero-content dolů */
 }
 
 .hero-content {
     text-align: left;
+    position: relative; 
+    z-index: 2;
 }
 .hero-content h1 {
     font-size: 3.5rem;
@@ -201,6 +204,48 @@ a {
     font-size: 1.2rem;
     margin-top: 10px;
 }
+
+/* ======== HERO SLIDER ŠIPKY ======== */
+.slide-buttons {
+    position: absolute; 
+    bottom: 5%; 
+    left: 0;
+    width: 100%; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 0 4%; 
+    box-sizing: border-box; 
+    z-index: 1; 
+    pointer-events: none; 
+}
+
+.slide-btn {
+    font-size: 1.6rem; /* ZMĚNA: Menší velikost pro tenčí vzhled */
+    color: rgba(255, 255, 255, 1); /* ZMĚNA: Plná bílá */
+    cursor: pointer;
+    transition: color 0.3s ease; 
+    pointer-events: auto; 
+    font-weight: 300; /* NOVÉ: Nastavení tenčího řezu (pokud ikona podporuje) */
+    
+    /* SMAZÁNO: Odstranili jsme text-stroke a color: transparent */
+}
+
+.slide-btn:hover {
+    color: var(--gold-color); /* Zlatá barva při najetí */
+    /* SMAZÁNO: Odstranili jsme vypnutí text-stroke */
+}
+
+/* Padding a pozicování pro .hero-content */
+.hero-content {
+    text-align: left;
+    padding: 0 0 10% 8%; /* Padding je teď zde */
+    position: relative; 
+    z-index: 2;
+    /* ZMĚNA: Přidáme flex-grow, aby zabral dostupné místo */
+    flex-grow: 1; 
+}
+
 
 /* ======== 2. O MNĚ ======== */
 #o-mne {
@@ -342,16 +387,16 @@ a {
     padding-bottom: 30px;
     margin-bottom: 30px;
     border-bottom: 1px solid var(--border-color-light); 
-    display: flex; /* ZMĚNA: Pro zarovnání položek na řádek */
-    justify-content: center; /* ZMĚNA: Pro centrování na střed */
-    align-items: center; /* ZMĚNA: Pro vertikální zarovnání */
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
 }
 .footer-socials a {
     font-weight: 600;
-    margin: 0 10px; /* ZMĚNA: Zmenšena mezera mezi odkazy */
+    margin: 0 10px; 
     text-decoration: none;
     font-size: 0.9rem;
-    display: flex; /* ZMĚNA: Aby ikonka a text byly na jednom řádku a zarovnané */
+    display: flex; 
     align-items: center;
 }
 .footer-socials a:hover {
@@ -359,16 +404,16 @@ a {
 }
 
 .footer-socials i {
-    color: var(--gold-color); /* ZMĚNA: Ikony zlaté */
-    margin-right: 8px; /* ZMĚNA: Mezera mezi ikonou a textem */
-    font-size: 1.1rem; /* Trochu větší ikony */
+    color: var(--gold-color); 
+    margin-right: 8px; 
+    font-size: 1.1rem; 
 }
 
 .footer-socials span {
-    color: var(--gold-color); /* ZMĚNA: Zlatá barva tečky */
-    font-size: 1.5rem; /* Větší tečka */
-    line-height: 1; /* Aby byla tečka lépe zarovnaná s textem */
-    margin: 0 5px; /* Mezera kolem tečky */
+    color: var(--gold-color); 
+    font-size: 1.5rem; 
+    line-height: 1; 
+    margin: 0 5px; 
 }
 
 
@@ -485,5 +530,14 @@ a {
     .back-to-top {
         bottom: 20px;
         right: 20px;
+    }
+    
+    /* Šipky na mobilu (menší a blíž ke kraji) */
+    .slide-buttons {
+        padding: 0 2%; 
+        bottom: 3%;
+    }
+    .slide-btn {
+        font-size: 1.5rem;
     }
 }
