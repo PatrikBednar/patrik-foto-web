@@ -5,21 +5,23 @@ document.addEventListener("DOMContentLoaded", function() {
         const currentYear = new Date().getFullYear();
         yearSpan.textContent = currentYear;
     }
+    
     // Kód pro rolovací navigaci
-const navbar = document.querySelector('.navbar');
-const heroSection = document.getElementById('hero'); // Zkusíme najít hlavní "hero" sekci
+    const navbar = document.querySelector('.navbar');
+    const heroSection = document.getElementById('hero'); // Hledáme 'hero' sekci
 
-// Tuto logiku pro změnu navigace při scrollu spustíme, POUZE pokud na stránce existuje #hero
-// (Tzn. spustí se jen na index.html, ale ne na portfolio.html)
-if (heroSection) {
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
-}
+    // Logiku pro změnu navigace spustíme, POUZE pokud na stránce existuje #hero
+    // (Tzn. spustí se jen na index.html, ale ne na portfolio.html)
+    if (heroSection) {
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    }
+
 
     // Kód pro hamburger menu
     const hamburgerBtn = document.getElementById('hamburger-btn');
@@ -75,7 +77,7 @@ if (heroSection) {
             }
         });
 
-        // NOVÉ: Zavření menu při scrollu
+        // Zavření menu při scrollu
         window.addEventListener('scroll', function() {
             if (mainMenu.classList.contains('mobile-menu-open')) {
                 closeMenu();
@@ -95,8 +97,8 @@ if (heroSection) {
     const nextBtn = document.querySelector('.slide-btn.next');
 
     if (!slideImages.length || !prevBtn || !nextBtn) {
-         console.error("Slider elements not found!");
-         // return; // Můžeme pokračovat i bez slideru, pokud by chyběl
+         // console.error("Slider elements not found!");
+         // Můžeme pokračovat i bez slideru, pokud by chyběl
     } else { // Spustíme logiku slideru, jen pokud jsou všechny prvky nalezeny
 
         let currentSlideIndex = 0;

@@ -54,33 +54,61 @@
                 </div>
 
                 <div class="gallery-grid">
+                    
                     <div class="gallery-item" data-category="stuzkace">
-                        <img src="images/slide/slide-05.webp" alt="Stužkáč foto 1" loading="lazy">
+                        <a href="images/slide/slide-05.webp" class="lightbox-trigger" data-alt="Stužkáč foto 1">
+                            <img src="images/slide/slide-05.webp" alt="Stužkáč foto 1" loading="lazy">
+                        </a>
                     </div>
+                    
                     <div class="gallery-item" data-category="portret">
-                        <img src="images/slide/slide-02.webp" alt="Portrét foto 1" loading="lazy">
+                        <a href="images/slide/slide-02.webp" class="lightbox-trigger" data-alt="Portrét foto 1">
+                            <img src="images/slide/slide-02.webp" alt="Portrét foto 1" loading="lazy">
+                        </a>
                     </div>
+                    
                     <div class="gallery-item" data-category="svatby">
-                        <img src="images/slide/slide-01.webp" alt="Svatba foto 1" loading="lazy">
+                         <a href="images/slide/slide-01.webp" class="lightbox-trigger" data-alt="Svatba foto 1">
+                            <img src="images/slide/slide-01.webp" alt="Svatba foto 1" loading="lazy">
+                        </a>
                     </div>
+                    
                     <div class="gallery-item" data-category="portret">
-                        <img src="images/portfolio/06.webp" alt="Portrét foto 2" loading="lazy">
+                        <a href="images/portfolio/06.webp" class="lightbox-trigger" data-alt="Portrét foto 2">
+                            <img src="images/portfolio/06.webp" alt="Portrét foto 2" loading="lazy">
+                        </a>
                     </div>
+                    
                     <div class="gallery-item" data-category="stuzkace">
-                        <img src="images/sluzby/sluzba-akce.webp" alt="Stužkáč foto 2" loading="lazy">
+                        <a href="images/sluzby/sluzba-akce.webp" class="lightbox-trigger" data-alt="Stužkáč foto 2">
+                            <img src="images/sluzby/sluzba-akce.webp" alt="Stužkáč foto 2" loading="lazy">
+                        </a>
                     </div>
+                    
                     <div class="gallery-item" data-category="sport">
-                        <img src="images/portfolio/10.webp" alt="Sport foto 1" loading="lazy">
+                        <a href="images/portfolio/10.webp" class="lightbox-trigger" data-alt="Sport foto 1">
+                            <img src="images/portfolio/10.webp" alt="Sport foto 1" loading="lazy">
+                        </a>
                     </div>
+                    
                     <div class="gallery-item" data-category="svatby">
-                        <img src="images/portfolio/04.webp" alt="Svatba foto 2" loading="lazy">
+                        <a href="images/portfolio/04.webp" class="lightbox-trigger" data-alt="Svatba foto 2">
+                            <img src="images/portfolio/04.webp" alt="Svatba foto 2" loading="lazy">
+                        </a>
                     </div>
+                    
                     <div class="gallery-item" data-category="portret">
-                        <img src="images/portfolio/01.webp" alt="Portrét foto 3" loading="lazy">
+                        <a href="images/portfolio/01.webp" class="lightbox-trigger" data-alt="Portrét foto 3">
+                            <img src="images/portfolio/01.webp" alt="Portrét foto 3" loading="lazy">
+                        </a>
                     </div>
+                    
                     <div class="gallery-item" data-category="sport">
-                        <img src="images/portfolio/05.webp" alt="Sport foto 2" loading="lazy">
+                        <a href="images/portfolio/05.webp" class="lightbox-trigger" data-alt="Sport foto 2">
+                            <img src="images/portfolio/05.webp" alt="Sport foto 2" loading="lazy">
+                        </a>
                     </div>
+
                 </div>
 
             </div>
@@ -117,14 +145,24 @@
         <a href="#top" class="back-to-top" aria-label="Zpět nahoru">&#8593;</a>
     </footer>
 
+    <div id="lightbox" class="lightbox">
+        <button class="lightbox-close" aria-label="Zavřít">&times;</button>
+        <button class="lightbox-prev" aria-label="Předchozí obrázek">&lsaquo;</button>
+        <button class="lightbox-next" aria-label="Další obrázek">&rsaquo;</button>
+        <div class="lightbox-content-wrapper">
+            <img src="" alt="" class="lightbox-img">
+        </div>
+    </div>
+
     <script src="script.js"></script>
     <script>
-        // Vylepšený skript pro filtrování s URL kotvami
         document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- ČÁST 1: LOGIKA FILTROVÁNÍ GALERIE ---
+            
             const filterButtons = document.querySelectorAll('.filter-btn');
             const galleryItems = document.querySelectorAll('.gallery-item');
 
-            // Funkce, která fyzicky filtruje galerii
             function filterGallery(filter) {
                 galleryItems.forEach(item => {
                     if (filter === 'all' || item.getAttribute('data-category') === filter) {
@@ -135,7 +173,6 @@
                 });
             }
 
-            // Funkce, která nastaví aktivní tlačítko
             function setActiveButton(filter) {
                 filterButtons.forEach(button => {
                     if (button.getAttribute('data-filter') === filter) {
@@ -146,30 +183,24 @@
                 });
             }
 
-            // 1. Nastavení klikání na tlačítka
             filterButtons.forEach(button => {
                 button.addEventListener('click', (e) => {
-                    e.preventDefault(); // Zabráníme klasickému "skoku" na kotvu
-
+                    e.preventDefault(); 
                     const filter = button.getAttribute('data-filter');
                     const newHash = button.getAttribute('href');
 
-                    // Změníme URL v prohlížeči
                     if (history.pushState) {
                         history.pushState(null, null, newHash);
                     } else {
                         location.hash = newHash;
                     }
 
-                    // Spustíme filtrování
                     setActiveButton(filter);
                     filterGallery(filter);
                 });
             });
 
-            // 2. Kontrola URL při načtení stránky
-            // (Aby fungovalo, když někdo přijde s odkazem portfolio.html#stuzkace)
-            const currentHash = window.location.hash || '#vse'; // Výchozí je '#vse'
+            const currentHash = window.location.hash || '#vse';
             const correspondingButton = document.querySelector(`.filter-btn[href="${currentHash}"]`);
             
             if (correspondingButton) {
@@ -177,9 +208,112 @@
                 setActiveButton(filter);
                 filterGallery(filter);
             }
+
+            // --- ČÁST 2: LOGIKA PRO LIGHTBOX ---
+
+            // Tento kód se teď spustí až poté, co HTML pro #lightbox existuje
+            const lightbox = document.getElementById('lightbox');
+            if (lightbox) {
+                const lightboxImg = lightbox.querySelector('.lightbox-img');
+                const lightboxClose = lightbox.querySelector('.lightbox-close');
+                const lightboxPrev = lightbox.querySelector('.lightbox-prev');
+                const lightboxNext = lightbox.querySelector('.lightbox-next');
+
+                let currentImageIndex = 0;
+                let currentGallery = [];
+
+                function updateCurrentGallery() {
+                    currentGallery = [];
+                    document.querySelectorAll('.gallery-item').forEach((item) => {
+                        // Vezmeme jen ty položky, které JS neskryl filtrováním
+                        if (item.style.display !== 'none') {
+                            const link = item.querySelector('.lightbox-trigger');
+                            if (link) {
+                                currentGallery.push({
+                                    src: link.getAttribute('href'),
+                                    alt: link.getAttribute('data-alt') || 'Fotografie z portfolia'
+                                });
+                            }
+                        }
+                    });
+                }
+
+                function showImage(index) {
+                    if (index < 0 || index >= currentGallery.length) {
+                        return;
+                    }
+                    const imgData = currentGallery[index];
+                    lightboxImg.setAttribute('src', imgData.src);
+                    lightboxImg.setAttribute('alt', imgData.alt);
+                    currentImageIndex = index;
+                    lightboxImg.classList.remove('zoomed'); // Vždy resetovat zoom
+                }
+
+                function openLightbox(index) {
+                    updateCurrentGallery(); // Musíme vědět, jakou galerii zobrazujeme
+                    if (index >= 0 && index < currentGallery.length) {
+                        showImage(index);
+                        lightbox.classList.add('open');
+                    }
+                }
+
+                function closeLightbox() {
+                    lightbox.classList.remove('open');
+                    lightboxImg.setAttribute('src', ''); // Ušetříme paměť
+                    lightboxImg.classList.remove('zoomed');
+                }
+
+                function showNext() {
+                    let nextIndex = (currentImageIndex + 1) % currentGallery.length;
+                    showImage(nextIndex);
+                }
+
+                function showPrev() {
+                    let prevIndex = (currentImageIndex - 1 + currentGallery.length) % currentGallery.length;
+                    showImage(prevIndex);
+                }
+
+                function toggleZoom(e) {
+                    e.stopPropagation(); // Zabrání zavření lightboxu při kliku na obrázek
+                    lightboxImg.classList.toggle('zoomed');
+                }
+
+                // Přiřazení událostí
+                document.querySelectorAll('.lightbox-trigger').forEach((link) => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        // Musíme znovu načíst galerii, aby odpovídala filtru
+                        updateCurrentGallery(); 
+                        // Najdeme index kliknutého obrázku v *aktuálně viditelné* galerii
+                        const galleryIndex = currentGallery.findIndex(item => item.src === link.getAttribute('href'));
+                        if (galleryIndex !== -1) {
+                            openLightbox(galleryIndex);
+                        }
+                    });
+                });
+
+                lightboxClose.addEventListener('click', closeLightbox);
+                lightboxNext.addEventListener('click', showNext);
+                lightboxPrev.addEventListener('click', showPrev);
+                lightbox.addEventListener('click', closeLightbox); // Zavře při kliku na pozadí
+                lightboxImg.addEventListener('click', toggleZoom); // Zoomování
+
+                // Ovládání klávesnicí
+                document.addEventListener('keydown', (e) => {
+                    if (lightbox.classList.contains('open')) {
+                        if (e.key === 'Escape') {
+                            closeLightbox();
+                        } else if (e.key === 'ArrowRight') {
+                            showNext();
+                        } else if (e.key === 'ArrowLeft') {
+                            showPrev();
+                        }
+                    }
+                });
+            }
+
         });
     </script>
 
 </body>
-
 </html>

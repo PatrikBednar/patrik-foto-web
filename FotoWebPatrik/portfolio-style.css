@@ -9,7 +9,6 @@
     padding-top: 40px;
 }
 
-/* === ZMĚNA ZDE === */
 /* Přidán styl pro nadpis, aby byl větší a uprostřed */
 .portfolio-page-main .portfolio-text h2 {
     text-align: center;
@@ -23,7 +22,6 @@
     margin-bottom: 40px;
 }
 
-/* === ZMĚNA ZDE === */
 /* Upraven styl tlačítek */
 .filter-btn {
     background: none;
@@ -45,7 +43,6 @@
     text-decoration: none; /* "nech bez podtržení" */
 }
 
-/* === ZMĚNA ZDE === */
 /* Aktivní bude zlaté A podtržené */
 .filter-btn.active {
     background-color: transparent; 
@@ -55,7 +52,6 @@
     text-underline-offset: 10px;
 }
 
-/* === PŘIDÁNO TOTO === */
 /* Tento nový blok zajistí, že aktivní tlačítko zůstane zlaté a podtržené,
    i když na něj najedeš myší (aby nepřepsalo pravidlo z .filter-btn:hover) */
 .filter-btn.active:hover {
@@ -72,7 +68,6 @@
     column-gap: 15px;
 }
 
-/* === ZMĚNA ZDE === */
 .gallery-item {
     /* TÍMTO PŘEBIJEME PRAVIDLO "height: 300px;" Z style.css */
     height: auto; 
@@ -124,4 +119,105 @@
     .gallery-grid {
         column-count: 1; /* Jeden sloupec pro mobily */
     }
+}
+
+/* === STYLY PRO LIGHTBOX === */
+
+/* Nutná úprava pro <a> tag v mřížce */
+.gallery-item a {
+    display: block;
+    line-height: 0; /* Odstraní mezeru pod obrázkem */
+}
+
+/* Hlavní overlay */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.lightbox.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Obalovač obrázku - pro zoomování a rolování */
+.lightbox-content-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: auto; /* Povolí rolování, když je obrázek zazoomovaný */
+}
+
+/* Obrázek v lightboxu */
+.lightbox-img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    cursor: zoom-in;
+    transition: transform 0.3s ease;
+}
+
+/* Styl pro zazoomování */
+.lightbox-img.zoomed {
+    transform: scale(2); /* Úroveň zoomu (můžeš změnit na 1.5, 2.5...) */
+    cursor: zoom-out;
+}
+
+/* Navigační šipky */
+.lightbox-prev,
+.lightbox-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    font-size: 3rem;
+    cursor: pointer;
+    padding: 0 1rem;
+    user-select: none;
+    transition: background-color 0.2s ease;
+    z-index: 1001;
+}
+
+.lightbox-prev:hover,
+.lightbox-next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.lightbox-prev {
+    left: 1rem;
+}
+
+.lightbox-next {
+    right: 1rem;
+}
+
+/* Zavírací tlačítko */
+.lightbox-close {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 3rem;
+    font-weight: 300;
+    cursor: pointer;
+    line-height: 1;
+    user-select: none;
+    z-index: 1001;
 }
