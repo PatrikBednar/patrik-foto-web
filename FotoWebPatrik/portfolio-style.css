@@ -77,8 +77,10 @@
     
     /* A ZRUŠÍME DALŠÍ VĚCI, KTERÉ NECHCEME */
     border: none;
-    overflow: hidden; /* Skryje cokoliv, co by přeteklo (kvůli zaoblení) */
     border-radius: 4px; /* Zaoblíme rohy i kontejneru */
+    /* OPRAVA: Explicitně povolíme přetékání a nastavíme pozici */
+    overflow: visible; 
+    position: relative;
 
     /* TOTO ZŮSTÁVÁ Z TVÉHO KÓDU */
     margin-bottom: 15px;
@@ -115,9 +117,23 @@
     }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 768px) {
     .gallery-grid {
         column-count: 1; /* Jeden sloupec pro mobily */
+    }
+
+    /* Úprava pro horizontálně scrollovací tlačítka na mobilu */
+    .filter-buttons {
+        display: flex;
+        overflow-x: auto;
+        white-space: nowrap; /* Zabrání zalamování tlačítek */
+        justify-content: flex-start; /* Zarovná tlačítka na začátek */
+        -webkit-overflow-scrolling: touch; /* Plynulé scrollování na iOS */
+        scrollbar-width: none; /* Skryje scrollbar ve Firefoxu */
+        padding-bottom: 10px; /* Malý prostor pod tlačítky, aby stín nebyl oříznutý */
+    }
+    .filter-buttons::-webkit-scrollbar {
+        display: none; /* Skryje scrollbar v Chrome/Safari */
     }
 }
 
@@ -127,6 +143,9 @@
 .gallery-item a {
     display: block;
     line-height: 0; /* Odstraní mezeru pod obrázkem */
+    /* OPRAVA: Zvedne odkaz do vyšší vrstvy, aby byl klikatelný */
+    position: relative;
+    z-index: 2;
 }
 
 /* Hlavní overlay */
@@ -136,14 +155,14 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: var(--bg-color-light); /* Změna na bílé pozadí */
     z-index: 1000;
     display: flex;
     justify-content: center;
     align-items: center;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    transition: opacity 0.4s ease, visibility 0.4s ease; /* Mírně zpomalený přechod */
 }
 
 .lightbox.open {
@@ -159,15 +178,49 @@
     justify-content: center;
     align-items: center;
     overflow: auto; /* Povolí rolování, když je obrázek zazoomovaný */
+    padding: 40px; /* Vytvoří rovnoměrný okraj kolem obrázku */
+    box-sizing: border-box;
 }
 
 /* Obrázek v lightboxu */
 .lightbox-img {
-    max-width: 90%;
-    max-height: 90%;
+    max-width: 100%;
+    max-height: 100%;
     object-fit: contain;
     cursor: zoom-in;
     transition: transform 0.3s ease;
+}
+
+/* Třídy pro animaci přechodu obrázků */
+.lightbox-img.slide-out-left {
+    animation: slideOutLeft 0.3s ease-out forwards;
+}
+.lightbox-img.slide-out-right {
+    animation: slideOutRight 0.3s ease-out forwards;
+}
+.lightbox-img.slide-in-from-right {
+    animation: slideInFromRight 0.3s ease-in forwards;
+}
+.lightbox-img.slide-in-from-left {
+    animation: slideInFromLeft 0.3s ease-in forwards;
+}
+
+/* Keyframes pro animace */
+@keyframes slideOutLeft {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(-100px); opacity: 0; }
+}
+@keyframes slideInFromRight {
+    from { transform: translateX(100px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+@keyframes slideOutRight {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100px); opacity: 0; }
+}
+@keyframes slideInFromLeft {
+    from { transform: translateX(-100px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
 }
 
 /* Styl pro zazoomování */
@@ -182,20 +235,20 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
+    background: none;
+    color: #333; /* Tmavá barva */
     border: none;
-    font-size: 3rem;
+    font-size: 2.5rem; /* Zmenšení ikon */
     cursor: pointer;
-    padding: 0 1rem;
+    padding: 0 0.5rem; /* Zmenšení paddingu */
     user-select: none;
-    transition: background-color 0.2s ease;
+    transition: color 0.3s ease; /* Přechod barvy */
     z-index: 1001;
 }
 
 .lightbox-prev:hover,
 .lightbox-next:hover {
-    background-color: rgba(0, 0, 0, 0.8);
+    color: var(--gold-color); /* Zlatá barva při najetí */
 }
 
 .lightbox-prev {
@@ -213,11 +266,57 @@
     right: 1.5rem;
     background: none;
     border: none;
-    color: white;
+    color: #333; /* Tmavá barva */
     font-size: 3rem;
     font-weight: 300;
     cursor: pointer;
     line-height: 1;
     user-select: none;
     z-index: 1001;
+    transition: color 0.3s ease, transform 0.3s ease; /* Přidán přechod pro transformaci */
+}
+
+.lightbox-close:hover {
+    color: var(--gold-color); /* Zlatá barva při najetí */
+    transform: rotate(90deg); /* Efekt otočení při najetí */
+}
+
+/* Nový ovládací panel (toolbar) */
+.lightbox-toolbar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 15px; /* Menší padding */
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.9); /* Lehce průhledné bílé pozadí */
+    backdrop-filter: blur(5px); /* Efekt rozmazání pozadí pod panelem */
+    gap: 15px; /* Menší mezery */
+    z-index: 1002; /* Nad obrázkem, ale pod křížkem, pokud by se překrývaly */
+}
+
+/* Počítadlo obrázků */
+.lightbox-counter {
+    font-size: 1rem; /* Zmenšení textu */
+    color: #333;
+    font-weight: 600;
+    min-width: 50px; /* Zajistí, aby se layout nerozpadl při změně textu */
+    text-align: center;
+}
+
+/* Tlačítko Play/Pause */
+.lightbox-play {
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 1.3rem; /* Zmenšení ikony */
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.lightbox-play:hover {
+    color: var(--gold-color);
 }

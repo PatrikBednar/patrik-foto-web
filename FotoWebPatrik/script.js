@@ -1,55 +1,54 @@
 // Počkáme, až se načte základní struktura DOM
 document.addEventListener("DOMContentLoaded", function() {
+    
+    // --- KÓD PRO PATIČKU (Běží všude) ---
     const yearSpan = document.getElementById('current-year');
     if (yearSpan) {
         const currentYear = new Date().getFullYear();
         yearSpan.textContent = currentYear;
     }
     
-    // Kód pro rolovací navigaci
+    // --- KÓD PRO NAVIGACI A SCROLL (Běží všude) ---
     const navbar = document.querySelector('.navbar');
-    const heroSection = document.getElementById('hero'); // Hledáme 'hero' sekci
-
-    // Logiku pro změnu navigace spustíme, POUZE pokud na stránce existuje #hero
-    // (Tzn. spustí se jen na index.html, ale ne na portfolio.html)
-    if (heroSection) {
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
+    if (navbar) {
+        // Zjistíme, jestli jsme na hlavní stránce (má #hero) nebo jinde
+        const heroSection = document.getElementById('hero');
+        
+        if (heroSection) {
+            // Jsme na hlavní stránce -> měníme navigaci podle scrollu
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+        } else {
+            // Jsme na jiné stránce (portfolio.html) -> navigace je rovnou "scrolled"
+            navbar.classList.add('scrolled');
+        }
     }
 
-
-    // Kód pro hamburger menu
+    // --- KÓD PRO HAMBURGER MENU (Běží všude) ---
     const hamburgerBtn = document.getElementById('hamburger-btn');
     const mainMenu = document.querySelector('.main-menu');
 
     if (hamburgerBtn && mainMenu) {
 
-        // Funkce pro zavření menu
         function closeMenu() {
             mainMenu.classList.remove('mobile-menu-open');
-            const icon = hamburgerBtn.querySelector('i');
-            icon.classList.remove('fa-times');
-            icon.classList.add('fa-bars');
+            hamburgerBtn.classList.remove('is-active');
             hamburgerBtn.setAttribute('aria-label', 'Otevřít menu');
         }
 
-        // Funkce pro otevření menu
         function openMenu() {
             mainMenu.classList.add('mobile-menu-open');
-            const icon = hamburgerBtn.querySelector('i');
-            icon.classList.remove('fa-bars');
-            icon.classList.add('fa-times');
+            hamburgerBtn.classList.add('is-active');
             hamburgerBtn.setAttribute('aria-label', 'Zavřít menu');
         }
 
-        // Přepínání menu kliknutím na hamburger
         hamburgerBtn.addEventListener('click', function(e) {
-            e.stopPropagation(); // Zabráníme, aby se klik hned přenesl na document
+            e.stopPropagation();
             if (mainMenu.classList.contains('mobile-menu-open')) {
                 closeMenu();
             } else {
@@ -57,7 +56,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
 
-        // Zavření menu po kliknutí na odkaz
         const menuLinks = mainMenu.querySelectorAll('a');
         menuLinks.forEach(link => {
             link.addEventListener('click', () => {
@@ -67,49 +65,36 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         });
 
-        // Zavření menu při kliknutí mimo (na 'main' nebo 'footer')
         document.addEventListener('click', function(event) {
             const isClickInsideMenu = mainMenu.contains(event.target);
             const isClickOnHamburger = hamburgerBtn.contains(event.target);
-
             if (mainMenu.classList.contains('mobile-menu-open') && !isClickInsideMenu && !isClickOnHamburger) {
                 closeMenu();
             }
         });
 
-        // Zavření menu při scrollu
         window.addEventListener('scroll', function() {
             if (mainMenu.classList.contains('mobile-menu-open')) {
                 closeMenu();
             }
         });
-
-
-    } else {
-        console.error("Hamburger button or main menu not found!");
     }
 
-
-    // ======== HERO SLIDER LOGIKA (CROSS-FADE EFEKT) ========
-    const slideImages = document.querySelectorAll('.hero-slide-img'); // Všechny obrázky
-    const heroContent = document.querySelector('#hero .hero-content'); // Obsah
+    // --- KÓD PRO HERO SLIDER (Spustí se jen na index.html) ---
+    const slideImages = document.querySelectorAll('.hero-slide-img');
+    const heroContent = document.querySelector('#hero .hero-content');
     const prevBtn = document.querySelector('.slide-btn.prev');
     const nextBtn = document.querySelector('.slide-btn.next');
 
-    if (!slideImages.length || !prevBtn || !nextBtn) {
-         // console.error("Slider elements not found!");
-         // Můžeme pokračovat i bez slideru, pokud by chyběl
-    } else { // Spustíme logiku slideru, jen pokud jsou všechny prvky nalezeny
+    // Spustíme logiku slideru, jen pokud jsou VŠECHNY prvky nalezeny
+    if (slideImages.length > 0 && heroContent && prevBtn && nextBtn) {
 
         let currentSlideIndex = 0;
         const totalSlides = slideImages.length;
-        let isTransitioning = false; // Zabrání rychlému klikání
+        let isTransitioning = false;
 
-        // Skryjeme/zobrazíme obsah podle toho, jestli je to první slide
         function updateContentVisibility(index) {
-            if (heroContent) {
-                heroContent.style.opacity = (index === 0) ? '1' : '0';
-            }
+            heroContent.style.opacity = (index === 0) ? '1' : '0';
         }
 
         function changeSlide(direction) {
@@ -119,34 +104,27 @@ document.addEventListener("DOMContentLoaded", function() {
             const previousSlideIndex = currentSlideIndex;
             currentSlideIndex += direction;
 
-            // Zacyklení indexu
             if (currentSlideIndex < 0) {
                 currentSlideIndex = totalSlides - 1;
             } else if (currentSlideIndex >= totalSlides) {
                 currentSlideIndex = 0;
             }
 
-            // Aktualizujeme viditelnost obsahu
             updateContentVisibility(currentSlideIndex);
 
-            // Odebereme 'active' z předchozího obrázku
-            if (slideImages[previousSlideIndex]) { // Pojistka
+            if (slideImages[previousSlideIndex]) {
                 slideImages[previousSlideIndex].classList.remove('active');
             }
-            // Přidáme 'active' na nový obrázek
-            if (slideImages[currentSlideIndex]) { // Pojistka
+            if (slideImages[currentSlideIndex]) {
                 slideImages[currentSlideIndex].classList.add('active');
             }
 
-
-            // Povolíme další kliknutí po skončení CSS transition (cca 600ms)
             setTimeout(() => {
                 isTransitioning = false;
-            }, 600); // Musí odpovídat transition v .hero-slide-img
+            }, 600);
         }
 
         function initSlider() {
-             // Zajistíme, že na začátku je vidět jen první slide a obsah
             slideImages.forEach((img, index) => {
                 if (index === 0) {
                     img.classList.add('active');
@@ -154,32 +132,259 @@ document.addEventListener("DOMContentLoaded", function() {
                     img.classList.remove('active');
                 }
             });
-            updateContentVisibility(currentSlideIndex); // Zobrazíme obsah pro první slide
-
-            // Přidání posluchačů na kliknutí
+            updateContentVisibility(currentSlideIndex);
             prevBtn.addEventListener('click', () => changeSlide(-1));
             nextBtn.addEventListener('click', () => changeSlide(1));
         }
 
-        // Inicializujeme slider
         initSlider();
-    } // Konec bloku "else" pro slider logiku
+    } // Konec bloku "if" pro slider logiku
 
+    // --- KÓD PRO PORTFOLIO PAGE (Spustí se jen na portfolio.html) ---
+    if (document.getElementById('portfolio-gallery')) {
+        initPortfolioPage();
+    }
 
 }); // <-- Konec DOMContentLoaded
 
+// --- KÓD PRO STRÁNKU PORTFOLIA (Spustí se jen na portfolio.html) ---
+function initPortfolioPage() {
+    // --- ČÁST 1: LOGIKA FILTROVÁNÍ GALERIE ---
+            
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const galleryItems = document.querySelectorAll('.gallery-item');
 
-// Počkáme, až se načte CELÁ stránka (včetně obrázků)
+    // Pokud nenajdeme tlačítka, nemá smysl pokračovat
+    if (filterButtons.length === 0 || galleryItems.length === 0) {
+        return;
+    }
+
+    function filterGallery(filter) {
+        galleryItems.forEach(item => {
+            if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+
+    function setActiveButton(filter) {
+        filterButtons.forEach(button => {
+            if (button.getAttribute('data-filter') === filter) {
+                button.classList.add('active');
+            } else {
+                button.classList.remove('active');
+            }
+        });
+    }
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault(); 
+            const filter = button.getAttribute('data-filter');
+            const newHash = button.getAttribute('href');
+
+            if (history.pushState) {
+                history.pushState(null, null, newHash);
+            } else {
+                location.hash = newHash;
+            }
+
+            setActiveButton(filter);
+            filterGallery(filter);
+        });
+    });
+
+    const currentHash = window.location.hash || '#vse';
+    const correspondingButton = document.querySelector(`.filter-btn[href="${currentHash}"]`);
+    
+    if (correspondingButton) {
+        const filter = correspondingButton.getAttribute('data-filter');
+        setActiveButton(filter);
+        filterGallery(filter);
+    }
+
+    // --- ČÁST 2: LOGIKA PRO LIGHTBOX ---
+
+    const lightbox = document.getElementById('lightbox');
+    if (lightbox) {
+        const lightboxImg = lightbox.querySelector('.lightbox-img');
+        const lightboxClose = lightbox.querySelector('.lightbox-close');
+        const lightboxPrev = lightbox.querySelector('.lightbox-prev');
+        const lightboxNext = lightbox.querySelector('.lightbox-next');
+        const lightboxCounter = lightbox.querySelector('.lightbox-counter');
+        const lightboxPlay = lightbox.querySelector('.lightbox-play');
+
+        let currentImageIndex = 0;
+        let currentGallery = [];
+        let isAnimating = false; // Zabrání překlikávání během animace
+        let slideshowInterval = null; // Pro ukládání intervalu prezentace
+
+        function updateCurrentGallery() {
+            currentGallery = [];
+            document.querySelectorAll('.gallery-item').forEach((item) => {
+                if (item.style.display !== 'none') { // Zpracujeme jen viditelné položky
+                    const link = item.querySelector('a'); // Cílíme na jakýkoliv odkaz uvnitř
+                    if (link) {
+                        currentGallery.push({
+                            src: link.getAttribute('href'),
+                            alt: link.getAttribute('data-alt') || 'Fotografie z portfolia'
+                        });
+                    }
+                }
+            });
+        }
+
+        function showImage(index) {
+            if (index < 0 || index >= currentGallery.length) return;
+            
+            const imgData = currentGallery[index];
+            lightboxImg.setAttribute('src', imgData.src);
+            lightboxImg.setAttribute('alt', imgData.alt);
+            currentImageIndex = index;
+            lightboxImg.classList.remove('zoomed');
+            updateCounter();
+        }
+
+        function openLightbox(index) {
+            updateCurrentGallery();
+            if (index >= 0 && index < currentGallery.length) {
+                showImage(index);
+                lightbox.classList.add('open');
+                document.body.style.overflow = 'hidden'; // Zabrání scrollování stránky pod lightboxem
+            }
+        }
+
+        const closeLightbox = () => {
+            lightbox.classList.remove('open');
+            document.body.style.overflow = ''; // Obnoví scrollování
+            lightboxImg.setAttribute('src', '');
+            lightboxImg.classList.remove('zoomed');
+            stopSlideshow(); // Zastaví prezentaci při zavření
+        };
+
+        function updateCounter() {
+            if (lightboxCounter) {
+                lightboxCounter.textContent = `${currentImageIndex + 1} / ${currentGallery.length}`;
+            }
+        }
+
+        function toggleSlideshow() {
+            if (slideshowInterval) {
+                stopSlideshow();
+            } else {
+                startSlideshow();
+            }
+        }
+
+        function startSlideshow() {
+            const icon = lightboxPlay.querySelector('i');
+            icon.classList.remove('fa-play');
+            icon.classList.add('fa-pause');
+            lightboxPlay.setAttribute('aria-label', 'Pozastavit prezentaci');
+            
+            // Počkáme 2 sekundy, než se spustí první přechod
+            slideshowInterval = setTimeout(() => {
+                slideshowNext(); // První přechod
+                slideshowInterval = setInterval(slideshowNext, 5000); // Další přechody každých 5s
+            }, 2000); // 2 sekundy prodleva
+        }
+        function slideshowNext() {
+            animateAndChangeImage((currentImageIndex + 1) % currentGallery.length, 'slide-out-left', 'slide-in-from-right');
+        }
+
+        function stopSlideshow() {
+            if (!slideshowInterval) return;
+            clearInterval(slideshowInterval);
+            slideshowInterval = null;
+            const icon = lightboxPlay.querySelector('i');
+            icon.classList.remove('fa-pause');
+            icon.classList.add('fa-play');
+            lightboxPlay.setAttribute('aria-label', 'Spustit prezentaci');
+        }
+        
+        function animateAndChangeImage(newIndex, outClass, inClass) {
+            if (isAnimating) return;
+            isAnimating = true;
+
+            lightboxImg.classList.add(outClass);
+
+            const onAnimationEnd = () => {
+                lightboxImg.classList.remove(outClass, inClass);
+                showImage(newIndex);
+                lightboxImg.classList.add(inClass);
+
+                lightboxImg.addEventListener('animationend', () => {
+                    lightboxImg.classList.remove(inClass);
+                    isAnimating = false;
+                }, { once: true });
+            };
+
+            lightboxImg.addEventListener('animationend', onAnimationEnd, { once: true });
+        }
+
+        const showNext = (e) => {
+            e.stopPropagation();
+            stopSlideshow(); // Ruční proklik zastaví automatickou prezentaci
+            const nextIndex = (currentImageIndex + 1) % currentGallery.length;
+            animateAndChangeImage(nextIndex, 'slide-out-left', 'slide-in-from-right');
+        };
+        
+        const showPrev = (e) => {
+            e.stopPropagation();
+            stopSlideshow(); // Ruční proklik zastaví automatickou prezentaci
+            const prevIndex = (currentImageIndex - 1 + currentGallery.length) % currentGallery.length;
+            animateAndChangeImage(prevIndex, 'slide-out-right', 'slide-in-from-left');
+        };
+
+        const toggleZoom = (e) => {
+            e.stopPropagation(); // Zabrání zavření lightboxu
+            lightboxImg.classList.toggle('zoomed');
+        };
+
+        document.querySelectorAll('.gallery-item a').forEach((link) => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                updateCurrentGallery(); 
+                const galleryIndex = currentGallery.findIndex(item => item.src === link.getAttribute('href'));
+                if (galleryIndex !== -1) openLightbox(galleryIndex);
+            });
+        });
+
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightboxNext.addEventListener('click', showNext);
+        lightboxPrev.addEventListener('click', showPrev);
+        lightbox.addEventListener('click', closeLightbox);
+        lightboxPlay.addEventListener('click', (e) => { e.stopPropagation(); toggleSlideshow(); });
+        lightboxImg.addEventListener('click', toggleZoom);
+
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.classList.contains('open')) {
+                // Vytvoříme falešný event objekt, abychom mohli znovu použít existující funkce
+                const fakeEvent = { stopPropagation: () => {} };
+
+                if (e.key === 'Escape') closeLightbox();
+                else if (e.key === 'ArrowRight') {
+                    showNext(fakeEvent);
+                }
+                else if (e.key === 'ArrowLeft') {
+                    showPrev(fakeEvent);
+                }
+            }
+        });
+    }
+}
+
+// --- KÓD PRO PRELOADER (Běží všude) ---
 window.addEventListener('load', function() {
     const preloader = document.getElementById('preloader');
-    setTimeout(function() {
-        if (preloader) {
-             preloader.classList.add('hidden');
-        }
-    }, 500);
-    setTimeout(function() {
-        if (preloader) {
+    if(preloader) { // Ověření, zda preloader existuje
+        setTimeout(function() {
+            preloader.classList.add('hidden');
+        }, 500);
+        setTimeout(function() {
            preloader.style.display = 'none';
-        }
-    }, 1500);
+        }, 1500);
+    }
 }); // <-- Konec load
