@@ -227,11 +227,15 @@ a {
     transition: opacity 0.3s ease-in-out 0.1s; /* Mírné zpoždění */
 }
 .hero-content h1 {
-    font-size: 3.5rem;
+    font-size: 4.5rem;
+    font-family: 'Montserrat'; /* NOVÝ FONT */
+    font-weight: 400; /* Bude tučný */
 }
 .hero-content p {
-    font-size: 1.2rem;
-    margin-top: 10px;
+    font-size: 1.5rem;
+    margin-top: -5px;
+    font-family: 'Montserrat'; /* NOVÝ FONT */
+    font-weight: 400; /* Bude normální */
 }
 
 /* ======== HERO SLIDER ŠIPKY ======== */
@@ -472,6 +476,11 @@ a {
     justify-content: center;
     align-items: center;
 }
+
+#kontakt .footer-socials a:hover {
+    text-decoration: none;
+}
+
 .footer-socials a {
     font-weight: 600;
     margin: 0 10px;
@@ -481,8 +490,6 @@ a {
     align-items: center;
     /* ZMĚNA: Barva odkazu už je nastavena v #kontakt a */
 }
-/* Hover efekt je už nastaven v #kontakt a:hover */
-/* .footer-socials a:hover { ... } */
 
 .footer-socials i {
     margin-right: 8px;
