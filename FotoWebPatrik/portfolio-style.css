@@ -1,0 +1,127 @@
+/* Hlavní obsah na stránce portfolia */
+.portfolio-page-main {
+    padding-top: 100px; /* Zajistí místo pod pevnou navigací */
+    background-color: var(--bg-color-light); /* TOTO ZŮSTÁVÁ, POZADÍ JE SVĚTLÉ */
+    color: var(--text-color-dark);
+}
+
+.portfolio-page-main .page-section {
+    padding-top: 40px;
+}
+
+/* === ZMĚNA ZDE === */
+/* Přidán styl pro nadpis, aby byl větší a uprostřed */
+.portfolio-page-main .portfolio-text h2 {
+    text-align: center;
+    font-size: 3.2rem; /* Větší písmo */
+    margin-bottom: 40px; 
+}
+
+/* Styly pro filtrovací tlačítka */
+.filter-buttons {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* === ZMĚNA ZDE === */
+/* Upraven styl tlačítek */
+.filter-btn {
+    background: none;
+    border: none; /* Pryč s okrajem */
+    color: #555;
+    padding: 10px 15px; /* Trochu upravený padding */
+    margin: 5px;
+    cursor: pointer;
+    font-size: 1rem; /* Větší písmo */
+    font-weight: 700; /* Tučnější */
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.filter-btn:hover {
+    background-color: transparent; 
+    color: #555; /* "nech to šedé" */
+    text-decoration: none; /* "nech bez podtržení" */
+}
+
+/* === ZMĚNA ZDE === */
+/* Aktivní bude zlaté A podtržené */
+.filter-btn.active {
+    background-color: transparent; 
+    color: var(--gold-color); /* Zlatá barva */
+    border: none; 
+    text-decoration: underline; /* "zůstane podtržené" */
+    text-underline-offset: 10px;
+}
+
+/* === PŘIDÁNO TOTO === */
+/* Tento nový blok zajistí, že aktivní tlačítko zůstane zlaté a podtržené,
+   i když na něj najedeš myší (aby nepřepsalo pravidlo z .filter-btn:hover) */
+.filter-btn.active:hover {
+    color: var(--gold-color);
+    text-decoration: underline;
+    text-underline-offset: 10px;
+}
+
+/* MŘÍŽKA PRO FOTKY (MASONRY EFEKT) 
+  Nejjednodušší způsob pro "zděný" layout.
+*/
+.gallery-grid {
+    column-count: 3; /* Počet sloupců pro desktop */
+    column-gap: 15px;
+}
+
+/* === ZMĚNA ZDE === */
+.gallery-item {
+    /* TÍMTO PŘEBIJEME PRAVIDLO "height: 300px;" Z style.css */
+    height: auto; 
+    
+    /* TÍMTO PŘEBIJEME "display: flex;" Z style.css */
+    display: block; 
+    
+    /* A ZRUŠÍME DALŠÍ VĚCI, KTERÉ NECHCEME */
+    border: none;
+    overflow: hidden; /* Skryje cokoliv, co by přeteklo (kvůli zaoblení) */
+    border-radius: 4px; /* Zaoblíme rohy i kontejneru */
+
+    /* TOTO ZŮSTÁVÁ Z TVÉHO KÓDU */
+    margin-bottom: 15px;
+    break-inside: avoid; /* Zabrání rozlomení obrázku mezi sloupci */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: auto;
+    display: block; /* Odstraní mezeru pod obrázkem */
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.gallery-item:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+}
+
+/* Zrušíme šedý "závoj" z hlavního style.css */
+.gallery-item::before {
+    background: none;
+}
+
+.gallery-item:hover::before {
+    background: none;
+}
+
+/* Responzivita pro mřížku */
+@media (max-width: 992px) {
+    .gallery-grid {
+        column-count: 2; /* Dva sloupce pro tablety */
+    }
+}
+
+@media (max-width: 576px) {
+    .gallery-grid {
+        column-count: 1; /* Jeden sloupec pro mobily */
+    }
+}

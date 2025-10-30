@@ -6,7 +6,12 @@ document.addEventListener("DOMContentLoaded", function() {
         yearSpan.textContent = currentYear;
     }
     // Kód pro rolovací navigaci
-    const navbar = document.querySelector('.navbar');
+const navbar = document.querySelector('.navbar');
+const heroSection = document.getElementById('hero'); // Zkusíme najít hlavní "hero" sekci
+
+// Tuto logiku pro změnu navigace při scrollu spustíme, POUZE pokud na stránce existuje #hero
+// (Tzn. spustí se jen na index.html, ale ne na portfolio.html)
+if (heroSection) {
     window.addEventListener('scroll', function() {
         if (window.scrollY > 50) {
             navbar.classList.add('scrolled');
@@ -14,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
             navbar.classList.remove('scrolled');
         }
     });
+}
 
     // Kód pro hamburger menu
     const hamburgerBtn = document.getElementById('hamburger-btn');

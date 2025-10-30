@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Patrik Bednář</title>
+    <link rel="icon" href="favicon.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="portfolio-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <header class="navbar scrolled">
+        <div class="navbar-container">
+            <div class="logo">
+                <a href="index.html"> <img src="images/logo-web-white.png" alt="Patrik Bednář - Logo">
+                </a>
+            </div>
+            <nav class="main-menu">
+                <ul>
+                    <li><a href="index.html#o-mne">O mně</a></li>
+                    <li><a href="index.html#portfolio">Portfolio</a></li>
+                    <li><a href="index.html#kontakt">Kontakt</a></li>
+                    <li><a href="wildlife.html">Wildlife</a></li>
+                </ul>
+            </nav>
+            <button class="hamburger-btn" id="hamburger-btn" aria-label="Otevřít menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="portfolio-page-main">
+        <section id="portfolio-gallery" class="page-section">
+            <div class="container">
+                <div class="portfolio-text">
+                    <h2>Moje <span>Portfolio</span></h2>
+                </div>
+
+                <div class="filter-buttons">
+                    <a href="#vse" class="filter-btn active" data-filter="all">Vše</a>
+                    <a href="#stuzkace" class="filter-btn" data-filter="stuzkace">Stužkáče</a>
+                    <a href="#portret" class="filter-btn" data-filter="portret">Portrét</a>
+                    <a href="#sport" class="filter-btn" data-filter="sport">Sport</a>
+                    <a href="#svatby" class="filter-btn" data-filter="svatby">Svatby</a>
+                </div>
+
+                <div class="gallery-grid">
+                    <div class="gallery-item" data-category="stuzkace">
+                        <img src="images/slide/slide-05.webp" alt="Stužkáč foto 1" loading="lazy">
+                    </div>
+                    <div class="gallery-item" data-category="portret">
+                        <img src="images/slide/slide-02.webp" alt="Portrét foto 1" loading="lazy">
+                    </div>
+                    <div class="gallery-item" data-category="svatby">
+                        <img src="images/slide/slide-01.webp" alt="Svatba foto 1" loading="lazy">
+                    </div>
+                    <div class="gallery-item" data-category="portret">
+                        <img src="images/portfolio/06.webp" alt="Portrét foto 2" loading="lazy">
+                    </div>
+                    <div class="gallery-item" data-category="stuzkace">
+                        <img src="images/sluzby/sluzba-akce.webp" alt="Stužkáč foto 2" loading="lazy">
+                    </div>
+                    <div class="gallery-item" data-category="sport">
+                        <img src="images/portfolio/10.webp" alt="Sport foto 1" loading="lazy">
+                    </div>
+                    <div class="gallery-item" data-category="svatby">
+                        <img src="images/portfolio/04.webp" alt="Svatba foto 2" loading="lazy">
+                    </div>
+                    <div class="gallery-item" data-category="portret">
+                        <img src="images/portfolio/01.webp" alt="Portrét foto 3" loading="lazy">
+                    </div>
+                    <div class="gallery-item" data-category="sport">
+                        <img src="images/portfolio/05.webp" alt="Sport foto 2" loading="lazy">
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer id="kontakt" class="page-section">
+        <div class="container">
+            <div class="footer-socials">
+                <a href="https://www.facebook.com/paatrikbednar/" target="_blank"><i class="fab fa-facebook-f"></i>
+                    Facebook</a>
+                <span>&bull;</span> <a href="https://www.instagram.com/paatrikbednar/" target="_blank"><i
+                        class="fab fa-instagram"></i> Instagram</a>
+            </div>
+            <div class="footer-grid">
+                <div class="footer-bio">
+                    <h3>Patrik Bednář</h3>
+                    <p>Profesionální fotograf s citem pro čistou práci a lidskými emocemi. K Vašim službám.</p>
+                </div>
+                <div class="footer-contact">
+                    <h3>Kontakt</h3>
+                    <p>
+                        <strong>Telefon:</strong> <a href="tel:+420736725152">+420 736 725 152</a><br>
+                        <strong>E-mail:</strong> <a
+                            href="mailto:patrikbednar06@gmail.com">patrikbednar06@gmail.com</a><br>
+                    </p>
+                    <p class="cookie-info">Ano, i tento web používá soubory Cookie. Používáním webu vyjadřujete souhlas.
+                    </p>
+                    <p class="copyright">Copyright © <span id="current-year"></span> Patrik Bednář. All Rights Reserved.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <a href="#top" class="back-to-top" aria-label="Zpět nahoru">&#8593;</a>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Vylepšený skript pro filtrování s URL kotvami
+        document.addEventListener('DOMContentLoaded', () => {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+
+            // Funkce, která fyzicky filtruje galerii
+            function filterGallery(filter) {
+                galleryItems.forEach(item => {
+                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+
+            // Funkce, která nastaví aktivní tlačítko
+            function setActiveButton(filter) {
+                filterButtons.forEach(button => {
+                    if (button.getAttribute('data-filter') === filter) {
+                        button.classList.add('active');
+                    } else {
+                        button.classList.remove('active');
+                    }
+                });
+            }
+
+            // 1. Nastavení klikání na tlačítka
+            filterButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault(); // Zabráníme klasickému "skoku" na kotvu
+
+                    const filter = button.getAttribute('data-filter');
+                    const newHash = button.getAttribute('href');
+
+                    // Změníme URL v prohlížeči
+                    if (history.pushState) {
+                        history.pushState(null, null, newHash);
+                    } else {
+                        location.hash = newHash;
+                    }
+
+                    // Spustíme filtrování
+                    setActiveButton(filter);
+                    filterGallery(filter);
+                });
+            });
+
+            // 2. Kontrola URL při načtení stránky
+            // (Aby fungovalo, když někdo přijde s odkazem portfolio.html#stuzkace)
+            const currentHash = window.location.hash || '#vse'; // Výchozí je '#vse'
+            const correspondingButton = document.querySelector(`.filter-btn[href="${currentHash}"]`);
+            
+            if (correspondingButton) {
+                const filter = correspondingButton.getAttribute('data-filter');
+                setActiveButton(filter);
+                filterGallery(filter);
+            }
+        });
+    </script>
+
+</body>
+
+</html>

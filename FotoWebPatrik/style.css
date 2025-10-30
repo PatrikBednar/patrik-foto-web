@@ -462,6 +462,7 @@ a {
 #kontakt a:hover {
     color: var(--gold-color); /* Zlatá při najetí */
     text-decoration: underline;
+    text-underline-offset: 6px;
 }
 
 
