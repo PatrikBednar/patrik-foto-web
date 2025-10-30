@@ -1,6 +1,10 @@
 // Počkáme, až se načte základní struktura DOM
 document.addEventListener("DOMContentLoaded", function() {
-
+    const yearSpan = document.getElementById('current-year');
+    if (yearSpan) {
+        const currentYear = new Date().getFullYear();
+        yearSpan.textContent = currentYear;
+    }
     // Kód pro rolovací navigaci
     const navbar = document.querySelector('.navbar');
     window.addEventListener('scroll', function() {

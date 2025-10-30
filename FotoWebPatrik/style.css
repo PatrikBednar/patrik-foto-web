@@ -485,9 +485,9 @@ a {
 /* .footer-socials a:hover { ... } */
 
 .footer-socials i {
-    color: var(--text-color-light); /* Ikony zůstanou zlaté */
     margin-right: 8px;
     font-size: 1.1rem;
+    transition: color 0.3s ease; /* Přidáme plynulý přechod barvy */
 }
 
 .footer-socials span {
