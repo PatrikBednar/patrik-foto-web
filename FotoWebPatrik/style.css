@@ -388,9 +388,9 @@ a {
 }
 
 /* Pozadí pro jednotlivé položky zůstávají stejná */
-#item-akce { background-image: url('images/sluzby/sluzba-akce.webp'); }
-#item-portret { background-image: url('images/sluzby/sluzba-portret.webp'); }
-#item-sport { background-image: url('images/sluzby/sluzba-sport.webp'); }
+#item-akce { background-image: url('images/preview_link/stuzkace.webp'); }
+#item-portret { background-image: url('images/preview_link/portret.webp'); }
+#item-sport { background-image: url('images/preview_link/sport.webp'); }
 
 
 /* ======== 4. NOVÁ SEKCE WILDLIFE CTA ======== */
