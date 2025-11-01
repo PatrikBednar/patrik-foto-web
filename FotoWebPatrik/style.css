@@ -312,13 +312,13 @@ a {
     margin-bottom: 25px;
     color: var(--text-color-light);
 }
-.about-me-text h2 span {
-    color: var(--gold-color);
-}
 .about-me-text p {
     font-size: 1.1rem;
     color: var(--text-color-light);
     max-width: 800px;
+}
+.about-me-text span {
+    color: var(--gold-color);
 }
 
 
@@ -329,15 +329,15 @@ a {
     padding-bottom: 80px; /* Zvětšený spodní okraj pro více místa */
 }
 
-/* Nadpis zůstává stejný */
-.portfolio-text h2 span {
-    color: var(--gold-color);
-}
 #portfolio .container h2 {
     text-align: center;
     font-size: 2.5rem;
     margin-top: 0; /* Upraveno z 30px, protože padding sekce je už 80px */
     margin-bottom: 40px;
+}
+
+.portfolio-text span {
+    color: var(--gold-color);
 }
 
 /* Mřížka má teď jen 3 sloupce */
@@ -387,10 +387,10 @@ a {
     background-color: rgba(0,0,0,0.2);
 }
 
-/* Pozadí pro jednotlivé položky zůstávají stejná */
-#item-akce { background-image: url('images/preview_link/stuzkace.webp'); }
-#item-portret { background-image: url('images/preview_link/portret.webp'); }
-#item-sport { background-image: url('images/preview_link/sport.webp'); }
+/* AKTUALIZOVANÉ OBRÁZKY NA POZADÍ PRO index.html */
+#item-akce { background-image: url('images/preview_link/IMG_2304_preview.webp'); }
+#item-portret { background-image: url('images/preview_link/IMG_1458_preview.webp'); }
+#item-sport { background-image: url('images/preview_link/IMG_9407-Enhanced-NR_preview.webp'); }
 
 
 /* ======== 4. NOVÁ SEKCE WILDLIFE CTA ======== */
@@ -402,7 +402,8 @@ a {
 .wildlife-link-cta {
     display: block;
     height: 350px;
-    background-image: url('images/slide/slide-06.webp');
+    /* AKTUALIZOVANÝ OBRÁZEK PRO WILDLIFE */
+    background-image: url('images/slider/IMG_8277-Enhanced-NR_slider.webp');
     background-size: cover;
     background-position: center;
     display: flex;
@@ -604,10 +605,6 @@ a {
     color: var(--text-color-dark);
 }
 
-.stuzkace-text h2 span {
-    color: var(--gold-color);
-}
-
 .stuzkace-text p {
     font-size: 1.1rem;
     color: #555;
@@ -645,6 +642,10 @@ a {
     color: var(--gold-color);
     margin-right: 15px;
     font-size: 1.2rem;
+}
+
+.stuzkace-text span {
+    color: var(--gold-color);
 }
 
 /* Responzivita patičky zůstává stejná */
