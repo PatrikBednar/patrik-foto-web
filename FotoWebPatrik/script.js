@@ -92,6 +92,7 @@ document.addEventListener("DOMContentLoaded", function() {
         let currentSlideIndex = 0;
         const totalSlides = slideImages.length;
         let isTransitioning = false;
+        let slideInterval; // Pro automatické posouvání
 
         function updateContentVisibility(index) {
             heroContent.style.opacity = (index === 0) ? '1' : '0';
@@ -100,6 +101,9 @@ document.addEventListener("DOMContentLoaded", function() {
         function changeSlide(direction) {
             if (isTransitioning) return;
             isTransitioning = true;
+
+            // Zastavíme a restartujeme interval při manuálním prokliku
+            stopAutoSlide();
 
             const previousSlideIndex = currentSlideIndex;
             currentSlideIndex += direction;
@@ -121,7 +125,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
             setTimeout(() => {
                 isTransitioning = false;
+                startAutoSlide(); // Restartujeme automatické posouvání
             }, 600);
+        }
+
+        function startAutoSlide() {
+            stopAutoSlide(); // Pojistka, aby neběželo více intervalů najednou
+            slideInterval = setInterval(() => changeSlide(1), 5000); // Mění slide každých 5 sekund
+        }
+
+        function stopAutoSlide() {
+            clearInterval(slideInterval);
         }
 
         function initSlider() {
@@ -135,6 +149,7 @@ document.addEventListener("DOMContentLoaded", function() {
             updateContentVisibility(currentSlideIndex);
             prevBtn.addEventListener('click', () => changeSlide(-1));
             nextBtn.addEventListener('click', () => changeSlide(1));
+            startAutoSlide(); // Spustíme automatické posouvání
         }
 
         initSlider();

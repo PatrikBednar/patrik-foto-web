@@ -780,17 +780,28 @@ a {
         pointer-events: auto;
      }
 
+    /* Hero sekce - Mobil */
+    #hero {
+        height: 55vh; /* Snížení výšky na mobilu na polovinu */
+    }
+    .hero-content h1 {
+        font-size: 2.5rem; /* Zmenšení hlavního nadpisu pro mobil */
+    }
+    .hero-content p {
+        font-size: 1rem; /* Zmenšení podnadpisu pro mobil */
+    }
     /* O mně - Mobil */
     .about-me-container {
         flex-direction: column;
         text-align: center;
     }
     .about-me-text {
-        order: 2;
+        order: 1; /* Text bude první */
+        margin-bottom: 30px; /* Přidá mezeru pod textem */
     }
     .about-me-photo {
-        order: 1;
-        margin-bottom: 30px;
+        order: 2; /* Fotografie bude druhá */
+        margin-bottom: 0; /* Odebere původní mezeru */
     }
     .about-me-photo img {
         width: 250px;
