@@ -284,6 +284,25 @@ function initPortfolioPage() {
             });
         }
 
+        function preloadImages(index) {
+            // Načteme 2 obrázky dopředu a 2 dozadu, aby bylo prohlížení plynulejší
+            for (let i = 1; i <= 2; i++) {
+                // Další obrázky
+                const nextIndex = (index + i) % currentGallery.length;
+                if (currentGallery[nextIndex]) {
+                    const imgNext = new Image();
+                    imgNext.src = currentGallery[nextIndex].src;
+                }
+
+                // Předchozí obrázky
+                const prevIndex = (index - i + currentGallery.length) % currentGallery.length;
+                if (currentGallery[prevIndex]) {
+                    const imgPrev = new Image();
+                    imgPrev.src = currentGallery[prevIndex].src;
+                }
+            }
+        }
+
         function showImage(index) {
             if (index < 0 || index >= currentGallery.length) return;
             
@@ -295,6 +314,7 @@ function initPortfolioPage() {
             lightboxImg.setAttribute('alt', imgData.alt);
             currentImageIndex = index;
             updateCounter();
+            preloadImages(index); // Spustíme načítání okolních obrázků
         }
 
         function openLightbox(index) {
