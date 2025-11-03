@@ -236,6 +236,12 @@ function initPortfolioPage() {
         let isAnimating = false; // Zabrání překlikávání během animace
         let slideshowInterval = null; // Pro ukládání intervalu prezentace
 
+        // --- Nové proměnné pro posouvání obrázku ---
+        let isPanning = false;
+        let startX, startY, lastX, lastY;
+        let transformX = 0, transformY = 0;
+        let wasDragged = false; // Nová proměnná pro rozlišení kliku a tažení
+
         function updateCurrentGallery() {
             currentGallery = [];
             document.querySelectorAll('.gallery-item').forEach((item) => {
@@ -254,11 +260,13 @@ function initPortfolioPage() {
         function showImage(index) {
             if (index < 0 || index >= currentGallery.length) return;
             
+            // Reset pozice a zoomu před zobrazením nového obrázku
+            resetImageTransform();
+
             const imgData = currentGallery[index];
             lightboxImg.setAttribute('src', imgData.src);
             lightboxImg.setAttribute('alt', imgData.alt);
             currentImageIndex = index;
-            lightboxImg.classList.remove('zoomed');
             updateCounter();
         }
 
@@ -274,8 +282,7 @@ function initPortfolioPage() {
         const closeLightbox = () => {
             lightbox.classList.remove('open');
             document.body.style.overflow = ''; // Obnoví scrollování
-            lightboxImg.setAttribute('src', '');
-            lightboxImg.classList.remove('zoomed');
+            resetImageTransform(); // Resetuje obrázek při zavření
             stopSlideshow(); // Zastaví prezentaci při zavření
         };
 
@@ -353,10 +360,60 @@ function initPortfolioPage() {
             animateAndChangeImage(prevIndex, 'slide-out-right', 'slide-in-from-left');
         };
 
+        function resetImageTransform() {
+            lightboxImg.classList.remove('zoomed');
+            lightboxImg.style.transition = 'transform 0.3s ease'; // Obnovíme přechod pro oddálení
+            lightboxImg.style.transform = 'scale(1) translate(0px, 0px)';
+            lightboxImg.style.cursor = 'zoom-in';
+            transformX = 0;
+            transformY = 0;
+        }
+
         const toggleZoom = (e) => {
             e.stopPropagation(); // Zabrání zavření lightboxu
-            lightboxImg.classList.toggle('zoomed');
+            // Pokud bylo taženo, neoddalovat. wasDragged se resetuje v endPan.
+            if (wasDragged) return;
+
+            if (lightboxImg.classList.contains('zoomed')) {
+                resetImageTransform();
+            } else {
+                lightboxImg.classList.add('zoomed');
+                lightboxImg.style.transform = 'scale(2)'; // Tento řádek chyběl
+                lightboxImg.style.cursor = 'grab';
+            }
         };
+
+        const startPan = (e) => {
+            if (!lightboxImg.classList.contains('zoomed')) return;
+            e.preventDefault();
+            isPanning = true;
+            wasDragged = false; // Resetujeme příznak na začátku každého stisknutí
+            startX = e.clientX - transformX;
+            startY = e.clientY - transformY;
+            lightboxImg.style.cursor = 'grabbing';
+            lightboxImg.style.transition = 'none'; // Vypneme animaci během posouvání
+        };
+
+        const pan = (e) => {
+            if (!isPanning) return;
+            e.preventDefault();
+            wasDragged = true; // Pokud se pohne myší, označíme, že bylo taženo
+            transformX = e.clientX - startX;
+            transformY = e.clientY - startY;
+            lightboxImg.style.transform = `scale(2) translate(${transformX}px, ${transformY}px)`;
+        };
+
+        const endPan = () => {
+            if (!isPanning) return;
+            isPanning = false;
+            lightboxImg.style.cursor = 'grab';
+            lightboxImg.style.transition = 'transform 0.3s ease'; // Vrátíme animaci pro plynulost
+            // Krátká prodleva před resetem `wasDragged`, aby se stihl zpracovat 'click' event
+            setTimeout(() => {
+                wasDragged = false;
+            }, 0);
+        };
+
 
         document.querySelectorAll('.gallery-item a').forEach((link) => {
             link.addEventListener('click', (e) => {
@@ -373,6 +430,11 @@ function initPortfolioPage() {
         lightbox.addEventListener('click', closeLightbox);
         lightboxPlay.addEventListener('click', (e) => { e.stopPropagation(); toggleSlideshow(); });
         lightboxImg.addEventListener('click', toggleZoom);
+        
+        // Event listenery pro posouvání
+        lightboxImg.addEventListener('mousedown', startPan);
+        document.addEventListener('mousemove', pan); // Sledujeme pohyb po celém dokumentu
+        document.addEventListener('mouseup', endPan);
 
         document.addEventListener('keydown', (e) => {
             if (lightbox.classList.contains('open')) {
