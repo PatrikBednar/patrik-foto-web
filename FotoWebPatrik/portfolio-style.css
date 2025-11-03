@@ -277,7 +277,7 @@
     border: none;
     font-size: 2.5rem; /* Zmenšení ikon */
     cursor: pointer;
-    padding: 0 0.5rem; /* Zmenšení paddingu */
+    padding: 25vh 5vw; /* Větší neviditelná klikací plocha (vertikální a horizontální) */
     user-select: none;
     transition: color 0.3s ease; /* Přechod barvy */
     z-index: 1001;

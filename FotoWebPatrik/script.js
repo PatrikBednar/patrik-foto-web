@@ -286,7 +286,7 @@ function initPortfolioPage() {
 
         function preloadImages(index) {
             // Načteme 2 obrázky dopředu a 2 dozadu, aby bylo prohlížení plynulejší
-            for (let i = 1; i <= 2; i++) {
+            for (let i = 1; i <= 5; i++) {
                 // Další obrázky
                 const nextIndex = (index + i) % currentGallery.length;
                 if (currentGallery[nextIndex]) {
