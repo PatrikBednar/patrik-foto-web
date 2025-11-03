@@ -220,6 +220,33 @@ function initPortfolioPage() {
         filterGallery(filter);
     }
 
+    // --- ČÁST 1C: LOGIKA PRO FADE EFEKTY PŘI SCROLLOVÁNÍ FILTRŮ ---
+    const filterButtonsContainer = document.querySelector('.filter-buttons');
+    const filterButtonsWrapper = document.querySelector('.filter-buttons-wrapper');
+
+    function checkScrollFades() {
+        if (!filterButtonsContainer || !filterButtonsWrapper) return;
+
+        const scrollLeft = filterButtonsContainer.scrollLeft;
+        const scrollWidth = filterButtonsContainer.scrollWidth;
+        const clientWidth = filterButtonsContainer.clientWidth;
+        const scrollEndThreshold = 5; // Malá tolerance na konci
+
+        // Zobrazit levý fade, pokud není na začátku
+        if (scrollLeft > 0) {
+            filterButtonsWrapper.classList.add('is-scrollable-left');
+        } else {
+            filterButtonsWrapper.classList.remove('is-scrollable-left');
+        }
+
+        // Zobrazit pravý fade, pokud není na konci
+        if (scrollWidth - scrollLeft - clientWidth > scrollEndThreshold) {
+            filterButtonsWrapper.classList.add('is-scrollable-right');
+        } else {
+            filterButtonsWrapper.classList.remove('is-scrollable-right');
+        }
+    }
+
     // --- ČÁST 2: LOGIKA PRO LIGHTBOX ---
 
     const lightbox = document.getElementById('lightbox');
@@ -450,6 +477,11 @@ function initPortfolioPage() {
                 }
             }
         });
+
+        // Pro logiku fade efektů u filtrů
+        filterButtonsContainer.addEventListener('scroll', checkScrollFades);
+        window.addEventListener('resize', checkScrollFades);
+        checkScrollFades(); // Zkontrolujeme stav hned po načtení
     }
 }
 

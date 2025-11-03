@@ -122,6 +122,11 @@
         column-count: 1; /* Jeden sloupec pro mobily */
     }
 
+    .filter-buttons-wrapper {
+        position: relative; /* Pozice pro pseudo-element s přechodem */
+        margin: 0 -15px; /* Roztáhne wrapper na celou šířku obrazovky */
+    }
+
     /* Úprava pro horizontálně scrollovací tlačítka na mobilu */
     .filter-buttons {
         display: flex;
@@ -130,8 +135,40 @@
         justify-content: flex-start; /* Zarovná tlačítka na začátek */
         -webkit-overflow-scrolling: touch; /* Plynulé scrollování na iOS */
         scrollbar-width: none; /* Skryje scrollbar ve Firefoxu */
-        padding-bottom: 10px; /* Malý prostor pod tlačítky, aby stín nebyl oříznutý */
+        padding-bottom: 15px; /* Malý prostor pod tlačítky, aby stín nebyl oříznutý */
+        padding-left: 15px; /* Odsazení zleva, aby první tlačítko nebylo nalepené na kraji */
+        padding-right: 15px; /* Odsazení zprava, aby poslední tlačítko nebylo pod přechodem */
     }
+
+    /* Vizuální indikátory, že lze rolovat (fade efekty) */
+    .filter-buttons-wrapper::before,
+    .filter-buttons-wrapper::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        height: calc(100% - 15px); /* Výška bez spodního paddingu */
+        pointer-events: none; /* Aby neblokoval kliknutí na tlačítka pod ním */
+        transition: opacity 0.3s ease;
+    }
+
+    /* Pravý přechod (větší) */
+    .filter-buttons-wrapper::after {
+        right: 0; /* Přechod je na pravém okraji wrapperu */
+        width: 90px; /* Ještě širší přechod pro lepší viditelnost */
+        background: linear-gradient(to left, var(--bg-color-light) 30%, transparent);
+        opacity: 0; /* Standardně skrytý, zobrazí se přes JS */
+    }
+
+    /* Levý přechod (menší) */
+    .filter-buttons-wrapper::before {
+        left: 0;
+        width: 40px;
+        background: linear-gradient(to right, var(--bg-color-light) 30%, transparent);
+        opacity: 0; /* Standardně skrytý */
+    }
+    .filter-buttons-wrapper.is-scrollable-right::after { opacity: 1; }
+    .filter-buttons-wrapper.is-scrollable-left::before { opacity: 1; }
+
     .filter-buttons::-webkit-scrollbar {
         display: none; /* Skryje scrollbar v Chrome/Safari */
     }
