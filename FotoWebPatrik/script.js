@@ -359,18 +359,20 @@ function initPortfolioPage() {
 
             lightboxImg.classList.add(outClass);
 
-            const onAnimationEnd = () => {
-                lightboxImg.classList.remove(outClass, inClass);
+            const onOutAnimationEnd = () => {
                 showImage(newIndex);
+                lightboxImg.classList.remove(outClass);
                 lightboxImg.classList.add(inClass);
 
-                lightboxImg.addEventListener('animationend', () => {
+                const onInAnimationEnd = () => {
                     lightboxImg.classList.remove(inClass);
                     isAnimating = false;
-                }, { once: true });
+                    lightboxImg.removeEventListener('animationend', onInAnimationEnd);
+                };
+                lightboxImg.addEventListener('animationend', onInAnimationEnd);
             };
 
-            lightboxImg.addEventListener('animationend', onAnimationEnd, { once: true });
+            lightboxImg.addEventListener('animationend', onOutAnimationEnd, { once: true });
         }
 
         const showNext = (e) => {
