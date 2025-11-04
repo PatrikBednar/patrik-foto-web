@@ -205,8 +205,6 @@ a {
     object-position: center center; /* Centrované oříznutí */
     opacity: 0; /* Výchozí stav - neviditelný */
     transition: opacity 0.6s ease-in-out; /* Plynulé prolínání */
-    /* Mírné ztmavení pro lepší čitelnost textu */
-    filter: brightness(0.8);
 }
 /* Aktivní (viditelný) slide */
 .hero-slide-img.active {
@@ -388,7 +386,7 @@ a {
 }
 
 /* AKTUALIZOVANÉ OBRÁZKY NA POZADÍ PRO index.html */
-#item-akce { background-image: url('images/preview_link/IMG_2304_preview.webp'); }
+#item-akce { background-image: url('images/preview_link/IMG_3629_preview.webp'); }
 #item-portret { background-image: url('images/preview_link/IMG_1458_preview.webp'); }
 #item-sport { background-image: url('images/preview_link/IMG_9407-Enhanced-NR_preview.webp'); }
 
@@ -615,7 +613,7 @@ a {
 .stuzkace-text p a {
     color: var(--gold-color);
     font-weight: 600;
-    text-decoration: none;
+    text-decoration: underline;
 }
 
 .stuzkace-text p a:hover {

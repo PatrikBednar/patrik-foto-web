@@ -64,8 +64,11 @@
   Nejjednodušší způsob pro "zděný" layout.
 */
 .gallery-grid {
-    column-count: 3; /* Počet sloupců pro desktop */
-    column-gap: 15px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-auto-rows: 250px; /* Výška jedné "buňky" v mřížce */
+    grid-auto-flow: dense; /* Důležité pro zaplnění mezer */
+    gap: 15px;
 }
 
 .gallery-item {
@@ -84,13 +87,23 @@
 
     /* TOTO ZŮSTÁVÁ Z TVÉHO KÓDU */
     margin-bottom: 15px;
-    break-inside: avoid; /* Zabrání rozlomení obrázku mezi sloupci */
+    /* break-inside: avoid;  Už není potřeba pro CSS Grid */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Nové třídy pro změnu velikosti položek */
+.gallery-item.wide {
+    grid-column: span 2; /* Položka zabere 2 sloupce */
+}
+
+.gallery-item.tall {
+    grid-row: span 2; /* Položka zabere 2 řádky */
 }
 
 .gallery-item img {
     width: 100%;
-    height: auto;
+    height: 100%; /* Změna na 100% pro vyplnění kontejneru */
+    object-fit: cover; /* Zajistí, že obrázek vyplní prostor bez deformace */
     display: block; /* Odstraní mezeru pod obrázkem */
     border-radius: 4px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -113,18 +126,15 @@
 /* Responzivita pro mřížku */
 @media (max-width: 992px) {
     .gallery-grid {
-        column-count: 2; /* Dva sloupce pro tablety */
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        grid-auto-rows: 200px;
     }
 }
 
 @media (max-width: 768px) {
     .gallery-grid {
-        column-count: 1; /* Jeden sloupec pro mobily */
-    }
-
-    .filter-buttons-wrapper {
-        position: relative; /* Pozice pro pseudo-element s přechodem */
-        margin: 0 -15px; /* Roztáhne wrapper na celou šířku obrazovky */
+        grid-template-columns: 1fr; /* Jeden sloupec pro mobily */
+        grid-auto-rows: 300px;
     }
 
     /* Úprava pro horizontálně scrollovací tlačítka na mobilu */
@@ -135,40 +145,8 @@
         justify-content: flex-start; /* Zarovná tlačítka na začátek */
         -webkit-overflow-scrolling: touch; /* Plynulé scrollování na iOS */
         scrollbar-width: none; /* Skryje scrollbar ve Firefoxu */
-        padding-bottom: 15px; /* Malý prostor pod tlačítky, aby stín nebyl oříznutý */
-        padding-left: 15px; /* Odsazení zleva, aby první tlačítko nebylo nalepené na kraji */
-        padding-right: 15px; /* Odsazení zprava, aby poslední tlačítko nebylo pod přechodem */
+        padding-bottom: 10px; /* Malý prostor pod tlačítky, aby stín nebyl oříznutý */
     }
-
-    /* Vizuální indikátory, že lze rolovat (fade efekty) */
-    .filter-buttons-wrapper::before,
-    .filter-buttons-wrapper::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        height: calc(100% - 15px); /* Výška bez spodního paddingu */
-        pointer-events: none; /* Aby neblokoval kliknutí na tlačítka pod ním */
-        transition: opacity 0.3s ease;
-    }
-
-    /* Pravý přechod (větší) */
-    .filter-buttons-wrapper::after {
-        right: 0; /* Přechod je na pravém okraji wrapperu */
-        width: 90px; /* Ještě širší přechod pro lepší viditelnost */
-        background: linear-gradient(to left, var(--bg-color-light) 30%, transparent);
-        opacity: 0; /* Standardně skrytý, zobrazí se přes JS */
-    }
-
-    /* Levý přechod (menší) */
-    .filter-buttons-wrapper::before {
-        left: 0;
-        width: 40px;
-        background: linear-gradient(to right, var(--bg-color-light) 30%, transparent);
-        opacity: 0; /* Standardně skrytý */
-    }
-    .filter-buttons-wrapper.is-scrollable-right::after { opacity: 1; }
-    .filter-buttons-wrapper.is-scrollable-left::before { opacity: 1; }
-
     .filter-buttons::-webkit-scrollbar {
         display: none; /* Skryje scrollbar v Chrome/Safari */
     }
@@ -277,7 +255,7 @@
     border: none;
     font-size: 2.5rem; /* Zmenšení ikon */
     cursor: pointer;
-    padding: 25vh 5vw; /* Větší neviditelná klikací plocha (vertikální a horizontální) */
+    padding: 0 0.5rem; /* Zmenšení paddingu */
     user-select: none;
     transition: color 0.3s ease; /* Přechod barvy */
     z-index: 1001;
