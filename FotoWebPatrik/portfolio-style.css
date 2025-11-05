@@ -60,40 +60,67 @@
     text-underline-offset: 10px;
 }
 
-/* MŘÍŽKA PRO FOTKY (MASONRY EFEKT) 
-  Nejjednodušší způsob pro "zděný" layout.
-*/
+/* === NOVÁ MŘÍŽKA PRO FOTKY (CSS GRID) === */
 .gallery-grid {
-    column-count: 3; /* Počet sloupců pro desktop */
-    column-gap: 15px;
+    display: grid;
+    /* Vytvoří sloupce, které mají minimálně 300px, 
+      ale roztáhnou se, aby vyplnily prostor (1fr).
+    */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    
+    /* ODSTRANĚNO: grid-auto-rows: 250px; 
+       Výška řádků se nyní řídí obsahem díky aspect-ratio na img.
+    */
+    
+    /* Nejdůležitější vlastnost: 
+      Řekne prohlížeči, aby se snažil zaplnit mezery, 
+      i kdyby to znamenalo změnu pořadí prvků.
+    */
+    grid-auto-flow: dense; 
+    
+    /* Tímto řídíme rovnoměrné mezery mezi všemi buňkami.
+    */
+    gap: 15px;
 }
 
 .gallery-item {
-    /* TÍMTO PŘEBIJEME PRAVIDLO "height: 300px;" Z style.css */
     height: auto; 
-    
-    /* TÍMTO PŘEBIJEME "display: flex;" Z style.css */
     display: block; 
-    
-    /* A ZRUŠÍME DALŠÍ VĚCI, KTERÉ NECHCEME */
     border: none;
     border-radius: 4px; /* Zaoblíme rohy i kontejneru */
-    /* OPRAVA: Explicitně povolíme přetékání a nastavíme pozici */
-    overflow: visible; 
+    overflow: hidden;  
     position: relative;
-
-    /* TOTO ZŮSTÁVÁ Z TVÉHO KÓDU */
-    margin-bottom: 15px;
-    break-inside: avoid; /* Zabrání rozlomení obrázku mezi sloupci */
+    margin-bottom: 0; 
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Nové třídy pro změnu velikosti položek */
+/* POZNÁMKA: Tyto třídy nyní pouze ovlivňují šířku (sloupce),
+   výšku se bude řídit poměrem stran obrázku. */
+.gallery-item.wide {
+    grid-column: span 2; /* Položka zabere 2 sloupce */
+}
+
+/* Třída .tall nyní nebude mít žádný efekt na rozložení,
+   protože se výška řídí aspect-ratio. Můžete ji odstranit,
+   pokud ji nechcete používat, nebo jí dát jiný smysl (např. padding).
+
+.gallery-item.tall {
+    /* grid-row: span 2; <-- Toto už nemá smysl bez grid-auto-rows
+}
+*/
 .gallery-item img {
     width: 100%;
-    height: auto;
-    display: block; /* Odstraní mezeru pod obrázkem */
+    /* Odstraněno: height: 100%; - výška se nyní řídí aspect-ratio */
+    object-fit: cover; 
+    display: block; 
     border-radius: 4px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    
+    /* --- ZDE JE KLÍČOVÁ ZMĚNA PRO ZACHOVÁNÍ POMĚRU STRAN --- */
+    aspect-ratio: 16/9; /* Výchozí poměr stran (širokoúhlý) */
+    /* Pro obrázky, které mají jiný poměr stran (např. portrét),
+       je potřeba nastavit style="aspect-ratio: X/Y;" přímo v HTML. */
 }
 
 .gallery-item:hover {
@@ -113,64 +140,72 @@
 /* Responzivita pro mřížku */
 @media (max-width: 992px) {
     .gallery-grid {
-        column-count: 2; /* Dva sloupce pro tablety */
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        /* grid-auto-rows: 200px; <-- Odstraněno */
     }
 }
 
 @media (max-width: 768px) {
     .gallery-grid {
-        column-count: 1; /* Jeden sloupec pro mobily */
+        grid-template-columns: 1fr; /* Jeden sloupec pro mobily */
+        /* grid-auto-rows: 300px; <-- Odstraněno */
+    }
+
+    /* Vynutíme, aby na mobilu žádná fotka nebyla 'wide' */
+    .gallery-item.wide {
+        grid-column: span 1;
+    }
+
+    /* Třída .tall je neaktivní */
+    .gallery-item.tall {
+        grid-row: span 1;
     }
 
     .filter-buttons-wrapper {
-        position: relative; /* Pozice pro pseudo-element s přechodem */
-        margin: 0 -15px; /* Roztáhne wrapper na celou šířku obrazovky */
+        position: relative; 
+        margin: 0 -15px; 
     }
 
-    /* Úprava pro horizontálně scrollovací tlačítka na mobilu */
     .filter-buttons {
         display: flex;
         overflow-x: auto;
-        white-space: nowrap; /* Zabrání zalamování tlačítek */
-        justify-content: flex-start; /* Zarovná tlačítka na začátek */
-        -webkit-overflow-scrolling: touch; /* Plynulé scrollování na iOS */
-        scrollbar-width: none; /* Skryje scrollbar ve Firefoxu */
-        padding-bottom: 15px; /* Malý prostor pod tlačítky, aby stín nebyl oříznutý */
-        padding-left: 15px; /* Odsazení zleva, aby první tlačítko nebylo nalepené na kraji */
-        padding-right: 15px; /* Odsazení zprava, aby poslední tlačítko nebylo pod přechodem */
+        white-space: nowrap; 
+        justify-content: flex-start; 
+        -webkit-overflow-scrolling: touch; 
+        scrollbar-width: none; 
+        padding-bottom: 15px; 
+        padding-left: 15px; 
+        padding-right: 15px; 
     }
 
-    /* Vizuální indikátory, že lze rolovat (fade efekty) */
     .filter-buttons-wrapper::before,
     .filter-buttons-wrapper::after {
         content: '';
         position: absolute;
         top: 0;
-        height: calc(100% - 15px); /* Výška bez spodního paddingu */
-        pointer-events: none; /* Aby neblokoval kliknutí na tlačítka pod ním */
+        height: calc(100% - 15px); 
+        pointer-events: none; 
         transition: opacity 0.3s ease;
     }
 
-    /* Pravý přechod (větší) */
     .filter-buttons-wrapper::after {
-        right: 0; /* Přechod je na pravém okraji wrapperu */
-        width: 90px; /* Ještě širší přechod pro lepší viditelnost */
+        right: 0; 
+        width: 90px; 
         background: linear-gradient(to left, var(--bg-color-light) 30%, transparent);
-        opacity: 0; /* Standardně skrytý, zobrazí se přes JS */
+        opacity: 0; 
     }
 
-    /* Levý přechod (menší) */
     .filter-buttons-wrapper::before {
         left: 0;
         width: 40px;
         background: linear-gradient(to right, var(--bg-color-light) 30%, transparent);
-        opacity: 0; /* Standardně skrytý */
+        opacity: 0; 
     }
     .filter-buttons-wrapper.is-scrollable-right::after { opacity: 1; }
     .filter-buttons-wrapper.is-scrollable-left::before { opacity: 1; }
 
     .filter-buttons::-webkit-scrollbar {
-        display: none; /* Skryje scrollbar v Chrome/Safari */
+        display: none; 
     }
 }
 
@@ -179,10 +214,11 @@
 /* Nutná úprava pro <a> tag v mřížce */
 .gallery-item a {
     display: block;
-    line-height: 0; /* Odstraní mezeru pod obrázkem */
-    /* OPRAVA: Zvedne odkaz do vyšší vrstvy, aby byl klikatelný */
+    line-height: 0; 
     position: relative;
     z-index: 2;
+    width: 100%;
+    height: 100%; /* Zachováno, aby odkaz vyplnil celou oblast */
 }
 
 /* Hlavní overlay */
@@ -192,14 +228,14 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: var(--bg-color-light); /* Změna na bílé pozadí */
+    background-color: var(--bg-color-light); 
     z-index: 1000;
     display: flex;
     justify-content: center;
     align-items: center;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.4s ease, visibility 0.4s ease; /* Mírně zpomalený přechod */
+    transition: opacity 0.4s ease, visibility 0.4s ease; 
 }
 
 .lightbox.open {
@@ -214,8 +250,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: auto; /* Povolí rolování, když je obrázek zazoomovaný */
-    padding: 40px; /* Vytvoří rovnoměrný okraj kolem obrázku */
+    overflow: auto; 
+    padding: 40px; 
     box-sizing: border-box;
 }
 
@@ -226,6 +262,7 @@
     object-fit: contain;
     cursor: zoom-in;
     transition: transform 0.3s ease;
+    /* Zde již není potřeba aspect-ratio, lightbox si poradí */
 }
 
 /* Třídy pro animaci přechodu obrázků */
@@ -262,7 +299,7 @@
 
 /* Styl pro zazoomování */
 .lightbox-img.zoomed {
-    transform: scale(2); /* Úroveň zoomu (můžeš změnit na 1.5, 2.5...) */
+    transform: scale(2); 
     cursor: zoom-out;
 }
 
@@ -273,19 +310,19 @@
     top: 50%;
     transform: translateY(-50%);
     background: none;
-    color: #333; /* Tmavá barva */
+    color: #333; 
     border: none;
-    font-size: 2.5rem; /* Zmenšení ikon */
+    font-size: 2.5rem; 
     cursor: pointer;
-    padding: 25vh 5vw; /* Větší neviditelná klikací plocha (vertikální a horizontální) */
+    padding: 25vh 5vw; 
     user-select: none;
-    transition: color 0.3s ease; /* Přechod barvy */
+    transition: color 0.3s ease; 
     z-index: 1001;
 }
 
 .lightbox-prev:hover,
 .lightbox-next:hover {
-    color: var(--gold-color); /* Zlatá barva při najetí */
+    color: var(--gold-color); 
 }
 
 .lightbox-prev {
@@ -303,19 +340,19 @@
     right: 1.5rem;
     background: none;
     border: none;
-    color: #333; /* Tmavá barva */
+    color: #333; 
     font-size: 3rem;
     font-weight: 300;
     cursor: pointer;
     line-height: 1;
     user-select: none;
     z-index: 1001;
-    transition: color 0.3s ease, transform 0.3s ease; /* Přidán přechod pro transformaci */
+    transition: color 0.3s ease, transform 0.3s ease; 
 }
 
 .lightbox-close:hover {
-    color: var(--gold-color); /* Zlatá barva při najetí */
-    transform: rotate(90deg); /* Efekt otočení při najetí */
+    color: var(--gold-color); 
+    transform: rotate(90deg); 
 }
 
 /* Nový ovládací panel (toolbar) */
@@ -324,23 +361,23 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    padding: 10px 15px; /* Menší padding */
+    padding: 10px 15px; 
     box-sizing: border-box;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.9); /* Lehce průhledné bílé pozadí */
-    backdrop-filter: blur(5px); /* Efekt rozmazání pozadí pod panelem */
-    gap: 15px; /* Menší mezery */
-    z-index: 1002; /* Nad obrázkem, ale pod křížkem, pokud by se překrývaly */
+    background-color: rgba(255, 255, 255, 0.9); 
+    backdrop-filter: blur(5px); 
+    gap: 15px; 
+    z-index: 1002; 
 }
 
 /* Počítadlo obrázků */
 .lightbox-counter {
-    font-size: 1rem; /* Zmenšení textu */
+    font-size: 1rem; 
     color: #333;
     font-weight: 600;
-    min-width: 50px; /* Zajistí, aby se layout nerozpadl při změně textu */
+    min-width: 50px; 
     text-align: center;
 }
 
@@ -349,7 +386,7 @@
     background: none;
     border: none;
     color: #333;
-    font-size: 1.3rem; /* Zmenšení ikony */
+    font-size: 1.3rem; 
     cursor: pointer;
     transition: color 0.3s ease;
 }
