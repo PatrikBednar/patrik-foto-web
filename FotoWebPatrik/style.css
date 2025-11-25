@@ -211,6 +211,18 @@ a {
     opacity: 1;
 }
 
+/* Přidání černého přechodu pouze na první aktivní obrázek pro lepší čitelnost textu */
+.hero-slide-img:first-child.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50%; /* Výška přechodu */
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    opacity: 1;
+}
+
 /* Obsah (nad obrázky) */
 .hero-content {
     text-align: left;
@@ -219,7 +231,6 @@ a {
     left: 8%;
     z-index: 2; /* Nad obrázky, pod šipkami */
     box-sizing: border-box;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.5); /* Stín textu */
     /* Transition pro plynulé mizení/zobrazení */
     opacity: 1; /* Výchozí stav (pro první slide) */
     transition: opacity 0.3s ease-in-out 0.1s; /* Mírné zpoždění */
