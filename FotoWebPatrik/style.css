@@ -518,10 +518,66 @@ a {
 
 
 /* Mřížka patičky */
+/* Mřížka patičky - ZMĚNA NA 3 SLOUPCE */
 .footer-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    /* Tři sloupce: Bio (širší), Menu (užší), Kontakt (širší) */
+    grid-template-columns: 1.2fr 0.8fr 1.2fr; 
     gap: 40px;
+    align-items: start;
+}
+
+.footer-bio h3,
+.footer-contact h3,
+.footer-nav h3 { /* Přidáno h3 pro navigaci */
+    font-size: 1.5rem; /* Trochu zjemněno, původně 1.8rem */
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.footer-bio p,
+.footer-contact p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    color: #cccccc; /* Jemně šedá pro lepší čitelnost na černém */
+}
+
+/* NOVÉ STYLY PRO NAVIGACI V PATIČCE */
+.footer-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-nav li {
+    margin-bottom: 12px;
+}
+
+.footer-nav a {
+    color: #cccccc;
+    text-decoration: none;
+    transition: color 0.3s ease, padding-left 0.3s ease;
+    display: inline-block;
+}
+
+.footer-nav a:hover {
+    color: var(--gold-color);
+    padding-left: 5px; /* Efekt posunu při najetí */
+}
+
+/* ÚPRAVA RESPONZIVITY (MOBILY) */
+@media (max-width: 768px) {
+    .footer-grid {
+        grid-template-columns: 1fr; /* Na mobilu vše pod sebou */
+        gap: 50px; /* Větší mezery mezi sekcemi na mobilu */
+        text-align: center; /* Na mobilu vypadá lépe zarovnání na střed */
+    }
+    
+    /* Na mobilu skryjeme efekt posunu odkazu */
+    .footer-nav a:hover {
+        padding-left: 0;
+    }
 }
 
 .footer-bio h3,
