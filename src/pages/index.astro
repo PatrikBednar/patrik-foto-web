@@ -3,24 +3,6 @@ import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import Preloader from '../components/Preloader.astro';
-import { Image } from 'astro:assets';
-
-// 1. Importy fotek pro Slider (to už tam asi máš)
-import imgConcert from '../assets/images/IMG_3629_lightbox.jpg';
-import imgWedding from '../assets/images/IMG_8779_lightbox.jpg';
-import imgPortrait from '../assets/images/IMG_2705_lightbox.jpg'; // Upraveno na dostupnou fotku
-import imgStuzkac1 from '../assets/images/IMG_7636_lightbox.jpg';
-import imgStuzkac2 from '../assets/images/IMG_1458_lightbox.jpg';
-import imgWildlife from '../assets/images/IMG_8779_lightbox.jpg'; // Použijeme dostupnou, pokud wildlife chybí
-
-// 2. NOVÉ Importy pro sekci "Moje portfolio" (Dlaždice)
-// Vybral jsem reprezentativní fotky z tvé složky assets
-import imgTileReportaz from '../assets/images/IMG_3629_lightbox.jpg';
-import imgTilePortret from '../assets/images/IMG_1713_lightbox.jpg';
-import imgTileSport from '../assets/images/IMG_9940_lightbox.jpg';
-
-// Import fotky "O mně" (pokud ji máš v assets, jinak nech cestu k public)
-// import imgAboutMe from '../assets/images/o-mne-foto.webp'; 
 ---
 
 <Layout title="Patrik Bednář - Fotograf">
@@ -30,12 +12,12 @@ import imgTileSport from '../assets/images/IMG_9940_lightbox.jpg';
     <main>
         <section id="hero">
             <div class="hero-image-wrapper">
-                <Image src={imgConcert} alt="Fotka z koncertu" class="hero-slide-img" loading="eager" />
-                <Image src={imgWedding} alt="Svatba" class="hero-slide-img active" loading="eager" />
-                <Image src={imgPortrait} alt="Portrét" class="hero-slide-img" loading="eager" />
-                <Image src={imgStuzkac1} alt="Stužkáč" class="hero-slide-img" loading="eager" />
-                <Image src={imgStuzkac2} alt="Stužkování" class="hero-slide-img" loading="eager" />
-                <Image src={imgWildlife} alt="Příroda" class="hero-slide-img" loading="eager" />
+                <img src="/images/slider/IMG_3629_slider.webp" alt="Fotka z koncertu Thoma Artwaye" class="hero-slide-img">
+                <img src="/images/slider/IMG_8779_slider.webp" alt="Svatba při západu slunce" class="hero-slide-img active">
+                <img src="/images/slider/IMG_2502_slider.webp" alt="Portrét v poli" class="hero-slide-img">
+                <img src="/images/slider/IMG_7636_slider.webp" alt="Momentka ze stužkáče" class="hero-slide-img">
+                <img src="/images/slider/IMG_1458_slider.webp" alt="Stužkování maturantky" class="hero-slide-img">
+                <img src="/images/slider/IMG_8277-Enhanced-NR_slider.webp" alt="Sýkorka v zimě" class="hero-slide-img">
             </div>
 
             <div class="hero-content">
@@ -74,25 +56,11 @@ import imgTileSport from '../assets/images/IMG_9940_lightbox.jpg';
                  </div>
                 
                 <div class="portfolio-grid">
-                    <a href="/portfolio#reportaz" class="gallery-item">
-                        <Image src={imgTileReportaz} alt="Reportážní fotografie" width={600} class="tile-bg-img" />
-                        <div class="overlay"></div>
-                        <h3>Reportáž</h3>
-                    </a>
-                    
-                    <a href="/portfolio#portret" class="gallery-item">
-                        <Image src={imgTilePortret} alt="Portrétní fotografie" width={600} class="tile-bg-img" />
-                        <div class="overlay"></div>
-                        <h3>Portréty</h3>
-                    </a>
-
-                    <a href="/portfolio#sport" class="gallery-item">
-                        <Image src={imgTileSport} alt="Sportovní fotografie" width={600} class="tile-bg-img" />
-                        <div class="overlay"></div>
-                        <h3>Sport</h3>
-                    </a>
+                    <a href="/portfolio#reportaz" class="gallery-item" id="item-akce"><h3>Reportáž</h3></a>
+                    <a href="/portfolio#portret" class="gallery-item" id="item-portret"><h3>Portréty</h3></a>
+                    <a href="/portfolio#sport" class="gallery-item" id="item-sport"><h3>Sport</h3></a>
+                    </div>
                 </div>
-            </div>
         </section>
 
         <section id="stuzkace" class="page-section">
@@ -120,58 +88,3 @@ import imgTileSport from '../assets/images/IMG_9940_lightbox.jpg';
 
     <Footer />
 </Layout>
-
-<style>
-    /* CSS FIX PRO DLAŽDICE
-       Protože jsme změnili pozadí z CSS na <Image>, musíme je nastylovat tak, aby vypadaly stejně.
-    */
-    .portfolio-grid .gallery-item {
-        position: relative;
-        overflow: hidden;
-        /* Odstraníme staré ID styly z globálního CSS tím, že je tady přepíšeme nebo ignorujeme */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1;
-    }
-
-    /* Obrázek na pozadí */
-    .tile-bg-img {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        z-index: -2; /* Úplně vespod */
-        transition: transform 0.5s ease;
-    }
-
-    /* Ztmavovací vrstva (aby byl text čitelný) */
-    .overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.4); /* 40% černá */
-        z-index: -1;
-        transition: background 0.3s ease;
-    }
-
-    /* Text */
-    .portfolio-grid .gallery-item h3 {
-        position: relative;
-        z-index: 10;
-        color: white; /* Ujištění, že je bílý */
-    }
-
-    /* Hover efekty */
-    .portfolio-grid .gallery-item:hover .tile-bg-img {
-        transform: scale(1.1);
-    }
-    
-    .portfolio-grid .gallery-item:hover .overlay {
-        background: rgba(0, 0, 0, 0.2); /* Světlejší při najetí */
-    }
-</style>
