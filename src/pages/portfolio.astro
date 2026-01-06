@@ -2,9 +2,64 @@
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
-
-// Import specifického CSS pro portfolio
+import { Image } from 'astro:assets';
 import '../styles/portfolio-style.css';
+
+// 1. Hromadné načtení všech JPG obrázků z assets
+// Načte všechny .jpg soubory ze složky src/assets/images
+const images = import.meta.glob<{ default: ImageMetadata }>('../assets/images/*.jpg', { eager: true });
+
+// Pomocná funkce pro získání fotky podle názvu
+const getImage = (filename: string) => {
+    // Sestavíme cestu k souboru
+    const path = `../assets/images/${filename}.jpg`;
+    
+    // Ověříme, zda soubor existuje
+    if (!images[path]) {
+        console.error(`Obrázek nenalezen: ${path}`);
+        throw new Error(`Obrázek "${filename}.jpg" nebyl nalezen ve složce src/assets/images/! Zkontroluj přesný název.`);
+    }
+    return images[path].default;
+};
+
+// 2. Data pro galerii
+// 'filename' odpovídá názvu souboru ve složce src/assets/images (bez koncovky .jpg)
+// Vidím, že soubory mají v názvu "_lightbox", tak jsem to zahrnul sem.
+const portfolioItems = [
+    { cat: 'svatby', filename: 'IMG_1404_lightbox', alt: 'Stužkáč foto' },
+    { cat: 'svatby', filename: 'IMG_1442_lightbox', alt: 'Svatba foto' },
+    { cat: 'svatby', filename: 'IMG_1458_lightbox', alt: 'Stužkáč foto' },
+    { cat: 'svatby', filename: 'IMG_1499_lightbox', alt: 'Svatba foto - prstýnky' },
+    { cat: 'udalosti', filename: 'IMG_1565_lightbox', alt: 'Události foto' },
+    { cat: 'svatby', filename: 'IMG_1636_lightbox', alt: 'Stužkáč foto - přípitek' },
+    { cat: 'stuzkace', filename: 'IMG_1699_lightbox', alt: 'Stužkáč foto - přípitek' },
+    { cat: 'portret', filename: 'IMG_1713_lightbox', alt: 'Portrét foto' },
+    { cat: 'stuzkace', filename: 'IMG_1979_lightbox', alt: 'Stužkáč foto' },
+    { cat: 'stuzkace', filename: 'IMG_2143_lightbox', alt: 'Stužkáč foto' },
+    { cat: 'stuzkace', filename: 'IMG_2304_lightbox', alt: 'Stužkáč foto' },
+    { cat: 'portret', filename: 'IMG_2375_lightbox', alt: 'Portrét foto' },
+    { cat: 'portret', filename: 'IMG_2705_lightbox', alt: 'Portrét foto' },
+    //{ cat: 'portret', filename: 'IMG_2806_lightbox', alt: 'Portrét foto páru' },
+    { cat: 'udalosti', filename: 'IMG_3089_lightbox', alt: 'Akce foto' },
+    { cat: 'portret', filename: 'IMG_3097_lightbox', alt: 'Portrét foto' },
+    { cat: 'udalosti', filename: 'IMG_3531_lightbox', alt: 'Akce foto - koncert' },
+    { cat: 'udalosti', filename: 'IMG_3629_lightbox', alt: 'Akce foto - koncert' },
+    { cat: 'udalosti', filename: 'IMG_4133_lightbox', alt: 'Akce foto - koncert' },
+    { cat: 'stuzkace', filename: 'IMG_4335_lightbox', alt: 'Stužkáč foto - selfie' },
+    { cat: 'stuzkace', filename: 'IMG_4370_lightbox', alt: 'Stužkáč foto - stužkování' },
+    { cat: 'stuzkace', filename: 'IMG_4431_lightbox', alt: 'Stužkáč foto - stužkování' },
+    { cat: 'stuzkace', filename: 'IMG_4715_lightbox', alt: 'Stužkáč foto - tanec' },
+    { cat: 'stuzkace', filename: 'IMG_5049_lightbox', alt: 'Stužkáč foto - tanec' },
+    { cat: 'stuzkace', filename: 'IMG_5079_lightbox', alt: 'Stužkáč foto' },
+    { cat: 'stuzkace', filename: 'IMG_5083_lightbox', alt: 'Stužkáč foto - stužkování' },
+    { cat: 'stuzkace', filename: 'IMG_5134_lightbox', alt: 'Stužkáč foto' },
+    //{ cat: 'portret', filename: 'IMG_7081_lightbox', alt: 'Portrét foto' },
+    { cat: 'stuzkace', filename: 'IMG_7636_lightbox', alt: 'Stužkáč foto - stužkování' },
+    { cat: 'stuzkace', filename: 'IMG_8712_lightbox', alt: 'Stužkáč foto - stužkování' },
+    { cat: 'stuzkace', filename: 'IMG_8767_lightbox', alt: 'Stužkáč foto - stužkování' },
+    { cat: 'stuzkace', filename: 'IMG_8779_lightbox', alt: 'Stužkáč foto - stužkování' },
+    //{ cat: 'sport', filename: 'IMG_9940_lightbox', alt: 'Sport foto' },
+];
 ---
 
 <Layout title="Portfolio - Patrik Bednář">
@@ -29,200 +84,28 @@ import '../styles/portfolio-style.css';
                 </div>
 
                 <div class="gallery-grid">
-                    
-                    <div class="gallery-item" data-category="svatby">
-                        <a href="/images/lightbox/IMG_1404_lightbox.webp" data-alt="Stužkáč foto">
-                            <img src="/images/preview/IMG_1404_preview.webp" alt="Stužkáč foto" loading="lazy">
-                        </a>
-                    </div>
-
-                    <div class="gallery-item" data-category="svatby">
-                        <a href="/images/lightbox/IMG_1442_lightbox.webp" data-alt="Svatba foto">
-                            <img src="/images/preview/IMG_1442_preview.webp" alt="Svatba foto" loading="lazy">
-                        </a>
-                    </div>
-
-                    <div class="gallery-item" data-category="svatby">
-                        <a href="/images/lightbox/IMG_1458_lightbox.webp" data-alt="Stužkáč foto">
-                            <img src="/images/preview/IMG_1458_preview.webp" alt="Stužkáč foto" loading="lazy">
-                        </a>
-                    </div>
-
-                    <div class="gallery-item" data-category="svatby">
-                        <a href="/images/lightbox/IMG_1499_lightbox.webp" data-alt="Svatba foto - prstýnky">
-                            <img src="/images/preview/IMG_1499_preview.webp" alt="Svatba foto - prstýnky" loading="lazy">
-                        </a>
-                    </div>
-
-                    <div class="gallery-item" data-category="udalosti">
-                        <a href="/images/lightbox/IMG_1565_lightbox.webp" data-alt="Události foto">
-                            <img src="/images/preview/IMG_1565_preview.webp" alt="Události foto" loading="lazy">
-                        </a>
-                    </div>
-
-                    <div class="gallery-item" data-category="svatby">
-                        <a href="/images/lightbox/IMG_1636_lightbox.webp" data-alt="Stužkáč foto - přípitek">
-                            <img src="/images/preview/IMG_1636_preview.webp" alt="Stužkáč foto - přípitek" loading="lazy">
-                        </a>
-                    </div>
-
-                    <div class="gallery-item" data-category="stuzkace">
-                        <a href="/images/lightbox/IMG_1699_lightbox.webp" data-alt="Stužkáč foto - přípitek">
-                            <img src="/images/preview/IMG_1699_preview.webp" alt="Stužkáč foto - přípitek" loading="lazy">
-                        </a>
-                    </div>
-
-                    <div class="gallery-item" data-category="portret">
-                        <a href="/images/lightbox/IMG_1713_lightbox.webp" data-alt="Portrét foto">
-                            <img src="/images/preview/IMG_1713_preview.webp" alt="Portrét foto" loading="lazy">
-                        </a>
-                    </div>
-
-                    <div class="gallery-item" data-category="stuzkace">
-                        <a href="/images/lightbox/IMG_1979_lightbox.webp" data-alt="Stužkáč foto">
-                            <img src="/images/preview/IMG_1979_preview.webp" alt="Stužkáč foto" loading="lazy">
-                        </a>
-                    </div>
-
-                    <div class="gallery-item" data-category="stuzkace">
-                        <a href="/images/lightbox/IMG_2143_lightbox.webp" data-alt="Stužkáč foto">
-                            <img src="/images/preview/IMG_2143_preview.webp" alt="Stužkáč foto" loading="lazy">
-                        </a>
-                    </div>
-
-                    <div class="gallery-item" data-category="stuzkace">
-                        <a href="/images/lightbox/IMG_2304_lightbox.webp" data-alt="Stužkáč foto">
-                            <img src="/images/preview/IMG_2304_preview.webp" alt="Stužkáč foto" loading="lazy">
-                        </a>
-                    </div>
-
-                    <div class="gallery-item" data-category="portret">
-                        <a href="/images/lightbox/IMG_2375_lightbox.webp" data-alt="Portrét foto">
-                            <img src="/images/preview/IMG_2375_preview.webp" alt="Stužkáč foto" loading="lazy">
-                        </a>
-                    </div>
-
-                    <div class="gallery-item" data-category="portret">
-                        <a href="/images/lightbox/IMG_2705_lightbox.webp" data-alt="Portrét foto">
-                            <img src="/images/preview/IMG_2705_preview.webp" alt="Portrét foto" loading="lazy">
-                        </a>
-                    </div>
-
-                    <div class="gallery-item" data-category="portret">
-                        <a href="/images/lightbox/IMG_2806_lightbox.webp" data-alt="Portrét foto páru">
-                            <img src="/images/preview/IMG_2806_preview.webp" alt="Portrét foto páru" loading="lazy">
-                        </a>
-                    </div>
-
-                    <div class="gallery-item" data-category="udalosti">
-                        <a href="/images/lightbox/IMG_3089_lightbox.webp" data-alt="Akce foto">
-                            <img src="/images/preview/IMG_3089_preview.webp" alt="Akce foto" loading="lazy">
-                        </a>
-                    </div>
-
-                    <div class="gallery-item" data-category="udalosti">
-                        <a href="/images/lightbox/IMG_3531_lightbox.webp" data-alt="Akce foto - koncert">
-                            <img src="/images/preview/IMG_3531_preview.webp" alt="Akce foto - koncert" loading="lazy">
-                        </a>
-                    </div>
-
-                    <div class="gallery-item" data-category="udalosti">
-                        <a href="/images/lightbox/IMG_3629_lightbox.webp" data-alt="Akce foto - koncert">
-                            <img src="/images/preview/IMG_3629_preview.webp" alt="Akce foto - koncert" loading="lazy">
-                        </a>
-                    </div>
-
-                    <div class="gallery-item" data-category="udalosti">
-                        <a href="/images/lightbox/IMG_4133_lightbox.webp" data-alt="Akce foto - koncert">
-                            <img src="/images/preview/IMG_4133_preview.webp" alt="Akce foto - koncert" loading="lazy">
-                        </a>
-                    </div>
-
-
-                    <div class="gallery-item" data-category="stuzkace">
-                        <a href="/images/lightbox/IMG_4335_lightbox.webp" data-alt="Stužkáč foto - selfie">
-                            <img src="/images/preview/IMG_4335_preview.webp" alt="Stužkáč foto - selfie" loading="lazy">
-                        </a>
-                    </div>
-
-                    <div class="gallery-item" data-category="stuzkace">
-                        <a href="/images/lightbox/IMG_4370_lightbox.webp" data-alt="Stužkáč foto - stužkování">
-                            <img src="/images/preview/IMG_4370_preview.webp" alt="Stužkáč foto - stužkování" loading="lazy">
-                        </a>
-                    </div>
-
-                    <div class="gallery-item" data-category="stuzkace">
-                        <a href="/images/lightbox/IMG_4431_lightbox.webp" data-alt="Stužkáč foto - stužkování">
-                            <img src="/images/preview/IMG_4431_preview.webp" alt="Stužkáč foto - stužkování" loading="lazy">
-                        </a>
-                    </div>
-
-                    <div class="gallery-item" data-category="stuzkace">
-                        <a href="/images/lightbox/IMG_4715_lightbox.webp" data-alt="Stužkáč foto - tanec">
-                            <img src="/images/preview/IMG_4715_preview.webp" alt="Stužkáč foto - tanec" loading="lazy">
-                        </a>
-                    </div>
-
-                    <div class="gallery-item" data-category="stuzkace">
-                        <a href="/images/lightbox/IMG_5049_lightbox.webp" data-alt="Stužkáč foto - tanec">
-                            <img src="/images/preview/IMG_5049_preview.webp" alt="Stužkáč foto - tanec" loading="lazy">
-                        </a>
-                    </div>
-
-                    <div class="gallery-item" data-category="stuzkace">
-                        <a href="/images/lightbox/IMG_5079_lightbox.webp" data-alt="Stužkáč foto">
-                            <img src="/images/preview/IMG_5079_preview.webp" alt="Stužkáč foto" loading="lazy">
-                        </a>
-                    </div>
-
-                    <div class="gallery-item" data-category="stuzkace">
-                        <a href="/images/lightbox/IMG_5083_lightbox.webp" data-alt="Stužkáč foto - stužkování">
-                            <img src="/images/preview/IMG_5083_preview.webp" alt="Stužkáč foto - stužkování" loading="lazy">
-                        </a>
-                    </div>
-
-                    <div class="gallery-item" data-category="stuzkace">
-                        <a href="/images/lightbox/IMG_5134_lightbox.webp" data-alt="Stužkáč foto">
-                            <img src="/images/preview/IMG_5134_preview.webp" alt="Stužkáč foto" loading="lazy">
-                        </a>
-                    </div>
-
-                    <div class="gallery-item" data-category="portret">
-                        <a href="/images/lightbox/IMG_7081_lightbox.webp" data-alt="Portrét foto">
-                            <img src="/images/preview/IMG_7081_preview.webp" alt="Portrét foto" loading="lazy">
-                        </a>
-                    </div>
-
-                    <div class="gallery-item" data-category="stuzkace">
-                        <a href="/images/lightbox/IMG_7636_lightbox.webp" data-alt="Stužkáč foto - stužkování">
-                            <img src="/images/preview/IMG_7636_preview.webp" alt="Stužkáč foto - stužkování" loading="lazy">
-                        </a>
-                    </div>
-
-                    <div class="gallery-item" data-category="stuzkace">
-                        <a href="/images/lightbox/IMG_8712_lightbox.webp" data-alt="Stužkáč foto - stužkování">
-                            <img src="/images/preview/IMG_8712_preview.webp" alt="Stužkáč foto - stužkování" loading="lazy">
-                        </a>
-                    </div>
-
-                    <div class="gallery-item" data-category="stuzkace">
-                        <a href="/images/lightbox/IMG_8767_lightbox.webp" data-alt="Stužkáč foto - stužkování">
-                            <img src="/images/preview/IMG_8767_preview.webp" alt="Stužkáč foto - stužkování" loading="lazy">
-                        </a>
-                    </div>
-
-                    <div class="gallery-item" data-category="stuzkace">
-                        <a href="/images/lightbox/IMG_8779_lightbox.webp" data-alt="Stužkáč foto - stužkování">
-                            <img src="/images/preview/IMG_8779_preview.webp" alt="Stužkáč foto - stužkování" loading="lazy">
-                        </a>
-                    </div>
-
-                    <div class="gallery-item" data-category="sport">
-                        <a href="/images/lightbox/IMG_9940_lightbox.webp" data-alt="Sport foto">
-                            <img src="/images/preview/IMG_9940_preview.webp" alt="Sport foto" loading="lazy">
-                        </a>
-                    </div>
-
+                    {portfolioItems.map((item) => {
+                        // Tady si Astro sáhne pro konkrétní fotku
+                        const imgData = getImage(item.filename); 
+                        
+                        return (
+                            <div class="gallery-item" data-category={item.cat}>
+                                {/* Odkaz vede na plnou velikost obrázku (imgData.src).
+                                   Uvnitř je komponenta <Image>, která automaticky vygeneruje
+                                   zmenšený a optimalizovaný náhled (width={600}).
+                                */}
+                                <a href={imgData.src} data-alt={item.alt}>
+                                    <Image 
+                                        src={imgData} 
+                                        alt={item.alt} 
+                                        width={600} 
+                                        quality="80"
+                                        class="gallery-img" 
+                                    />
+                                </a>
+                            </div>
+                        );
+                    })}
                 </div>
 
             </div>
@@ -243,4 +126,77 @@ import '../styles/portfolio-style.css';
             <button class="lightbox-play" aria-label="Spustit prezentaci"><i class="fas fa-play"></i></button>
         </div>
     </div>
+
+    <style>
+        /* Plynulý přechod pro mřížku galerie */
+        .gallery-grid {
+            transition: opacity 0.5s ease-in-out;
+            opacity: 1;
+        }
+        
+        .gallery-grid.filtering {
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out; /* Rychlejší skrytí, aby to neblikalo "dvakrát" */
+        }
+
+        /* 
+           Globální reset animací pro položky galerie. 
+           Tím se opraví "létání z rohu" při načtení stránky (refresh) i při filtrování.
+        */
+        .gallery-item {
+            animation: none !important;
+            transform: none !important;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const filterBtns = document.querySelectorAll('.filter-btn') as NodeListOf<HTMLElement>;
+            const galleryGrid = document.querySelector('.gallery-grid') as HTMLElement;
+            const galleryItems = document.querySelectorAll('.gallery-item') as NodeListOf<HTMLElement>;
+            let filterTimeout: number | undefined;
+
+            if (filterBtns.length > 0 && galleryGrid) {
+                filterBtns.forEach(btn => {
+                    // Klonování tlačítka pro odstranění původních event listenerů
+                    // Tím zajistíme, že se nebude bít naše nová animace se starou logikou
+                    const newBtn = btn.cloneNode(true) as HTMLElement;
+                    btn.parentNode?.replaceChild(newBtn, btn);
+
+                    newBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        const target = e.currentTarget as HTMLElement;
+                        
+                        // Aktualizace aktivního tlačítka
+                        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                        target.classList.add('active');
+                        
+                        const filterValue = target.getAttribute('data-filter');
+
+                        // 1. Fáze: Zneviditelnit mřížku
+                        galleryGrid.classList.add('filtering');
+
+                        // Pokud už běží odpočet (rychlé klikání), zrušíme ho a čekáme na poslední klik
+                        if (filterTimeout) clearTimeout(filterTimeout);
+
+                        filterTimeout = window.setTimeout(() => {
+                            // 2. Fáze: Přefiltrovat položky
+                            galleryItems.forEach(item => {
+                                if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                                    item.style.display = ''; // Reset na výchozí (zobrazit)
+                                } else {
+                                    item.style.display = 'none'; // Skrýt
+                                }
+                            });
+                            
+                            // 3. Fáze: Znovu zobrazit mřížku
+                            galleryGrid.classList.remove('filtering');
+                        }, 200); // Čas odpovídá rychlejšímu skrytí (0.2s)
+                    });
+                });
+            }
+        });
+    </script>
 </Layout>
