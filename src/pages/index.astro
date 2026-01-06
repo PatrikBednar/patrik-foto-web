@@ -1,0 +1,90 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import Preloader from '../components/Preloader.astro';
+---
+
+<Layout title="Patrik Bednář - Fotograf">
+    <Preloader />
+    <Navbar />
+
+    <main>
+        <section id="hero">
+            <div class="hero-image-wrapper">
+                <img src="images/slider/IMG_3629_slider.webp" alt="Fotka z koncertu Thoma Artwaye" class="hero-slide-img">
+                <img src="images/slider/IMG_8779_slider.webp" alt="Svatba při západu slunce" class="hero-slide-img active">
+                <img src="images/slider/IMG_2502_slider.webp" alt="Portrét v poli" class="hero-slide-img">
+                <img src="images/slider/IMG_7636_slider.webp" alt="Momentka ze stužkáče" class="hero-slide-img">
+                <img src="images/slider/IMG_1458_slider.webp" alt="Stužkování maturantky" class="hero-slide-img">
+                <img src="images/slider/IMG_8277-Enhanced-NR_slider.webp" alt="Sýkorka v zimě" class="hero-slide-img">
+            </div>
+
+            <div class="hero-content">
+                <h1>Patrik Bednář</h1>
+                <p>Fotograf | Portrét, Reportáž, Wildlife</p>
+            </div>
+
+            <div class="slide-buttons">
+                <span class="slide-btn prev" aria-label="Předchozí snímek"><i class="fas fa-chevron-left"></i></span>
+                <span class="slide-btn next" aria-label="Další snímek"><i class="fas fa-chevron-right"></i></span>
+            </div>
+        </section>
+
+        <section id="o-mne" class="page-section">
+            <div class="container">
+                <div class="about-me-container">
+                    <div class="about-me-photo">
+                        <img src="images/o-mne-foto.webp" alt="Moje profilová fotografie">
+                    </div>
+                    <div class="about-me-text">
+                        <p class="subheading">Pár vět o mně</p>
+                        <h2>Jmenuji se <span>Patrik Bednář</span> a fotím život takový, jaký <span>opravdu je</span>.</h2>
+                        <p>
+                            Žádné křečovité úsměvy ani stojaté pózy. Mám rád přirozenost, spontánnost a fotky, které mají duši.
+                            Ať už jde o velký den nebo jen obyčejné odpoledne, mým úkolem je zachytit tu atmosféru tak věrně, abyste ji z fotek cítili napořád. 
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="portfolio" class="page-section">
+            <div class="container">
+                 <div class="portfolio-text">
+                    <h2>Prohlédněte si moji <span>práci.</span></h2>
+                 </div>
+                
+                <div class="portfolio-grid">
+                    <a href="/portfolio#reportaz" class="gallery-item" id="item-akce"><h3>Reportáž</h3></a>
+                    <a href="/portfolio#portret" class="gallery-item" id="item-portret"><h3>Portréty</h3></a>
+                    <a href="/portfolio#sport" class="gallery-item" id="item-sport"><h3>Sport</h3></a>
+                    </div>
+                </div>
+        </section>
+
+        <section id="stuzkace" class="page-section">
+            <div class="container">
+                <div class="stuzkace-container">
+                    <div class="stuzkace-text">
+                        <p class="subheading">Stužkovací večírky</p>
+                        <h2>Co všechno zahrnuje focení <span>stužkáče?</span></h2>
+                        <p>
+                            Stužkovací večírek je jedinečná událost, která si zaslouží být zdokumentována. Mým cílem je zachytit nejen momenty, ale i neopakovatelnou atmosféru a emoce celého večera. Prohlédněte si <a href="/portfolio#stuzkace">reference</a>.
+                        </p>
+                        <ul class="stuzkace-features">
+                            <li><i class="fas fa-check"></i> Fotoreportáž z celého průběhu akce</li>
+                            <li><i class="fas fa-check"></i> Skupinové fotografie třídy i menších skupinek</li>
+                            <li><i class="fas fa-check"></i> Portréty jednotlivců dle přání</li>
+                            <li><i class="fas fa-check"></i> Upravené fotografie v digitální podobě</li>
+                            <li><i class="fas fa-check"></i> Online galerie pro snadné sdílení a stažení, dostupná minimálně 3 měsíce, ve webové kvalitě</li>
+                            <li><i class="fas fa-check"></i> Odkaz na stažení fotografií v plné kvalitě</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <Footer />
+</Layout>

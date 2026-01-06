@@ -1,0 +1,55 @@
+---
+import '../styles/style.css';
+
+interface Props {
+	title: string;
+    description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-W5E9TPFMFV"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-W5E9TPFMFV');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title}</title>
+    
+    <meta name="description" content={description || "Patrik Bednář - Fotograf působící ve Zlínském kraji."}>
+    <meta name="keywords" content="Patrik Bednář, fotograf, focení, portrét, akce, stužkáče, wildlife, svatby, fotografování, Zlínsko, Valašsko, Zlínský kraj, Zlín, Luhačovice, Slopné">
+    <meta name="author" content="Patrik Bednář">
+    
+    <meta property="og:title" content="Patrik Bednář - Fotograf | Zlínsko a Valašsko">
+    <meta property="og:description" content="Fotograf portrétů, společenských akcí a wildlife. Zachytím Vaše neopakovatelné chvíle.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="images/preview/IMG_1442_preview.webp">
+    <meta property="og:url" content="https://www.patrik-bednar.cz">
+
+    <link rel="icon" href="/favicon.png" type="image/png">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&display=swap" rel="stylesheet">
+    
+    <script is:inline>
+        window.va = window.va || function () { (window.va.q = window.va.q || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+    <slot />
+
+    <script src="../scripts/main.js"></script>
+</body>
+</html>
