@@ -34,6 +34,31 @@ const { title, description } = Astro.props;
     <meta property="og:image" content="images/preview/IMG_1442_preview.webp">
     <meta property="og:url" content="https://www.patrik-bednar.cz">
 
+    <meta property="og:url" content="https://www.patrik-bednar.cz">
+
+    <link rel="icon" href="/favicon.png" type="image/svg+xml">
+    
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Patrik Bednář",
+      "url": "https://www.patrik-bednar.cz",
+      "image": "https://www.patrik-bednar.cz/images/o-mne-foto.webp",
+      "jobTitle": "Fotograf",
+      "description": "Fotograf portrétů, společenských akcí a wildlife působící ve Zlínském kraji.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Zlínský kraj",
+        "addressCountry": "CZ"
+      },
+      "sameAs": [
+        "https://www.instagram.com/paatrikbednar/", 
+        "https://www.facebook.com/paatrikbednar/",
+        "https://www.linkedin.com/in/patrik-bedn%C3%A1%C5%99-688185362/" 
+      ]
+    })} />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <link rel="icon" href="/favicon.png" type="image/png">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
