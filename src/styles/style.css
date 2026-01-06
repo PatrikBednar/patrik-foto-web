@@ -397,9 +397,9 @@ a {
 }
 
 /* AKTUALIZOVANÉ OBRÁZKY NA POZADÍ PRO index.html */
-#item-akce { background-image: url('images/preview_link/IMG_3629_preview.webp'); }
-#item-portret { background-image: url('images/preview_link/IMG_1458_preview.webp'); }
-#item-sport { background-image: url('images/preview_link/IMG_9407-Enhanced-NR_preview.webp'); }
+#item-akce { background-image: url('/images/preview_link/IMG_3629_preview.webp'); }
+#item-portret { background-image: url('/images/preview_link/IMG_1458_preview.webp'); }
+#item-sport { background-image: url('/images/preview_link/IMG_9407-Enhanced-NR_preview.webp'); }
 
 
 /* ======== 4. NOVÁ SEKCE WILDLIFE CTA ======== */
@@ -412,7 +412,7 @@ a {
     display: block;
     height: 350px;
     /* AKTUALIZOVANÝ OBRÁZEK PRO WILDLIFE */
-    background-image: url('images/slider/IMG_8277-Enhanced-NR_slider.webp');
+    background-image: url('/images/slider/IMG_8277-Enhanced-NR_slider.webp');
     background-size: cover;
     background-position: center;
     display: flex;
