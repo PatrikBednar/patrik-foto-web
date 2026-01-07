@@ -42,6 +42,7 @@ const portfolioItems = [
     //{ cat: 'portret', filename: 'IMG_2806_lightbox', alt: 'Portrét foto páru' },
     { cat: 'udalosti', filename: 'IMG_3089_lightbox', alt: 'Akce foto' },
     { cat: 'portret', filename: 'IMG_3097_lightbox', alt: 'Portrét foto' },
+    { cat: 'portret', filename: 'IMG_2969', alt: 'Portrét foto' },
     { cat: 'udalosti', filename: 'IMG_3531_lightbox', alt: 'Akce foto - koncert' },
     { cat: 'udalosti', filename: 'IMG_3629_lightbox', alt: 'Akce foto - koncert' },
     { cat: 'udalosti', filename: 'IMG_4133_lightbox', alt: 'Akce foto - koncert' },
@@ -59,6 +60,23 @@ const portfolioItems = [
     { cat: 'stuzkace', filename: 'IMG_8767_lightbox', alt: 'Stužkáč foto - stužkování' },
     { cat: 'stuzkace', filename: 'IMG_8779_lightbox', alt: 'Stužkáč foto - stužkování' },
     //{ cat: 'sport', filename: 'IMG_9940_lightbox', alt: 'Sport foto' },
+    { cat: 'sport', filename: 'IMG_3922_lightbox', alt: 'Sport foto' },
+    { cat: 'sport', filename: 'IMG_0773-Enhanced-NR', alt: 'Sport foto' },
+    { cat: 'sport', filename: 'IMG_3980', alt: 'Sport foto' },
+    { cat: 'sport', filename: 'IMG_9940', alt: 'Sport foto' },
+    { cat: 'wildlife', filename: 'IMG_0836_lightbox', alt: 'Wildlife foto' },
+    { cat: 'wildlife', filename: 'IMG_0999_lightbox', alt: 'Wildlife foto' },
+    { cat: 'wildlife', filename: 'IMG_1091_lightbox', alt: 'Wildlife foto' },
+    { cat: 'wildlife', filename: 'IMG_1939_lightbox', alt: 'Wildlife foto' },
+    { cat: 'wildlife', filename: 'IMG_3620_lightbox', alt: 'Wildlife foto' },
+    { cat: 'wildlife', filename: 'IMG_5103_lightbox', alt: 'Wildlife foto' },
+    { cat: 'wildlife', filename: 'IMG_8644_lightbox', alt: 'Wildlife foto' },
+    { cat: 'wildlife', filename: 'IMG_7476-Enhanced-NR', alt: 'Wildlife foto' },
+    { cat: 'wildlife', filename: 'IMG_3197-Enhanced-NR', alt: 'Wildlife foto' },
+    { cat: 'wildlife', filename: 'IMG_0330-Enhanced-RD', alt: 'Wildlife foto' },
+    { cat: 'wildlife', filename: 'IMG_0874', alt: 'Wildlife foto' },
+    { cat: 'wildlife', filename: '_MG_1674', alt: 'Wildlife foto' },
+    { cat: 'wildlife', filename: 'IMG_1560', alt: 'Wildlife foto' },
 ];
 ---
 
@@ -80,6 +98,7 @@ const portfolioItems = [
                         <a href="#portret" class="filter-btn" data-filter="portret">Portrét</a>
                         <a href="#sport" class="filter-btn" data-filter="sport">Sport</a>
                         <a href="#svatby" class="filter-btn" data-filter="svatby">Svatby</a>
+                        <a href="#wildlife" class="filter-btn" data-filter="wildlife">Wildlife</a>
                     </div>
                 </div>
 
@@ -128,7 +147,6 @@ const portfolioItems = [
     </div>
 
     <style>
-        /* Plynulý přechod pro mřížku galerie */
         .gallery-grid {
             transition: opacity 0.5s ease-in-out;
             opacity: 1;
@@ -136,13 +154,9 @@ const portfolioItems = [
         
         .gallery-grid.filtering {
             opacity: 0;
-            transition: opacity 0.2s ease-in-out; /* Rychlejší skrytí, aby to neblikalo "dvakrát" */
+            transition: opacity 0.2s ease-in-out;
         }
 
-        /* 
-           Globální reset animací pro položky galerie. 
-           Tím se opraví "létání z rohu" při načtení stránky (refresh) i při filtrování.
-        */
         .gallery-item {
             animation: none !important;
             transform: none !important;
@@ -158,8 +172,6 @@ const portfolioItems = [
 
             if (filterBtns.length > 0 && galleryGrid) {
                 filterBtns.forEach(btn => {
-                    // Klonování tlačítka pro odstranění původních event listenerů
-                    // Tím zajistíme, že se nebude bít naše nová animace se starou logikou
                     const newBtn = btn.cloneNode(true) as HTMLElement;
                     btn.parentNode?.replaceChild(newBtn, btn);
 
@@ -169,31 +181,26 @@ const portfolioItems = [
                         
                         const target = e.currentTarget as HTMLElement;
                         
-                        // Aktualizace aktivního tlačítka
                         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                         target.classList.add('active');
                         
                         const filterValue = target.getAttribute('data-filter');
 
-                        // 1. Fáze: Zneviditelnit mřížku
                         galleryGrid.classList.add('filtering');
 
-                        // Pokud už běží odpočet (rychlé klikání), zrušíme ho a čekáme na poslední klik
                         if (filterTimeout) clearTimeout(filterTimeout);
 
                         filterTimeout = window.setTimeout(() => {
-                            // 2. Fáze: Přefiltrovat položky
                             galleryItems.forEach(item => {
                                 if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
-                                    item.style.display = ''; // Reset na výchozí (zobrazit)
+                                    item.style.display = '';
                                 } else {
-                                    item.style.display = 'none'; // Skrýt
+                                    item.style.display = 'none';
                                 }
                             });
                             
-                            // 3. Fáze: Znovu zobrazit mřížku
                             galleryGrid.classList.remove('filtering');
-                        }, 200); // Čas odpovídá rychlejšímu skrytí (0.2s)
+                        }, 200);
                     });
                 });
             }

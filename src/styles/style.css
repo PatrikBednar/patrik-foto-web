@@ -411,7 +411,6 @@ a {
 .wildlife-link-cta {
     display: block;
     height: 350px;
-    /* AKTUALIZOVANÝ OBRÁZEK PRO WILDLIFE */
     background-image: url('/images/slider/IMG_8277-Enhanced-NR_slider.webp');
     background-size: cover;
     background-position: center;
@@ -422,10 +421,11 @@ a {
     text-decoration: none;
     position: relative;
     overflow: hidden;
-    /* ZMĚNA: Odebrána transition pro transform a box-shadow */
-    transition: none; /* Nebo jen transition: background-color 0.3s ease; pokud chceme zachovat plynulost overlaye */
-    /* box-shadow: 0 2px 5px rgba(0,0,0,0.1); <-- Můžeme smazat, pokud nechceme ani výchozí stín */
-    /* border: 1px solid var(--border-color-light); <-- Už je smazaný */
+    
+    /* PŘIDÁNO/ZMĚNĚNO - aby to odpovídalo .gallery-item */
+    border: 1px solid var(--border-color-light);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
 }
 .wildlife-link-cta::before {
     content: '';
@@ -442,14 +442,12 @@ a {
     text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 .wildlife-link-cta:hover {
-    /* ZMĚNA: Odebrán transform a box-shadow */
-    transform: none;
-    box-shadow: none; /* Pokud jsme smazali i výchozí */
-    /* transform: scale(1.02) translateY(-5px); <-- SMAZAT */
-    /* box-shadow: 0 8px 15px rgba(0,0,0,0.2); <-- SMAZAT */
+    /* PŘIDÁNO - efekt zvětšení a stínu jako u ostatních */
+    transform: scale(1.02) translateY(-5px); /* scale 1.02 je u širokého prvku lepší než 1.03 */
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
 }
 .wildlife-link-cta:hover::before {
-    background-color: rgba(0,0,0,0.2); /* Efekt zesvětlení overlaye zůstává */
+    background-color: rgba(0,0,0,0.2);
 }
 
 /* ======== 5. KONTAKT (PATIČKA) - TMAVÝ STYL ======== */
@@ -884,6 +882,9 @@ a {
         grid-template-columns: 1fr;
     }
     .gallery-item h3 {
+        font-size: 1.8rem;
+    }
+    .wildlife-link-cta h3 {
         font-size: 1.8rem;
     }
 
