@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.patrik-bednar.cz/sitemap-index.xml
