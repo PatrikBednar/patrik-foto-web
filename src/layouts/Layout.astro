@@ -12,6 +12,19 @@ const { title, description } = Astro.props;
 <!DOCTYPE html>
 <html lang="cs">
 <head>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Patrik Bednář Fotografie",
+      "url": "https://www.patrikbednar.cz",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://www.patrikbednar.cz/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+  </script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-W5E9TPFMFV"></script>
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
